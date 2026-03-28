@@ -31,7 +31,7 @@ final class ContactFormTest extends \Codeception\Test\Unit
                 'admin@example.com',
                 'noreply@example.com',
                 'Example.com mailer',
-            )
+            ),
         )->notEmpty();
 
         // using Yii2 module actions to check email was sent
