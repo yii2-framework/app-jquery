@@ -26,7 +26,10 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build and start containers.
-        run: docker compose up -d --build --wait
+        run: docker compose up -d --build
+
+      - name: Fix permissions.
+        run: docker compose exec -T php bash -c "chown -R www-data:www-data /app/runtime /app/public/assets && chmod -R ug+rwX /app/runtime /app/public/assets"
 
       - name: Install Node.js and npm.
         run: docker compose exec -T php bash -c "apt-get update && apt-get install -y nodejs npm"
