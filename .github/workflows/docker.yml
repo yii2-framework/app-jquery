@@ -29,7 +29,7 @@ jobs:
         run: docker compose up -d --build
 
       - name: Fix permissions.
-        run: docker compose exec -T php bash -c "chown -R www-data:www-data /app/runtime /app/public/assets && chmod -R ug+rwX /app/runtime /app/public/assets"
+        run: docker compose exec -T php bash -c "chown -R www-data:www-data /app/runtime /app/web/assets && chmod -R ug+rwX /app/runtime /app/web/assets"
 
       - name: Install Node.js and npm.
         run: docker compose exec -T php bash -c "apt-get update && apt-get install -y nodejs npm"
