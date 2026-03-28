@@ -3,6 +3,8 @@ code_coverage
 
 # codeception (if present)
 c3.php
+tests/Support/_generated
+tests/Support/output
 
 # composer
 composer.lock
