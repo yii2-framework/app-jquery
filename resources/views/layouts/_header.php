@@ -27,7 +27,7 @@ $items = [
         'visible' => Yii::$app->user->isGuest,
     ],
     [
-        'label' => 'Logout (' . Html::encode(Yii::$app->user->identity?->username ?? '') . ')',
+        'label' => 'Logout (' . (Yii::$app->user->identity?->username ?? '') . ')',
         'url' => ['/site/logout'],
         'linkOptions' => [
             'data-method' => 'post',
@@ -49,7 +49,6 @@ $items = [
     <?= Nav::widget(
         [
             'options' => ['class' => 'navbar-nav me-auto'],
-            'encodeLabels' => false,
             'items' => $items,
         ],
     ) ?>

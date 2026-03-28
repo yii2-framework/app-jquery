@@ -25,9 +25,9 @@ final class LoginFormCest
     // demonstrates `amLoggedInAs` method
     public function internalLoginByInstance(FunctionalTester $I): void
     {
-        /** @var User $user */
         $user = User::findByUsername('admin');
 
+        $I->assertNotNull($user);
         $I->amLoggedInAs($user);
         $I->amOnPage('/');
         $I->see('Logout (admin)');

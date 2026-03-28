@@ -10,8 +10,7 @@ use yii\mail\MessageInterface;
 
 final class ContactFormTest extends \Codeception\Test\Unit
 {
-    /** @phpstan-ignore property.uninitialized (Injected by Codeception) */
-    protected UnitTester $tester;
+    public UnitTester|null $tester = null;
 
     public function testEmailIsSentOnContact(): void
     {
@@ -26,19 +25,28 @@ final class ContactFormTest extends \Codeception\Test\Unit
             'verifyCode' => 'testme',
         ];
 
-        verify($model->contact(\Yii::$app->mailer, 'admin@example.com', 'noreply@example.com', 'Example.com mailer'))->notEmpty();
+        verify(
+            $model->contact(
+                \Yii::$app->mailer,
+                'admin@example.com',
+                'noreply@example.com',
+                'Example.com mailer',
+            )
+        )->notEmpty();
 
         // using Yii2 module actions to check email was sent
-        $this->tester->seeEmailIsSent();
+        $this->tester?->seeEmailIsSent();
 
         /** @var MessageInterface $emailMessage */
-        $emailMessage = $this->tester->grabLastSentEmail();
+        $emailMessage = $this->tester?->grabLastSentEmail();
 
-        verify($emailMessage)->instanceOf('yii\mail\MessageInterface');
+        verify($emailMessage)->instanceOf(MessageInterface::class);
         verify($emailMessage->getTo())->arrayHasKey('admin@example.com');
         verify($emailMessage->getFrom())->arrayHasKey('noreply@example.com');
         verify($emailMessage->getReplyTo())->arrayHasKey('tester@example.com');
         verify($emailMessage->getSubject())->equals('very important letter subject');
-        verify($emailMessage->toString())->stringContainsString('body of current message');
+
+        /** @phpstan-var \yii\symfonymailer\Message $emailMessage */
+        verify($emailMessage->getSymfonyEmail()->getTextBody())->stringContainsString('body of current message');
     }
 }

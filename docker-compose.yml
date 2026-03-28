@@ -9,7 +9,7 @@ services:
     healthcheck:
       test: [
         "CMD-SHELL",
-        "if [ \"$(stat -c '%U' /app/runtime)\" != 'www-data' ] || [ \"$(stat -c '%U' /app/public/assets)\" != 'www-data' ]; then chown -R www-data:www-data /app/runtime /app/public/assets && chmod -R ug+rwX /app/runtime /app/public/assets; fi && runuser -u www-data -- touch /app/runtime/test_write && rm /app/runtime/test_write && exit 0 || exit 1",
+        "runuser -u www-data -- sh -c 'test -w /app/runtime && test -w /app/public/assets'",
       ]
       interval: 30s
       timeout: 10s

@@ -7,12 +7,11 @@ namespace yii\demo\basic\tests\Unit;
 use Yii;
 use yii\base\Security;
 use yii\demo\basic\Controllers\SiteController;
-use yii\demo\basic\Models\User;
 use yii\web\View;
 
 final class LoginTest extends \Codeception\Test\Unit
 {
-    public function testRenderLoginWrongUsername(): void
+    public function testRenderLoginForGuest(): void
     {
         $controller = new SiteController(
             'site',
@@ -23,14 +22,19 @@ final class LoginTest extends \Codeception\Test\Unit
 
         $view = new View(['context' => $controller]);
 
-        Yii::$app->user->login(new User());
+        Yii::$app->user->logout();
 
-        $controller->actionLogin();
+        $output = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 
+        self::assertStringContainsString(
+            'Login',
+            $output,
+            'Failed asserting that the login link is rendered for guests.',
+        );
         self::assertStringNotContainsString(
-            'Logout (admin)',
-            $view->render('//layouts/main.php', ['content' => 'Hello World']),
-            'Failed asserting that the logout link is not rendered for a wrong username.',
+            'Logout (',
+            $output,
+            'Failed asserting that the logout link is not rendered for guests.',
         );
     }
 }

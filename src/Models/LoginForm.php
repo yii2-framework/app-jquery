@@ -21,6 +21,7 @@ class LoginForm extends Model
 
     private User|null $user = null;
     private bool $userLoaded = false;
+    private string $userLookup = '';
 
     /**
      * @param Security $security the security component.
@@ -36,9 +37,10 @@ class LoginForm extends Model
      */
     public function getUser(): User|null
     {
-        if (!$this->userLoaded) {
+        if (!$this->userLoaded || $this->userLookup !== $this->username) {
             $this->user = User::findByUsername($this->username);
             $this->userLoaded = true;
+            $this->userLookup = $this->username;
         }
 
         return $this->user;

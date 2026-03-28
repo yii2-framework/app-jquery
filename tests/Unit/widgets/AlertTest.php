@@ -265,18 +265,27 @@ class AlertTest extends \Codeception\Test\Unit
     public function testSkipsSessionStartWhenNoSessionExists(): void
     {
         $session = Yii::$app->session;
+        $cookieName = $session->getName();
+        $previousCookie = $_COOKIE[$cookieName] ?? null;
 
-        // Ensure the session is closed and no session cookie is present.
-        $session->close();
+        try {
+            // Ensure the session is closed and no session cookie is present.
+            $session->close();
+            unset($_COOKIE[$cookieName]);
 
-        unset($_COOKIE[$session->getName()]);
+            verify($session->getIsActive())->false();
+            verify($session->getHasSessionId())->false();
 
-        verify($session->getIsActive())->false();
-        verify($session->getHasSessionId())->false();
+            $renderingResult = Alert::widget();
 
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->equals('');
-        verify($session->getIsActive())->false();
+            verify($renderingResult)->equals('');
+            verify($session->getIsActive())->false();
+        } finally {
+            if ($previousCookie === null) {
+                unset($_COOKIE[$cookieName]);
+            } else {
+                $_COOKIE[$cookieName] = $previousCookie;
+            }
+        }
     }
 }

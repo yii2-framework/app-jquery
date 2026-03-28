@@ -32,7 +32,7 @@ jobs:
         run: docker compose exec -T php bash -c "apt-get update && apt-get install -y nodejs npm"
 
       - name: Composer install.
-        run: docker compose run --rm php composer install --prefer-dist --no-progress --optimize-autoloader
+        run: docker compose exec -T php composer install --prefer-dist --no-progress --optimize-autoloader
 
       - name: Codeception build.
         run: docker compose exec -T php vendor/bin/codecept build
