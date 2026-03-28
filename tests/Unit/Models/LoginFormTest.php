@@ -10,11 +10,11 @@ use yii\demo\basic\Models\LoginForm;
 
 final class LoginFormTest extends \Codeception\Test\Unit
 {
-    private $_model;
+    private LoginForm|null $model = null;
 
-    public function testLoginCorrect()
+    public function testLoginCorrect(): void
     {
-        $this->_model = new LoginForm(
+        $this->model = new LoginForm(
             new Security(),
             [
                 'username' => 'demo',
@@ -22,14 +22,14 @@ final class LoginFormTest extends \Codeception\Test\Unit
             ],
         );
 
-        verify($this->_model->login())->true();
+        verify($this->model->login())->true();
         verify(Yii::$app->user->isGuest)->false();
-        verify($this->_model->errors)->arrayHasNotKey('password');
+        verify($this->model->errors)->arrayHasNotKey('password');
     }
 
-    public function testLoginNoUser()
+    public function testLoginNoUser(): void
     {
-        $this->_model = new LoginForm(
+        $this->model = new LoginForm(
             new Security(),
             [
                 'username' => 'not_existing_username',
@@ -37,13 +37,13 @@ final class LoginFormTest extends \Codeception\Test\Unit
             ],
         );
 
-        verify($this->_model->login())->false();
+        verify($this->model->login())->false();
         verify(Yii::$app->user->isGuest)->true();
     }
 
-    public function testLoginWrongPassword()
+    public function testLoginWrongPassword(): void
     {
-        $this->_model = new LoginForm(
+        $this->model = new LoginForm(
             new Security(),
             [
                 'username' => 'demo',
@@ -51,12 +51,12 @@ final class LoginFormTest extends \Codeception\Test\Unit
             ],
         );
 
-        verify($this->_model->login())->false();
+        verify($this->model->login())->false();
         verify(Yii::$app->user->isGuest)->true();
-        verify($this->_model->errors)->arrayHasKey('password');
+        verify($this->model->errors)->arrayHasKey('password');
     }
 
-    protected function _after()
+    protected function _after(): void
     {
         Yii::$app->user->logout();
     }

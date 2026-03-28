@@ -26,7 +26,7 @@ on:
 
 jobs:
   codeception:
-    uses: yii2-framework/actions/.github/workflows/codeception.yml@master
+    uses: yii2-framework/actions/.github/workflows/codeception.yml@v1
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:

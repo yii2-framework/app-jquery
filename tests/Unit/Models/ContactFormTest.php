@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace yii\demo\basic\tests\Unit\Models;
 
-use Yii;
 use yii\demo\basic\Models\ContactForm;
+use yii\demo\basic\tests\Support\UnitTester;
 use yii\mail\MessageInterface;
 
 final class ContactFormTest extends \Codeception\Test\Unit
 {
-    public mixed $tester = null;
+    /** @phpstan-ignore property.uninitialized (Injected by Codeception) */
+    protected UnitTester $tester;
 
-    public function testEmailIsSentOnContact()
+    public function testEmailIsSentOnContact(): void
     {
         $model = new ContactForm();
 
@@ -25,7 +26,7 @@ final class ContactFormTest extends \Codeception\Test\Unit
             'verifyCode' => 'testme',
         ];
 
-        verify($model->contact(Yii::$app->mailer, 'admin@example.com', 'noreply@example.com', 'Example.com mailer'))->notEmpty();
+        verify($model->contact(\Yii::$app->mailer, 'admin@example.com', 'noreply@example.com', 'Example.com mailer'))->notEmpty();
 
         // using Yii2 module actions to check email was sent
         $this->tester->seeEmailIsSent();

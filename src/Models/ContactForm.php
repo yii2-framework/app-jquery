@@ -35,15 +35,13 @@ class ContactForm extends Model
     public function contact(MailerInterface $mailer, string $email, string $senderEmail, string $senderName): bool
     {
         if ($this->validate()) {
-            $mailer->compose()
+            return $mailer->compose()
                 ->setTo($email)
                 ->setFrom([$senderEmail => $senderName])
                 ->setReplyTo([$this->email => $this->name])
                 ->setSubject($this->subject)
                 ->setTextBody($this->body)
                 ->send();
-
-            return true;
         }
 
         return false;

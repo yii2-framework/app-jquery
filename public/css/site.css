@@ -324,3 +324,17 @@ a.desc:after {
 [data-bs-theme="dark"] .extension-card:hover {
     box-shadow: 0 0 0 1px var(--bs-border-color), 0 8px 24px rgba(0, 0, 0, .4) !important;
 }
+
+/* reduced motion: disable animations for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .login-btn,
+    .extension-card {
+        transition: none;
+    }
+
+    .login-btn:hover,
+    .login-btn:active,
+    .extension-card:hover {
+        transform: none;
+    }
+}

@@ -21,7 +21,8 @@ use yii\helpers\Html;
                     <?= Html::img(
                         '@web/images/yii3_full_for_light.svg',
                         [
-                            'alt' => 'Yii Framework',
+                            'alt' => '',
+                            'aria-hidden' => 'true',
                             'class' => 'align-text-bottom footer-logo-light',
                             'height' => '28',
                         ],
@@ -29,7 +30,8 @@ use yii\helpers\Html;
                     <?= Html::img(
                         '@web/images/yii3_full_for_dark.svg',
                         [
-                            'alt' => 'Yii Framework',
+                            'alt' => '',
+                            'aria-hidden' => 'true',
                             'class' => 'align-text-bottom footer-logo-dark',
                             'height' => '28',
                         ],

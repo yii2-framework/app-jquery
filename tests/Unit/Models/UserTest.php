@@ -8,7 +8,7 @@ use yii\demo\basic\Models\User;
 
 final class UserTest extends \Codeception\Test\Unit
 {
-    public function testFindUserByAccessToken()
+    public function testFindUserByAccessToken(): void
     {
         /** @var User $user */
         $user = User::findIdentityByAccessToken('100-token');
@@ -17,7 +17,7 @@ final class UserTest extends \Codeception\Test\Unit
         verify($user->username)->equals('admin');
         verify(User::findIdentityByAccessToken('non-existing'))->empty();
     }
-    public function testFindUserById()
+    public function testFindUserById(): void
     {
         /** @var User $user */
         $user = User::findIdentity(100);
@@ -27,7 +27,7 @@ final class UserTest extends \Codeception\Test\Unit
         verify(User::findIdentity(999))->empty();
     }
 
-    public function testFindUserByUsername()
+    public function testFindUserByUsername(): void
     {
         /** @var User $user */
         $user = User::findByUsername('admin');
@@ -39,7 +39,7 @@ final class UserTest extends \Codeception\Test\Unit
     /**
      * @depends testFindUserByUsername
      */
-    public function testValidateUser()
+    public function testValidateUser(): void
     {
         /** @var User $user */
         $user = User::findByUsername('admin');

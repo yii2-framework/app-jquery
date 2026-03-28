@@ -18,7 +18,7 @@ $htmlIcon = <<<HTML
 HTML;
 $labelOptions = ['class' => 'form-label fw-semibold small'];
 ?>
-<?php if (Yii::$app->session->hasFlash('success')): ?>
+<?php if (Yii::$app->session->getFlash('success') !== null): ?>
 
 <div class="site-contact-success d-flex align-items-center justify-content-center text-center">
     <div class="site-contact-success-content mx-auto">

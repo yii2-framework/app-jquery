@@ -9,7 +9,7 @@ use yii\demo\basic\Widgets\Alert;
 
 class AlertTest extends \Codeception\Test\Unit
 {
-    public function testFlashIntegrity()
+    public function testFlashIntegrity(): void
     {
         $errorMessage = 'This is an error message';
         $unrelatedMessage = 'This is a message that is not related to the alert widget';
@@ -27,7 +27,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify(Yii::$app->session->getFlash('unrelated'))->equals($unrelatedMessage);
     }
 
-    public function testMultipleDangerMessages()
+    public function testMultipleDangerMessages(): void
     {
         $firstMessage = 'This is the first danger message';
         $secondMessage = 'This is the second danger message';
@@ -45,7 +45,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testMultipleErrorMessages()
+    public function testMultipleErrorMessages(): void
     {
         $firstMessage = 'This is the first error message';
         $secondMessage = 'This is the second error message';
@@ -63,7 +63,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testMultipleInfoMessages()
+    public function testMultipleInfoMessages(): void
     {
         $firstMessage = 'This is the first info message';
         $secondMessage = 'This is the second info message';
@@ -81,7 +81,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testMultipleMixedMessages()
+    public function testMultipleMixedMessages(): void
     {
         $firstErrorMessage = 'This is the first error message';
         $secondErrorMessage = 'This is the second error message';
@@ -119,10 +119,10 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringContainsString('alert-warning');
     }
 
-    public function testMultipleSuccessMessages()
+    public function testMultipleSuccessMessages(): void
     {
-        $firstMessage = 'This is the first danger message';
-        $secondMessage = 'This is the second danger message';
+        $firstMessage = 'This is the first success message';
+        $secondMessage = 'This is the second success message';
 
         Yii::$app->session->setFlash('success', [$firstMessage, $secondMessage]);
 
@@ -137,7 +137,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testMultipleWarningMessages()
+    public function testMultipleWarningMessages(): void
     {
         $firstMessage = 'This is the first warning message';
         $secondMessage = 'This is the second warning message';
@@ -155,7 +155,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-info');
     }
 
-    public function testSingleDangerMessage()
+    public function testSingleDangerMessage(): void
     {
         $message = 'This is a danger message';
 
@@ -170,7 +170,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-info');
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
-    public function testSingleErrorMessage()
+    public function testSingleErrorMessage(): void
     {
         $message = 'This is an error message';
 
@@ -186,7 +186,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testSingleInfoMessage()
+    public function testSingleInfoMessage(): void
     {
         $message = 'This is an info message';
 
@@ -202,7 +202,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testSingleMixedMessages()
+    public function testSingleMixedMessages(): void
     {
         $errorMessage = 'This is an error message';
         $dangerMessage = 'This is a danger message';
@@ -230,7 +230,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringContainsString('alert-warning');
     }
 
-    public function testSingleSuccessMessage()
+    public function testSingleSuccessMessage(): void
     {
         $message = 'This is a success message';
 
@@ -246,7 +246,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-warning');
     }
 
-    public function testSingleWarningMessage()
+    public function testSingleWarningMessage(): void
     {
         $message = 'This is a warning message';
 
@@ -262,7 +262,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringNotContainsString('alert-info');
     }
 
-    public function testSkipsSessionStartWhenNoSessionExists()
+    public function testSkipsSessionStartWhenNoSessionExists(): void
     {
         $session = Yii::$app->session;
 

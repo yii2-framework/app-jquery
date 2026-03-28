@@ -19,8 +19,8 @@ class LoginForm extends Model
     public bool $rememberMe = true;
     public string $username = '';
 
-    private User|null $_user = null;
-    private bool $_userLoaded = false;
+    private User|null $user = null;
+    private bool $userLoaded = false;
 
     /**
      * @param Security $security the security component.
@@ -36,12 +36,12 @@ class LoginForm extends Model
      */
     public function getUser(): User|null
     {
-        if (!$this->_userLoaded) {
-            $this->_user = User::findByUsername($this->username);
-            $this->_userLoaded = true;
+        if (!$this->userLoaded) {
+            $this->user = User::findByUsername($this->username);
+            $this->userLoaded = true;
         }
 
-        return $this->_user;
+        return $this->user;
     }
 
     /**

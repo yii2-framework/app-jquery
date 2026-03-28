@@ -18,7 +18,7 @@ class User extends BaseObject implements IdentityInterface
     /**
      * @var array<int, array{id: string, username: string, passwordHash: string, authKey: string, accessToken: string}>
      */
-    private static array $_users = [
+    private static array $users = [
         100 => [
             'id' => '100',
             'username' => 'admin',
@@ -42,7 +42,7 @@ class User extends BaseObject implements IdentityInterface
      */
     public static function findByUsername(string $username): self|null
     {
-        foreach (self::$_users as $user) {
+        foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
                 return new self($user);
             }
@@ -53,12 +53,12 @@ class User extends BaseObject implements IdentityInterface
 
     public static function findIdentity($id): self|null
     {
-        return isset(self::$_users[$id]) ? new self(self::$_users[$id]) : null;
+        return isset(self::$users[$id]) ? new self(self::$users[$id]) : null;
     }
 
     public static function findIdentityByAccessToken($token, $type = null): self|null
     {
-        foreach (self::$_users as $user) {
+        foreach (self::$users as $user) {
             if ($user['accessToken'] === $token) {
                 return new self($user);
             }

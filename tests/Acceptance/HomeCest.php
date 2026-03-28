@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 final class HomeCest
 {
-    public function ensureThatHomePageWorks(AcceptanceTester $I)
+    public function ensureThatHomePageWorks(AcceptanceTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/index'));
         $I->see(\Yii::$app->name);

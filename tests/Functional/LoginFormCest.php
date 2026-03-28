@@ -9,13 +9,13 @@ use yii\demo\basic\tests\Support\FunctionalTester;
 
 final class LoginFormCest
 {
-    public function _before(FunctionalTester $I)
+    public function _before(FunctionalTester $I): void
     {
         $I->amOnRoute('site/login');
     }
 
     // demonstrates `amLoggedInAs` method
-    public function internalLoginById(FunctionalTester $I)
+    public function internalLoginById(FunctionalTester $I): void
     {
         $I->amLoggedInAs(100);
         $I->amOnPage('/');
@@ -23,14 +23,17 @@ final class LoginFormCest
     }
 
     // demonstrates `amLoggedInAs` method
-    public function internalLoginByInstance(FunctionalTester $I)
+    public function internalLoginByInstance(FunctionalTester $I): void
     {
-        $I->amLoggedInAs(User::findByUsername('admin'));
+        /** @var User $user */
+        $user = User::findByUsername('admin');
+
+        $I->amLoggedInAs($user);
         $I->amOnPage('/');
         $I->see('Logout (admin)');
     }
 
-    public function loginSuccessfully(FunctionalTester $I)
+    public function loginSuccessfully(FunctionalTester $I): void
     {
         $I->submitForm('#login-form', [
             'LoginForm[username]' => 'admin',
@@ -40,7 +43,7 @@ final class LoginFormCest
         $I->dontSeeElement('form#login-form');
     }
 
-    public function loginWithEmptyCredentials(FunctionalTester $I)
+    public function loginWithEmptyCredentials(FunctionalTester $I): void
     {
         $I->submitForm('#login-form', []);
         $I->expectTo('see validations errors');
@@ -48,7 +51,7 @@ final class LoginFormCest
         $I->see('Password cannot be blank.');
     }
 
-    public function loginWithWrongCredentials(FunctionalTester $I)
+    public function loginWithWrongCredentials(FunctionalTester $I): void
     {
         $I->submitForm('#login-form', [
             'LoginForm[username]' => 'admin',
@@ -58,7 +61,7 @@ final class LoginFormCest
         $I->see('Incorrect username or password.');
     }
 
-    public function openLoginPage(FunctionalTester $I)
+    public function openLoginPage(FunctionalTester $I): void
     {
         $I->see('Login', 'h1');
     }

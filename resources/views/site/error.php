@@ -5,7 +5,7 @@ declare(strict_types=1);
 /** @var yii\web\View $this */
 /** @var string $name */
 /** @var string $message */
-/** @var Exception $exception */
+/** @var \Throwable $exception */
 
 use yii\helpers\Html;
 use yii\web\HttpException;
