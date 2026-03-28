@@ -17,7 +17,7 @@ final class LoginCest
         $I->amGoingTo('try to login with correct credentials');
         $I->fillField('input[name="LoginForm[username]"]', 'admin');
         $I->fillField('input[name="LoginForm[password]"]', 'admin');
-        $I->click('login-button');
+        $I->click('button[name="login-button"]');
 
         $I->expectTo('see user info');
         $I->see('Logout');

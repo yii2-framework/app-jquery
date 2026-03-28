@@ -24,7 +24,7 @@ final class ContactCest
         $I->fillField('#contactform-body', 'test content');
         $I->fillField('#contactform-verifycode', 'testme');
 
-        $I->click('contact-button');
+        $I->click('button[name="contact-button"]');
 
         $I->dontSeeElement('#contact-form');
         $I->see('Thank you for contacting us. We will respond to you as soon as possible.');

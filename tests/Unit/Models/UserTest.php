@@ -17,6 +17,7 @@ final class UserTest extends \Codeception\Test\Unit
         verify($user->username)->equals('admin');
         verify(User::findIdentityByAccessToken('non-existing'))->empty();
     }
+
     public function testFindUserById(): void
     {
         /** @var User $user */
@@ -44,7 +45,7 @@ final class UserTest extends \Codeception\Test\Unit
         /** @var User $user */
         $user = User::findByUsername('admin');
 
-        verify($user->validateAuthKey('test100key'))->notEmpty();
-        verify($user->validateAuthKey('test102key'))->empty();
+        verify($user->validateAuthKey('test100key'))->true();
+        verify($user->validateAuthKey('test102key'))->false();
     }
 }

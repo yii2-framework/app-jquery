@@ -9,197 +9,76 @@ use yii\demo\basic\Widgets\Alert;
 
 class AlertTest extends \Codeception\Test\Unit
 {
-    public function testFlashIntegrity(): void
+    /**
+     * @dataProvider singleMessageProvider
+     *
+     * @param string[] $excludedClasses
+     */
+    public function testSingleMessage(string $flashType, string $expectedClass, array $excludedClasses): void
     {
-        $errorMessage = 'This is an error message';
-        $unrelatedMessage = 'This is a message that is not related to the alert widget';
+        $message = "This is a {$flashType} message";
 
-        Yii::$app->session->setFlash('error', $errorMessage);
-        Yii::$app->session->setFlash('unrelated', $unrelatedMessage);
-
-        Alert::widget();
-
-        // Simulate redirect
-        Yii::$app->session->close();
-        Yii::$app->session->open();
-
-        verify(Yii::$app->session->getFlash('error'))->empty();
-        verify(Yii::$app->session->getFlash('unrelated'))->equals($unrelatedMessage);
-    }
-
-    public function testMultipleDangerMessages(): void
-    {
-        $firstMessage = 'This is the first danger message';
-        $secondMessage = 'This is the second danger message';
-
-        Yii::$app->session->setFlash('danger', [$firstMessage, $secondMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstMessage);
-        verify($renderingResult)->stringContainsString($secondMessage);
-        verify($renderingResult)->stringContainsString('alert-danger');
-
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
-    }
-
-    public function testMultipleErrorMessages(): void
-    {
-        $firstMessage = 'This is the first error message';
-        $secondMessage = 'This is the second error message';
-
-        Yii::$app->session->setFlash('error', [$firstMessage, $secondMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstMessage);
-        verify($renderingResult)->stringContainsString($secondMessage);
-        verify($renderingResult)->stringContainsString('alert-danger');
-
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
-    }
-
-    public function testMultipleInfoMessages(): void
-    {
-        $firstMessage = 'This is the first info message';
-        $secondMessage = 'This is the second info message';
-
-        Yii::$app->session->setFlash('info', [$firstMessage, $secondMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstMessage);
-        verify($renderingResult)->stringContainsString($secondMessage);
-        verify($renderingResult)->stringContainsString('alert-info');
-
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
-    }
-
-    public function testMultipleMixedMessages(): void
-    {
-        $firstErrorMessage = 'This is the first error message';
-        $secondErrorMessage = 'This is the second error message';
-        $firstDangerMessage = 'This is the first danger message';
-        $secondDangerMessage = 'This is the second';
-        $firstSuccessMessage = 'This is the first success message';
-        $secondSuccessMessage = 'This is the second success message';
-        $firstInfoMessage = 'This is the first info message';
-        $secondInfoMessage = 'This is the second info message';
-        $firstWarningMessage = 'This is the first warning message';
-        $secondWarningMessage = 'This is the second warning message';
-
-        Yii::$app->session->setFlash('error', [$firstErrorMessage, $secondErrorMessage]);
-        Yii::$app->session->setFlash('danger', [$firstDangerMessage, $secondDangerMessage]);
-        Yii::$app->session->setFlash('success', [$firstSuccessMessage, $secondSuccessMessage]);
-        Yii::$app->session->setFlash('info', [$firstInfoMessage, $secondInfoMessage]);
-        Yii::$app->session->setFlash('warning', [$firstWarningMessage, $secondWarningMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstErrorMessage);
-        verify($renderingResult)->stringContainsString($secondErrorMessage);
-        verify($renderingResult)->stringContainsString($firstDangerMessage);
-        verify($renderingResult)->stringContainsString($secondDangerMessage);
-        verify($renderingResult)->stringContainsString($firstSuccessMessage);
-        verify($renderingResult)->stringContainsString($secondSuccessMessage);
-        verify($renderingResult)->stringContainsString($firstInfoMessage);
-        verify($renderingResult)->stringContainsString($secondInfoMessage);
-        verify($renderingResult)->stringContainsString($firstWarningMessage);
-        verify($renderingResult)->stringContainsString($secondWarningMessage);
-
-        verify($renderingResult)->stringContainsString('alert-danger');
-        verify($renderingResult)->stringContainsString('alert-success');
-        verify($renderingResult)->stringContainsString('alert-info');
-        verify($renderingResult)->stringContainsString('alert-warning');
-    }
-
-    public function testMultipleSuccessMessages(): void
-    {
-        $firstMessage = 'This is the first success message';
-        $secondMessage = 'This is the second success message';
-
-        Yii::$app->session->setFlash('success', [$firstMessage, $secondMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstMessage);
-        verify($renderingResult)->stringContainsString($secondMessage);
-        verify($renderingResult)->stringContainsString('alert-success');
-
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
-    }
-
-    public function testMultipleWarningMessages(): void
-    {
-        $firstMessage = 'This is the first warning message';
-        $secondMessage = 'This is the second warning message';
-
-        Yii::$app->session->setFlash('warning', [$firstMessage, $secondMessage]);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($firstMessage);
-        verify($renderingResult)->stringContainsString($secondMessage);
-        verify($renderingResult)->stringContainsString('alert-warning');
-
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-    }
-
-    public function testSingleDangerMessage(): void
-    {
-        $message = 'This is a danger message';
-
-        Yii::$app->session->setFlash('danger', $message);
+        Yii::$app->session->setFlash($flashType, $message);
 
         $renderingResult = Alert::widget();
 
         verify($renderingResult)->stringContainsString($message);
-        verify($renderingResult)->stringContainsString('alert-danger');
+        verify($renderingResult)->stringContainsString($expectedClass);
 
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
+        foreach ($excludedClasses as $excludedClass) {
+            verify($renderingResult)->stringNotContainsString($excludedClass);
+        }
     }
-    public function testSingleErrorMessage(): void
-    {
-        $message = 'This is an error message';
 
-        Yii::$app->session->setFlash('error', $message);
+    /**
+     * @return array<string, array{string, string, string[]}>
+     */
+    public static function singleMessageProvider(): array
+    {
+        return [
+            'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+            'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+            'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
+            'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
+            'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
+        ];
+    }
+
+    /**
+     * @dataProvider multipleMessagesProvider
+     *
+     * @param string[] $excludedClasses
+     */
+    public function testMultipleMessages(string $flashType, string $expectedClass, array $excludedClasses): void
+    {
+        $firstMessage = "This is the first {$flashType} message";
+        $secondMessage = "This is the second {$flashType} message";
+
+        Yii::$app->session->setFlash($flashType, [$firstMessage, $secondMessage]);
 
         $renderingResult = Alert::widget();
 
-        verify($renderingResult)->stringContainsString($message);
-        verify($renderingResult)->stringContainsString('alert-danger');
+        verify($renderingResult)->stringContainsString($firstMessage);
+        verify($renderingResult)->stringContainsString($secondMessage);
+        verify($renderingResult)->stringContainsString($expectedClass);
 
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
+        foreach ($excludedClasses as $excludedClass) {
+            verify($renderingResult)->stringNotContainsString($excludedClass);
+        }
     }
 
-    public function testSingleInfoMessage(): void
+    /**
+     * @return array<string, array{string, string, string[]}>
+     */
+    public static function multipleMessagesProvider(): array
     {
-        $message = 'This is an info message';
-
-        Yii::$app->session->setFlash('info', $message);
-
-        $renderingResult = Alert::widget();
-
-        verify($renderingResult)->stringContainsString($message);
-        verify($renderingResult)->stringContainsString('alert-info');
-
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
+        return [
+            'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+            'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+            'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
+            'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
+            'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
+        ];
     }
 
     public function testSingleMixedMessages(): void
@@ -207,7 +86,7 @@ class AlertTest extends \Codeception\Test\Unit
         $errorMessage = 'This is an error message';
         $dangerMessage = 'This is a danger message';
         $successMessage = 'This is a success message';
-        $infoMessage = 'This is a info message';
+        $infoMessage = 'This is an info message';
         $warningMessage = 'This is a warning message';
 
         Yii::$app->session->setFlash('error', $errorMessage);
@@ -230,36 +109,49 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringContainsString('alert-warning');
     }
 
-    public function testSingleSuccessMessage(): void
+    public function testMultipleMixedMessages(): void
     {
-        $message = 'This is a success message';
+        $types = ['error', 'danger', 'success', 'info', 'warning'];
+        $messages = [];
 
-        Yii::$app->session->setFlash('success', $message);
+        foreach ($types as $type) {
+            $messages[$type] = [
+                "This is the first {$type} message",
+                "This is the second {$type} message",
+            ];
+            Yii::$app->session->setFlash($type, $messages[$type]);
+        }
 
         $renderingResult = Alert::widget();
 
-        verify($renderingResult)->stringContainsString($message);
-        verify($renderingResult)->stringContainsString('alert-success');
+        foreach ($messages as $typeMessages) {
+            foreach ($typeMessages as $message) {
+                verify($renderingResult)->stringContainsString($message);
+            }
+        }
 
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-info');
-        verify($renderingResult)->stringNotContainsString('alert-warning');
+        verify($renderingResult)->stringContainsString('alert-danger');
+        verify($renderingResult)->stringContainsString('alert-success');
+        verify($renderingResult)->stringContainsString('alert-info');
+        verify($renderingResult)->stringContainsString('alert-warning');
     }
 
-    public function testSingleWarningMessage(): void
+    public function testFlashIntegrity(): void
     {
-        $message = 'This is a warning message';
+        $errorMessage = 'This is an error message';
+        $unrelatedMessage = 'This is a message that is not related to the alert widget';
 
-        Yii::$app->session->setFlash('warning', $message);
+        Yii::$app->session->setFlash('error', $errorMessage);
+        Yii::$app->session->setFlash('unrelated', $unrelatedMessage);
 
-        $renderingResult = Alert::widget();
+        Alert::widget();
 
-        verify($renderingResult)->stringContainsString($message);
-        verify($renderingResult)->stringContainsString('alert-warning');
+        // Simulate redirect
+        Yii::$app->session->close();
+        Yii::$app->session->open();
 
-        verify($renderingResult)->stringNotContainsString('alert-danger');
-        verify($renderingResult)->stringNotContainsString('alert-success');
-        verify($renderingResult)->stringNotContainsString('alert-info');
+        verify(Yii::$app->session->getFlash('error'))->empty();
+        verify(Yii::$app->session->getFlash('unrelated'))->equals($unrelatedMessage);
     }
 
     public function testSkipsSessionStartWhenNoSessionExists(): void
@@ -269,7 +161,6 @@ class AlertTest extends \Codeception\Test\Unit
         $previousCookie = $_COOKIE[$cookieName] ?? null;
 
         try {
-            // Ensure the session is closed and no session cookie is present.
             $session->close();
             unset($_COOKIE[$cookieName]);
 
