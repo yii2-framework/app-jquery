@@ -11,23 +11,23 @@ main > .container {
 }
 
 /* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
+a.asc::after, a.desc::after {
     content: '';
     left: 3px;
     display: inline-block;
     width: 0;
     height: 0;
     border: solid 5px transparent;
-    margin: 4px 4px 2px 4px;
+    margin: 4px 4px 2px;
     background: transparent;
 }
 
-a.asc:after {
+a.asc::after {
     border-bottom: solid 7px var(--bs-body-color);
     border-top-width: 0;
 }
 
-a.desc:after {
+a.desc::after {
     border-top: solid 7px var(--bs-body-color);
     border-bottom-width: 0;
 }
@@ -47,7 +47,7 @@ a.desc:after {
     background: var(--bs-danger-bg-subtle);
     border-left: 3px solid var(--bs-danger-border-subtle);
     padding: 10px 20px;
-    margin: 0 0 15px 0;
+    margin: 0 0 15px;
 }
 
 /* align navbar brand baseline with nav links */
@@ -61,7 +61,7 @@ a.desc:after {
     color: var(--bs-navbar-color);
 }
 
-@media (max-width: 767.98px) {
+@media (width <= 767.98px) {
     .navbar-nav .nav-link.logout {
         display: block;
         text-align: left;
@@ -110,7 +110,7 @@ a.desc:after {
 
 .login-split-card .input-group:focus-within {
     border-color: var(--bs-primary);
-    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25);
+    box-shadow: 0 0 0 .25rem rgb(var(--bs-primary-rgb) / 25%);
 }
 
 /* validation styles for login split card (browsers with :has()) */
@@ -126,7 +126,7 @@ a.desc:after {
     }
 
     .login-split-card .input-group:has(.is-invalid):focus-within {
-        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+        box-shadow: 0 0 0 .25rem rgb(var(--bs-danger-rgb) / 25%);
     }
 }
 
@@ -143,14 +143,14 @@ a.desc:after {
     }
 
     .login-split-card .input-group .form-control.is-invalid:focus {
-        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+        box-shadow: 0 0 0 .25rem rgb(var(--bs-danger-rgb) / 25%);
     }
 }
 
 /* login split card */
 .login-split-card {
     border-radius: 1rem;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, .10);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 10%);
     background-color: var(--bs-gray-100);
     width: 100%;
     max-width: 900px;
@@ -180,8 +180,8 @@ a.desc:after {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 80%, rgba(241, 138, 42, .25) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(131, 201, 51, .2) 0%, transparent 40%);
+        radial-gradient(circle at 20% 80%, rgb(241 138 42 / 25%) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgb(131 201 51 / 20%) 0%, transparent 40%);
     pointer-events: none;
 }
 
@@ -205,7 +205,7 @@ a.desc:after {
 /* dark mode login card */
 [data-bs-theme="dark"] .login-split-card {
     background-color: var(--bs-body-bg);
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 4px 24px rgba(0, 0, 0, .4);
+    box-shadow: 0 0 0 1px var(--bs-border-color), 0 4px 24px rgb(0 0 0 / 40%);
 }
 
 [data-bs-theme="dark"] .login-mobile-logo {
@@ -246,7 +246,7 @@ a.desc:after {
     max-width: 90%;
 }
 
-@media (min-width: 576px) {
+@media (width >= 576px) {
     .site-error .site-error-content,
     .site-about .site-about-content,
     .site-contact-success .site-contact-success-content {
@@ -254,7 +254,7 @@ a.desc:after {
     }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     .site-error .site-error-content,
     .site-about .site-about-content,
     .site-contact-success .site-contact-success-content {
@@ -262,7 +262,7 @@ a.desc:after {
     }
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
     .site-error .site-error-content,
     .site-about .site-about-content,
     .site-contact-success .site-contact-success-content {
@@ -294,9 +294,9 @@ a.desc:after {
     inset: 0;
     border-radius: inherit;
     background:
-        radial-gradient(circle at 15% 85%, rgba(241, 138, 42, .3) 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, rgba(131, 201, 51, .25) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 50%, rgba(64, 179, 216, .15) 0%, transparent 60%);
+        radial-gradient(circle at 15% 85%, rgb(241 138 42 / 30%) 0%, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgb(131 201 51 / 25%) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgb(64 179 216 / 15%) 0%, transparent 60%);
     pointer-events: none;
 }
 
@@ -307,7 +307,7 @@ a.desc:after {
 
 .extension-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .12) !important;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 12%) !important;
 }
 
 .extension-icon {
@@ -318,11 +318,11 @@ a.desc:after {
 /* dark mode: extension cards */
 [data-bs-theme="dark"] .extension-card {
     background-color: var(--bs-body-bg);
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 2px 8px rgba(0, 0, 0, .3);
+    box-shadow: 0 0 0 1px var(--bs-border-color), 0 2px 8px rgb(0 0 0 / 30%);
 }
 
 [data-bs-theme="dark"] .extension-card:hover {
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 8px 24px rgba(0, 0, 0, .4) !important;
+    box-shadow: 0 0 0 1px var(--bs-border-color), 0 8px 24px rgb(0 0 0 / 40%) !important;
 }
 
 /* reduced motion: disable animations for users who prefer it */
