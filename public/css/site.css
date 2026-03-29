@@ -84,6 +84,7 @@ a.desc::after {
 [data-bs-theme="dark"] .footer-logo-light {
     display: none;
 }
+
 [data-bs-theme="dark"] .footer-logo-dark {
     display: inline-block;
 }

@@ -57,6 +57,7 @@ The minimum requirement of this project template is that your web server support
 ## Installation
 
 > [!IMPORTANT]
+>
 > - The minimum required [PHP](https://www.php.net/) version is PHP `8.2`.
 
 ## Install via Composer
@@ -111,9 +112,9 @@ docker compose exec -T php vendor/bin/codecept run
 ```
 
 **NOTES:**
+
 - Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
 - The default configuration uses a host-volume in your home directory `~/.composer-docker/cache` for Composer caches
-
 
 ## Configuration
 
@@ -132,6 +133,7 @@ return [
 ```
 
 **NOTES:**
+
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
 - Refer to the readme in the `tests` directory for information specific to basic application tests.
@@ -153,7 +155,6 @@ vendor/bin/codecept run --env php-builtin
 
 The command above will execute all test suites (unit, functional, and acceptance). Unit tests verify system components,
 functional tests emulate web requests, and acceptance tests run against a real HTTP server.
-
 
 ## Acceptance tests
 
@@ -179,7 +180,7 @@ To run acceptance tests in a real browser, switch the `acceptance` suite to use 
 
 1. Download and start [Selenium Server](https://www.selenium.dev/downloads/).
 2. Install the corresponding browser driver (for example. [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or
-    [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
+   [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
 3. Update `tests/Acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
 4. Run:
 
