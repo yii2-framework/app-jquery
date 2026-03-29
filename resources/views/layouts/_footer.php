@@ -18,11 +18,11 @@ use yii\helpers\Html;
                     aria-label="<?= Html::encode(Yii::t('yii', 'Powered by {yii}', ['yii' => 'Yii Framework'])) ?>"
                     class="text-body-secondary text-decoration-none"
                 >
-                    <?= Yii::t(
+                    <?= Html::encode(Yii::t(
                         'yii',
                         'Powered by {yii}',
                         ['yii' => ''],
-                    ) ?>
+                    )) ?>
                     <?= Html::img(
                         '@web/images/yii3_full_for_light.svg',
                         [

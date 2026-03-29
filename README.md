@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 <p align="center">
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://www.yiiframework.com/image/design/logo/yii3_full_for_dark.svg">
@@ -7,10 +8,11 @@
     <h1 align="center">Basic Application Demo</h1>
     <br>
 </p>
+<!-- markdownlint-enable MD041 -->
 
 Basic Application Demo is a skeleton [Yii 2](https://www.yiiframework.com/) application for testing
 [yii2-framework/core](https://github.com/yii2-framework/core) and
-[yii2-framework/jquery](https://github.com/yii2-framework/jquery) packages.
+[yii2-framework/jQuery](https://github.com/yii2-framework/jquery) packages.
 
 It includes user login/logout, a contact page with masked phone input, and all commonly used configurations
 to validate the core and jQuery integration layers.
@@ -31,24 +33,26 @@ to validate the core and jQuery integration layers.
 
 ## Directory structure
 
-      config/             contains application configurations
-      public/             contains the entry script and Web resources
-      resources/
-          mail/           contains view files for e-mails
-          views/          contains view files for the Web application
-      runtime/            contains files generated during runtime
-      src/
-          Assets/         contains assets definition
-          Commands/       contains console commands (controllers)
-          Controllers/    contains Web controller classes
-          Models/         contains model classes
-          Widgets/        contains widget classes
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
+```text
+config/             contains application configurations
+public/             contains the entry script and Web resources
+resources/
+    mail/           contains view files for e-mails
+    views/          contains view files for the Web application
+runtime/            contains files generated during runtime
+src/
+    Assets/         contains assets definition
+    Commands/       contains console commands (controllers)
+    Controllers/    contains Web controller classes
+    Models/         contains model classes
+    Widgets/        contains widget classes
+tests/              contains various tests for the basic application
+vendor/             contains dependent 3rd-party packages
+```
 
 ## Requirements
 
-The minimum requirement by this project template that your Web server supports PHP 8.2.
+The minimum requirement of this project template is that your web server supports PHP 8.2.
 
 ## Installation
 
@@ -130,7 +134,7 @@ return [
 **NOTES:**
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
+- Refer to the readme in the `tests` directory for information specific to basic application tests.
 
 ## Testing
 
@@ -175,7 +179,7 @@ To run acceptance tests in a real browser, switch the `acceptance` suite to use 
 
 1. Download and start [Selenium Server](https://www.selenium.dev/downloads/).
 2. Install the corresponding browser driver (for example. [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or
-   [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
+    [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
 3. Update `tests/Acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
 4. Run:
 

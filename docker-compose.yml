@@ -6,12 +6,13 @@ services:
       - ./:/app:delegated
       - ./public:/app/web:delegated
     ports:
-      - '8000:80'
+      - "8000:80"
     healthcheck:
-      test: [
-        "CMD-SHELL",
-        "runuser -u www-data -- sh -c 'test -w /app/runtime && test -w /app/web/assets'",
-      ]
+      test:
+        [
+          "CMD-SHELL",
+          "runuser -u www-data -- sh -c 'test -w /app/runtime && test -w /app/web/assets'",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -11,8 +11,9 @@ main > .container {
 }
 
 /* add sorting icons to gridview sort links */
-a.asc::after, a.desc::after {
-    content: '';
+a.asc::after,
+a.desc::after {
+    content: "";
     left: 3px;
     display: inline-block;
     width: 0;
@@ -76,24 +77,32 @@ a.desc::after {
 }
 
 /* footer logo: light logo by default (light bg-body-tertiary), dark logo for dark theme */
-.footer-logo-dark { display: none; }
+.footer-logo-dark {
+    display: none;
+}
 
-[data-bs-theme="dark"] .footer-logo-light { display: none; }
-[data-bs-theme="dark"] .footer-logo-dark  { display: inline-block; }
+[data-bs-theme="dark"] .footer-logo-light {
+    display: none;
+}
+[data-bs-theme="dark"] .footer-logo-dark {
+    display: inline-block;
+}
 
 /* login inputs: seamless icon inside input (Volt style) */
 .login-split-card .input-group {
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
     overflow: hidden;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
 }
 
 .login-split-card .input-group .input-group-text {
     background: transparent;
     border: 0;
     padding-left: 1rem;
-    padding-right: .75rem;
+    padding-right: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,15 +119,15 @@ a.desc::after {
 
 .login-split-card .input-group:focus-within {
     border-color: var(--bs-primary);
-    box-shadow: 0 0 0 .25rem rgb(var(--bs-primary-rgb) / 25%);
+    box-shadow: 0 0 0 0.25rem rgb(var(--bs-primary-rgb) / 25%);
 }
 
 /* validation styles for login split card (browsers with :has()) */
 @supports selector(.input-group:has(.is-invalid)) {
     .login-split-card .input-group:has(.is-invalid) ~ .invalid-feedback {
         display: block;
-        margin-top: .35rem;
-        margin-bottom: .5rem;
+        margin-top: 0.35rem;
+        margin-bottom: 0.5rem;
     }
 
     .login-split-card .input-group:has(.is-invalid) {
@@ -126,7 +135,7 @@ a.desc::after {
     }
 
     .login-split-card .input-group:has(.is-invalid):focus-within {
-        box-shadow: 0 0 0 .25rem rgb(var(--bs-danger-rgb) / 25%);
+        box-shadow: 0 0 0 0.25rem rgb(var(--bs-danger-rgb) / 25%);
     }
 }
 
@@ -134,8 +143,8 @@ a.desc::after {
 @supports not selector(.input-group:has(.is-invalid)) {
     .login-split-card .invalid-feedback:not(:empty) {
         display: block;
-        margin-top: .35rem;
-        margin-bottom: .5rem;
+        margin-top: 0.35rem;
+        margin-bottom: 0.5rem;
     }
 
     .login-split-card .input-group .form-control.is-invalid {
@@ -143,7 +152,7 @@ a.desc::after {
     }
 
     .login-split-card .input-group .form-control.is-invalid:focus {
-        box-shadow: 0 0 0 .25rem rgb(var(--bs-danger-rgb) / 25%);
+        box-shadow: 0 0 0 0.25rem rgb(var(--bs-danger-rgb) / 25%);
     }
 }
 
@@ -166,35 +175,45 @@ a.desc::after {
 }
 
 .login-brand-text {
-    font-size: .9rem;
+    font-size: 0.9rem;
 }
 
 .login-brand-panel {
-    background: linear-gradient(135deg, #40B3D8 0%, #3a9cbd 40%, #83C933 100%);
+    background: linear-gradient(135deg, #40b3d8 0%, #3a9cbd 40%, #83c933 100%);
     position: relative;
     min-height: 480px;
 }
 
 .login-brand-panel::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 80%, rgb(241 138 42 / 25%) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgb(131 201 51 / 20%) 0%, transparent 40%);
+        radial-gradient(
+            circle at 20% 80%,
+            rgb(241 138 42 / 25%) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 20%,
+            rgb(131 201 51 / 20%) 0%,
+            transparent 40%
+        );
     pointer-events: none;
 }
 
 .login-btn {
-    background: linear-gradient(135deg, #40B3D8, #3a9cbd);
+    background: linear-gradient(135deg, #40b3d8, #3a9cbd);
     border: none;
     font-weight: 600;
-    letter-spacing: .02em;
-    transition: opacity .2s, transform .1s;
+    letter-spacing: 0.02em;
+    transition:
+        opacity 0.2s,
+        transform 0.1s;
 }
 
 .login-btn:hover {
-    opacity: .9;
+    opacity: 0.9;
     transform: translateY(-1px);
 }
 
@@ -205,7 +224,9 @@ a.desc::after {
 /* dark mode login card */
 [data-bs-theme="dark"] .login-split-card {
     background-color: var(--bs-body-bg);
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 4px 24px rgb(0 0 0 / 40%);
+    box-shadow:
+        0 0 0 1px var(--bs-border-color),
+        0 4px 24px rgb(0 0 0 / 40%);
 }
 
 [data-bs-theme="dark"] .login-mobile-logo {
@@ -272,7 +293,7 @@ a.desc::after {
 
 /* hero banner */
 .hero-banner {
-    background: linear-gradient(135deg, #83C933 0%, #3a9cbd 40%, #40B3D8 100%);
+    background: linear-gradient(135deg, #83c933 0%, #3a9cbd 40%, #40b3d8 100%);
     position: relative;
 }
 
@@ -282,27 +303,41 @@ a.desc::after {
 
 .hero-logo {
     height: 120px;
-    opacity: .45;
+    opacity: 0.45;
     right: 2.5rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .hero-banner::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     background:
-        radial-gradient(circle at 15% 85%, rgb(241 138 42 / 30%) 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, rgb(131 201 51 / 25%) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 50%, rgb(64 179 216 / 15%) 0%, transparent 60%);
+        radial-gradient(
+            circle at 15% 85%,
+            rgb(241 138 42 / 30%) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgb(131 201 51 / 25%) 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgb(64 179 216 / 15%) 0%,
+            transparent 60%
+        );
     pointer-events: none;
 }
 
 /* extension cards */
 .extension-card {
-    transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition:
+        transform 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
 }
 
 .extension-card:hover {
@@ -318,11 +353,15 @@ a.desc::after {
 /* dark mode: extension cards */
 [data-bs-theme="dark"] .extension-card {
     background-color: var(--bs-body-bg);
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 2px 8px rgb(0 0 0 / 30%);
+    box-shadow:
+        0 0 0 1px var(--bs-border-color),
+        0 2px 8px rgb(0 0 0 / 30%);
 }
 
 [data-bs-theme="dark"] .extension-card:hover {
-    box-shadow: 0 0 0 1px var(--bs-border-color), 0 8px 24px rgb(0 0 0 / 40%) !important;
+    box-shadow:
+        0 0 0 1px var(--bs-border-color),
+        0 8px 24px rgb(0 0 0 / 40%) !important;
 }
 
 /* reduced motion: disable animations for users who prefer it */

@@ -6,7 +6,6 @@ use yii\helpers\Html;
 
 $this->title = 'My Yii Application';
 $this->params['meta_description'] = 'A high-performance PHP framework best for developing web applications. Fast, secure, and professional.';
-$this->params['meta_keywords'] = 'yii, yii2, php, framework, web application, high-performance';
 
 $extensions = [
     [
@@ -67,7 +66,7 @@ $extensions = [
                     'https://www.yiiframework.com/doc/guide/2.0/en/start-installation',
                     [
                         'class' => 'btn btn-light btn-lg fw-semibold px-4',
-                        'rel' => 'noopener',
+                        'rel' => 'noopener noreferrer',
                         'target' => '_blank',
                     ],
                 ) ?>
@@ -76,7 +75,7 @@ $extensions = [
                     'https://www.yiiframework.com/doc/api/2.0',
                     [
                         'class' => 'btn btn-outline-light btn-lg px-4',
-                        'rel' => 'noopener',
+                        'rel' => 'noopener noreferrer',
                         'target' => '_blank',
                     ],
                 ) ?>

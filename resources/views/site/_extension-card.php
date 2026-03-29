@@ -26,8 +26,9 @@ use yii\helpers\Html;
             'Learn more &raquo;',
             $url,
             [
+                'aria-label' => sprintf('Learn more about %s', $name),
                 'class' => 'btn btn-sm btn-outline-secondary',
-                'rel' => 'noopener',
+                'rel' => 'noopener noreferrer',
                 'target' => '_blank',
             ],
         ) ?>

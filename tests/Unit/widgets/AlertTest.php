@@ -10,17 +10,22 @@ use yii\demo\basic\Widgets\Alert;
 class AlertTest extends \Codeception\Test\Unit
 {
     /**
+     * @var array<string, array{string, string, string[]}>
+     */
+    private const ALERT_TYPE_CASES = [
+        'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+        'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
+        'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
+        'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
+        'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
+    ];
+
+    /**
      * @return array<string, array{string, string, string[]}>
      */
     public static function multipleMessagesProvider(): array
     {
-        return [
-            'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-            'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-            'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
-            'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
-            'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
-        ];
+        return self::ALERT_TYPE_CASES;
     }
 
     /**
@@ -28,13 +33,7 @@ class AlertTest extends \Codeception\Test\Unit
      */
     public static function singleMessageProvider(): array
     {
-        return [
-            'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-            'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-            'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
-            'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
-            'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
-        ];
+        return self::ALERT_TYPE_CASES;
     }
 
     public function testFlashIntegrity(): void
