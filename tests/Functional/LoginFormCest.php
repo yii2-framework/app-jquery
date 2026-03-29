@@ -61,8 +61,17 @@ final class LoginFormCest
         $I->see('Incorrect username or password.');
     }
 
+
     public function openLoginPage(FunctionalTester $I): void
     {
         $I->see('Login', 'h1');
+    }
+
+    public function redirectWhenAlreadyLoggedIn(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(100);
+        $I->amOnRoute('site/login');
+        $I->dontSee('Login', 'h1');
+        $I->see('My Yii Application');
     }
 }

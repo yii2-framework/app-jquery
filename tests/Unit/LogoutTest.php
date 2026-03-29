@@ -38,22 +38,20 @@ final class LogoutTest extends \Codeception\Test\Unit
 
         Yii::$app->user->login($user);
 
-        try {
-            $html = $view->render('//layouts/main.php', ['content' => 'Hello World']);
+        $html = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 
-            self::assertStringContainsString(
-                'Logout (admin)',
-                $html,
-                'Failed asserting that the logout link is rendered for a logged-in user.',
-            );
-            self::assertStringContainsString(
-                'data-method="post"',
-                $html,
-                'Failed asserting that the logout link uses POST method.',
-            );
-        } finally {
-            Yii::$app->user->logout();
-        }
+        self::assertStringContainsString(
+            'Logout (admin)',
+            $html,
+            'Failed asserting that the logout link is rendered for a logged-in user.',
+        );
+        self::assertStringContainsString(
+            'data-method="post"',
+            $html,
+            'Failed asserting that the logout link uses POST method.',
+        );
+
+        $controller->actionLogout();
 
         $html = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 

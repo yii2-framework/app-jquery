@@ -103,6 +103,16 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringContainsString('alert-info');
         verify($renderingResult)->stringContainsString('alert-warning');
     }
+
+    public function testRenderWithCustomCssClass(): void
+    {
+        Yii::$app->session->setFlash('success', 'Custom class message');
+
+        $renderingResult = Alert::widget(['options' => ['class' => 'my-custom-class']]);
+
+        verify($renderingResult)->stringContainsString('Custom class message');
+        verify($renderingResult)->stringContainsString('alert-success my-custom-class');
+    }
     /**
      * @dataProvider singleMessageProvider
      *

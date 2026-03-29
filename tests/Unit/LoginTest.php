@@ -7,10 +7,49 @@ namespace yii\demo\basic\tests\Unit;
 use Yii;
 use yii\base\Security;
 use yii\demo\basic\Controllers\SiteController;
+use yii\demo\basic\Models\User;
 use yii\web\View;
 
 final class LoginTest extends \Codeception\Test\Unit
 {
+    public function testActionAboutRendersPage(): void
+    {
+        $controller = new SiteController(
+            'site',
+            Yii::$app,
+            Yii::$app->mailer,
+            new Security(),
+        );
+
+        Yii::$app->controller = $controller;
+
+        $output = $controller->actionAbout();
+
+        self::assertStringContainsString('About', $output);
+    }
+
+    public function testActionLoginRedirectsWhenAlreadyLoggedIn(): void
+    {
+        $controller = new SiteController(
+            'site',
+            Yii::$app,
+            Yii::$app->mailer,
+            new Security(),
+        );
+
+        $view = new View(['context' => $controller]);
+
+        Yii::$app->user->login(new User());
+
+        $controller->actionLogin();
+
+        self::assertStringNotContainsString(
+            'Logout (admin)',
+            $view->render('//layouts/main.php', ['content' => 'Hello World']),
+            'Failed asserting that the logout link is not rendered for a wrong username.',
+        );
+    }
+
     public function testRenderLoginForGuest(): void
     {
         $controller = new SiteController(
