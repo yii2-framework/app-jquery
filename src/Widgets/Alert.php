@@ -22,11 +22,15 @@ use yii\bootstrap5\Alert as BootstrapAlert;
  * ```php
  * Yii::$app->session->setFlash('error', ['Error 1', 'Error 2']);
  * ```
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
  */
 class Alert extends \yii\bootstrap5\Widget
 {
     /**
-     * @var array<string, string> the alert types configuration for the flash messages.
+     * @phpstan-var array<string, string> The alert types configuration for the flash messages.
+     *
      * This array is setup as $key => $value, where:
      * - key: the name of the session flash variable
      * - value: the bootstrap alert type (i.e. danger, success, info, warning)
@@ -39,7 +43,7 @@ class Alert extends \yii\bootstrap5\Widget
         'warning' => 'alert-warning',
     ];
     /**
-     * @var array<string, mixed> the options for rendering the close button tag.
+     * @phpstan-var array<string, mixed> the options for rendering the close button tag.
      */
     public array $closeButton = [];
 

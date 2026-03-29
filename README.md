@@ -180,7 +180,7 @@ To run acceptance tests in a real browser, switch the `acceptance` suite to use 
 
 1. Download and start [Selenium Server](https://www.selenium.dev/downloads/).
 2. Install the corresponding browser driver (for example. [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or
-    [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
+   [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
 3. Update `tests/Acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
 4. Run:
 

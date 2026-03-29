@@ -7,6 +7,12 @@ namespace yii\demo\basic\tests\Functional;
 use yii\demo\basic\Models\User;
 use yii\demo\basic\tests\Support\FunctionalTester;
 
+/**
+ * Functional tests for {@see \yii\demo\basic\Controllers\SiteController::actionLogin()} login form.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class LoginFormCest
 {
     public function _before(FunctionalTester $I): void
@@ -53,10 +59,13 @@ final class LoginFormCest
 
     public function loginWithWrongCredentials(FunctionalTester $I): void
     {
-        $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'wrong',
-        ]);
+        $I->submitForm(
+            '#login-form',
+            [
+                'LoginForm[username]' => 'admin',
+                'LoginForm[password]' => 'wrong',
+            ],
+        );
         $I->expectTo('see validation errors');
         $I->see('Incorrect username or password.');
     }

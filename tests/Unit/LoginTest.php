@@ -10,6 +10,12 @@ use yii\demo\basic\Controllers\SiteController;
 use yii\demo\basic\Models\User;
 use yii\web\View;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Controllers\SiteController} login and about actions.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class LoginTest extends \Codeception\Test\Unit
 {
     public function testActionAboutRendersPage(): void

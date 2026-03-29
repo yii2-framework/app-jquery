@@ -7,6 +7,12 @@ namespace yii\demo\basic\Models;
 use yii\base\BaseObject;
 use yii\web\IdentityInterface;
 
+/**
+ * Provides a static-data identity implementation for authentication.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 class User extends BaseObject implements IdentityInterface
 {
     public string $accessToken = '';
@@ -16,7 +22,10 @@ class User extends BaseObject implements IdentityInterface
     public string $username = '';
 
     /**
-     * @var array<int, array{id: string, username: string, passwordHash: string, authKey: string, accessToken: string}>
+     * @phpstan-var array<
+     *   int,
+     *   array{id: string, username: string, passwordHash: string, authKey: string, accessToken: string},
+     * >
      */
     private static array $users = [
         100 => [

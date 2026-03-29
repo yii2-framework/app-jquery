@@ -11,6 +11,12 @@ use yii\demo\basic\Models\User;
 use yii\web\IdentityInterface;
 use yii\web\View;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Controllers\SiteController} logout action and layout rendering.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class LogoutTest extends \Codeception\Test\Unit
 {
     public function testRenderLogoutLinkWhenUserIsLoggedIn(): void

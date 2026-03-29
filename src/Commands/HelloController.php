@@ -8,15 +8,20 @@ use yii\console\Controller;
 use yii\console\ExitCode;
 
 /**
- * This command echoes the first argument that you have entered.
+ * Echoes the first argument that you have entered.
  *
- * This command is provided as an example for you to learn how to create console commands.
+ * Provided as an example for learning how to create console commands.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
  */
 class HelloController extends Controller
 {
     /**
      * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
+     *
+     * @param string $message The message to be echoed.
+     *
      * @return int Exit code
      */
     public function actionIndex(string $message = 'hello world'): int

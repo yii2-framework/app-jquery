@@ -16,6 +16,12 @@ use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
+/**
+ * Handles site pages: home, about, contact, login, and logout actions.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 class SiteController extends Controller
 {
     public function __construct(
@@ -43,10 +49,10 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
 
-        /** @var array<string, mixed> $post */
+        /** @phpstan-var array<string, mixed> $post */
         $post = $this->request->post();
 
-        /** @var array{adminEmail: string, senderEmail: string, senderName: string} $params */
+        /** @phpstan-var array{adminEmail: string, senderEmail: string, senderName: string} $params */
         $params = Yii::$app->params;
 
         $contact = $model->load($post) && $model->contact(
@@ -87,7 +93,7 @@ class SiteController extends Controller
 
         $model = new LoginForm($this->security);
 
-        /** @var array<string, mixed> $post */
+        /** @phpstan-var array<string, mixed> $post */
         $post = $this->request->post();
 
         if ($model->load($post) && $model->login()) {

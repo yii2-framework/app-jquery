@@ -8,6 +8,12 @@ use yii\demo\basic\Models\ContactForm;
 use yii\demo\basic\tests\Support\UnitTester;
 use yii\mail\MessageInterface;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Models\ContactForm} model.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class ContactFormTest extends \Codeception\Test\Unit
 {
     public UnitTester|null $tester = null;

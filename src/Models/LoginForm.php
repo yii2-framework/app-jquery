@@ -9,9 +9,12 @@ use yii\base\Model;
 use yii\base\Security;
 
 /**
- * LoginForm is the model behind the login form.
+ * Represents the login form model with username/password authentication.
  *
  * @property-read User|null $user
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
  */
 class LoginForm extends Model
 {
@@ -24,8 +27,10 @@ class LoginForm extends Model
     private string $userLookup = '';
 
     /**
-     * @param Security $security the security component.
-     * @param array<string, mixed> $config name-value pairs that will be used to initialize the object properties.
+     * @param Security $security The security component.
+     * @param array $config name-value pairs that will be used to initialize the object properties.
+     *
+     * @phpstan-param array<string, mixed> $config
      */
     public function __construct(private readonly Security $security, array $config = [])
     {
@@ -62,7 +67,7 @@ class LoginForm extends Model
     }
 
     /**
-     * @return array<array<mixed>> the validation rules.
+     * @phpstan-return array<array<mixed>> The validation rules.
      */
     public function rules(): array
     {
@@ -75,6 +80,7 @@ class LoginForm extends Model
 
     /**
      * Validates the password.
+     *
      * This method serves as the inline validation for password.
      */
     public function validatePassword(string $attribute, mixed $params): void

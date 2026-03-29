@@ -6,6 +6,12 @@ namespace yii\demo\basic\tests\Unit\Models;
 
 use yii\demo\basic\Models\User;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Models\User} identity model.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class UserTest extends \Codeception\Test\Unit
 {
     public function testFindUserByAccessToken(): void

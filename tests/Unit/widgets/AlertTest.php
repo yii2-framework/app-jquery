@@ -7,6 +7,12 @@ namespace yii\demo\basic\tests\Unit\widgets;
 use Yii;
 use yii\demo\basic\Widgets\Alert;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Widgets\Alert} widget.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 class AlertTest extends \Codeception\Test\Unit
 {
     /**
@@ -113,6 +119,7 @@ class AlertTest extends \Codeception\Test\Unit
         verify($renderingResult)->stringContainsString('Custom class message');
         verify($renderingResult)->stringContainsString('alert-success my-custom-class');
     }
+
     /**
      * @dataProvider singleMessageProvider
      *

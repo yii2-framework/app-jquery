@@ -8,6 +8,12 @@ use Yii;
 use yii\base\Security;
 use yii\demo\basic\Models\LoginForm;
 
+/**
+ * Unit tests for {@see \yii\demo\basic\Models\LoginForm} model.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
 final class LoginFormTest extends \Codeception\Test\Unit
 {
     private LoginForm|null $model = null;

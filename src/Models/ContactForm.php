@@ -8,7 +8,10 @@ use yii\base\Model;
 use yii\mail\MailerInterface;
 
 /**
- * ContactForm is the model behind the contact form.
+ * Represents the contact form model with phone validation and email sending.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
  */
 class ContactForm extends Model
 {
@@ -20,7 +23,7 @@ class ContactForm extends Model
     public string $verifyCode = '';
 
     /**
-     * @return array<string, string> customized attribute labels.
+     * @phpstan-return array<string, string> Customized attribute labels.
      */
     public function attributeLabels(): array
     {
@@ -48,7 +51,7 @@ class ContactForm extends Model
     }
 
     /**
-     * @return array<array<mixed>> the validation rules.
+     * @phpstan-return array<array<mixed>> The validation rules.
      */
     public function rules(): array
     {
