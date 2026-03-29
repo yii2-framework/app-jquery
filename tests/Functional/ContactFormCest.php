@@ -1,0 +1,78 @@
+<?php
+
+declare(strict_types=1);
+
+namespace yii\demo\basic\tests\Functional;
+
+use yii\demo\basic\tests\Support\FunctionalTester;
+
+/**
+ * Functional tests for {@see \yii\demo\basic\Controllers\SiteController::actionContact()} contact form.
+ *
+ * @author Wilmer Arambula <terabytesoftw@gmail.com>
+ * @since 0.1
+ */
+final class ContactFormCest
+{
+    public function _before(FunctionalTester $I): void
+    {
+        $I->amOnRoute('site/contact');
+    }
+
+    public function openContactPage(FunctionalTester $I): void
+    {
+        $I->see('Contact', 'h1');
+    }
+
+    public function submitEmptyForm(FunctionalTester $I): void
+    {
+        $I->submitForm('#contact-form', []);
+        $I->expectTo('see validations errors');
+        $I->see('Contact', 'h1');
+        $I->see('Name cannot be blank');
+        $I->see('Email cannot be blank');
+        $I->see('Phone cannot be blank');
+        $I->see('Subject cannot be blank');
+        $I->see('Body cannot be blank');
+        $I->see('The verification code is incorrect');
+    }
+
+    public function submitFormSuccessfully(FunctionalTester $I): void
+    {
+        $I->submitForm(
+            '#contact-form',
+            [
+                'ContactForm[name]' => 'tester',
+                'ContactForm[email]' => 'tester@example.com',
+                'ContactForm[phone]' => '(555) 123-4567',
+                'ContactForm[subject]' => 'test subject',
+                'ContactForm[body]' => 'test content',
+                'ContactForm[verifyCode]' => 'testme',
+            ],
+        );
+        $I->seeEmailIsSent();
+        $I->dontSeeElement('#contact-form');
+        $I->see('Thank you for contacting us. We will respond to you as soon as possible.');
+    }
+
+    public function submitFormWithIncorrectEmail(FunctionalTester $I): void
+    {
+        $I->submitForm(
+            '#contact-form',
+            [
+                'ContactForm[name]' => 'tester',
+                'ContactForm[email]' => 'tester.email',
+                'ContactForm[phone]' => '(555) 123-4567',
+                'ContactForm[subject]' => 'test subject',
+                'ContactForm[body]' => 'test content',
+                'ContactForm[verifyCode]' => 'testme',
+            ],
+        );
+        $I->expectTo('see that email address is wrong');
+        $I->dontSee('Name cannot be blank.', '.invalid-feedback');
+        $I->see('Email is not a valid email address.');
+        $I->dontSee('Subject cannot be blank.', '.invalid-feedback');
+        $I->dontSee('Body cannot be blank.', '.invalid-feedback');
+        $I->dontSee('The verification code is incorrect.', '.invalid-feedback');
+    }
+}

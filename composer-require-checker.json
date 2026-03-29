@@ -1,0 +1,3 @@
+{
+    "symbol-whitelist": ["YII_ENV_TEST"]
+}

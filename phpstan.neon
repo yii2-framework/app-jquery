@@ -3,15 +3,21 @@ includes:
 
 parameters:
     bootstrapFiles:
-        - tests/bootstrap.php
+        - tests/_bootstrap.php
 
     level: max
 
     paths:
+        - config
         - src
-        - tests
+        - tests/Acceptance
+        - tests/Functional
+        - tests/Unit
 
     tmpDir: %currentWorkingDirectory%/runtime
+
+    yii2:
+        config_path: tests/Support/phpstan-config.php
 
     # Enable strict advanced checks
     checkImplicitMixed: true
