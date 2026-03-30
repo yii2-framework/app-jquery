@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\Commands;
+namespace app\Commands;
 
 use yii\console\Controller;
 use yii\console\ExitCode;

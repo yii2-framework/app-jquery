@@ -6,9 +6,9 @@ $params = require __DIR__ . '/params.php';
  * Application configuration shared by all test types
  */
 return [
-    'id' => 'demo-basic-tests',
+    'id' => 'app-basic-tests',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'yii\\demo\\basic\\Controllers',
+    'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__) . '/resources/views',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -16,7 +16,7 @@ return [
     ],
     'bootstrap' => [
         \yii\jquery\Bootstrap::class,
-        \yii\demo\basic\tests\Support\MailerBootstrap::class,
+        \app\tests\Support\MailerBootstrap::class,
     ],
     'language' => 'en-US',
     'components' => [
@@ -33,7 +33,7 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => \yii\demo\basic\Models\User::class,
+            'identityClass' => \app\Models\User::class,
         ],
         'request' => [
             'cookieValidationKey' => 'test',

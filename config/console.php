@@ -4,9 +4,9 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'demo-basic-console',
+    'id' => 'app-basic-console',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'yii\\demo\\basic\\Commands',
+    'controllerNamespace' => 'app\\Commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => dirname(__DIR__) . '/node_modules',

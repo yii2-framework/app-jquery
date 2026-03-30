@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit\widgets;
+namespace app\tests\Unit\widgets;
 
+use app\Widgets\Alert;
 use Yii;
-use yii\demo\basic\Widgets\Alert;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Widgets\Alert} widget.
+ * Unit tests for {@see \app\Widgets\Alert} widget.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

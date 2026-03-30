@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Functional;
+namespace app\tests\Functional;
 
-use yii\demo\basic\tests\Support\FunctionalTester;
+use app\tests\Support\FunctionalTester;
 
 /**
- * Functional tests for {@see \yii\demo\basic\Controllers\SiteController::actionContact()} contact form.
+ * Functional tests for {@see \app\Controllers\SiteController::actionContact()} contact form.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

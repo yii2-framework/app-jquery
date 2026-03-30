@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit\Models;
+namespace app\tests\Unit\Models;
 
+use app\Models\LoginForm;
 use Yii;
 use yii\base\Security;
-use yii\demo\basic\Models\LoginForm;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Models\LoginForm} model.
+ * Unit tests for {@see \app\Models\LoginForm} model.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

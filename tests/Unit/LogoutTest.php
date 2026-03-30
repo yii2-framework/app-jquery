@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit;
+namespace app\tests\Unit;
 
+use app\Controllers\SiteController;
+use app\Models\User;
 use Yii;
 use yii\base\Security;
-use yii\demo\basic\Controllers\SiteController;
-use yii\demo\basic\Models\User;
 use yii\web\IdentityInterface;
 use yii\web\View;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Controllers\SiteController} logout action and layout rendering.
+ * Unit tests for {@see \app\Controllers\SiteController} logout action and layout rendering.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

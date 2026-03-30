@@ -1,5 +1,5 @@
 ---
-namespace: yii\demo\basic\tests
+namespace: app\tests
 bootstrap: _bootstrap.php
 support_namespace: Support
 paths:

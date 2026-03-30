@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit\Models;
+namespace app\tests\Unit\Models;
 
-use yii\demo\basic\Models\ContactForm;
-use yii\demo\basic\tests\Support\UnitTester;
+use app\Models\ContactForm;
+use app\tests\Support\UnitTester;
 use yii\mail\MessageInterface;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Models\ContactForm} model.
+ * Unit tests for {@see \app\Models\ContactForm} model.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

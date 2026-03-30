@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Acceptance;
+namespace app\tests\Acceptance;
 
-use yii\demo\basic\tests\Support\AcceptanceTester;
+use app\tests\Support\AcceptanceTester;
 use yii\helpers\Url;
 
 /**

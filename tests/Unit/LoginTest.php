@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit;
+namespace app\tests\Unit;
 
+use app\Controllers\SiteController;
+use app\Models\User;
 use Yii;
 use yii\base\Security;
-use yii\demo\basic\Controllers\SiteController;
-use yii\demo\basic\Models\User;
 use yii\web\View;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Controllers\SiteController} login and about actions.
+ * Unit tests for {@see \app\Controllers\SiteController} login and about actions.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
