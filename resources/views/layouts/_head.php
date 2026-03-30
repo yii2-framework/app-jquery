@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /** @var yii\web\View $this */
 
-use yii\demo\basic\Assets\AppAsset;
+use app\Assets\AppAsset;
 
 AppAsset::register($this);
 

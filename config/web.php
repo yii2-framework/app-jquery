@@ -4,10 +4,10 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'demo-basic',
+    'id' => 'app-basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', \yii\jquery\Bootstrap::class],
-    'controllerNamespace' => 'yii\\demo\\basic\\Controllers',
+    'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__) . '/resources/views',
     'container' => [
         'singletons' => [
@@ -32,7 +32,7 @@ $config = [
             'class' => \yii\caching\FileCache::class,
         ],
         'user' => [
-            'identityClass' => \yii\demo\basic\Models\User::class,
+            'identityClass' => \app\Models\User::class,
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

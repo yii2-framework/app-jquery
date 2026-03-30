@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\Models;
+namespace app\Models;
 
 use yii\base\BaseObject;
 use yii\web\IdentityInterface;

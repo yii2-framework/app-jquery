@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\Controllers;
+namespace app\Controllers;
 
+use app\Models\ContactForm;
+use app\Models\LoginForm;
 use Yii;
 use yii\base\Security;
 use yii\captcha\CaptchaAction;
-use yii\demo\basic\Models\ContactForm;
-use yii\demo\basic\Models\LoginForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\mail\MailerInterface;

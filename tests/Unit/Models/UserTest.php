@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Unit\Models;
+namespace app\tests\Unit\Models;
 
-use yii\demo\basic\Models\User;
+use app\Models\User;
 
 /**
- * Unit tests for {@see \yii\demo\basic\Models\User} identity model.
+ * Unit tests for {@see \app\Models\User} identity model.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1

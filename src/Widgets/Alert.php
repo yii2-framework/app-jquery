@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\Widgets;
+namespace app\Widgets;
 
 use Yii;
 use yii\bootstrap5\Alert as BootstrapAlert;

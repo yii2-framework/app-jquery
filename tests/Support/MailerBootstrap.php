@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yii\demo\basic\tests\Support;
+namespace app\tests\Support;
 
 use Yii;
 use yii\base\Application;

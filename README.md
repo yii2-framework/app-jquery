@@ -5,31 +5,30 @@
         <source media="(prefers-color-scheme: light)" srcset="https://www.yiiframework.com/image/design/logo/yii3_full_for_light.svg">
         <img src="https://www.yiiframework.com/image/design/logo/yii3_full_for_light.svg" alt="Yii Framework" height="100">
     </picture>
-    <h1 align="center">Basic Application Demo</h1>
+    <h1 align="center">Basic Application Template</h1>
     <br>
 </p>
 <!-- markdownlint-enable MD041 -->
 
-Basic Application Demo is a skeleton [Yii 2](https://www.yiiframework.com/) application for testing
-[yii2-framework/core](https://github.com/yii2-framework/core) and
-[yii2-framework/jQuery](https://github.com/yii2-framework/jquery) packages.
+Basic Application Template is a skeleton [Yii 2](https://www.yiiframework.com/) application best suited for rapidly
+creating small projects. It includes user login/logout, a contact page with masked phone input, and all commonly
+used configurations.
 
-It includes user login/logout, a contact page with masked phone input, and all commonly used configurations
-to validate the core and jQuery integration layers.
+Use the **"Use this template"** button on GitHub to create your own repository from this template.
 
-[![build](https://img.shields.io/github/actions/workflow/status/yii2-framework/demo-basic/build.yml?style=for-the-badge&logo=github&label=Build)](https://github.com/yii2-framework/demo-basic/actions?query=workflow%3Abuild)
-[![codecov](https://img.shields.io/codecov/c/github/yii2-framework/demo-basic.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Codecov)](https://codecov.io/gh/yii2-framework/demo-basic)
-[![Static Analysis](https://img.shields.io/github/actions/workflow/status/yii2-framework/demo-basic/static.yml?style=for-the-badge&label=Static)](https://github.com/yii2-framework/demo-basic/actions/workflows/static.yml)
+[![build](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-basic/build.yml?style=for-the-badge&logo=github&label=Build)](https://github.com/yii2-framework/app-basic/actions?query=workflow%3Abuild)
+[![codecov](https://img.shields.io/codecov/c/github/yii2-framework/app-basic.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Codecov)](https://codecov.io/gh/yii2-framework/app-basic)
+[![Static Analysis](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-basic/static.yml?style=for-the-badge&label=Static)](https://github.com/yii2-framework/app-basic/actions/workflows/static.yml)
 
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.png">
     <source media="(prefers-color-scheme: light)" srcset="docs/images/home-light.png">
-    <img src="docs/images/home-light.png" alt="Demo Basic Application">
+    <img src="docs/images/home-light.png" alt="Basic Application Template">
 </picture>
 
 ## Docker
 
-[![Apache](https://img.shields.io/github/actions/workflow/status/yii2-framework/demo-basic/docker.yml?style=for-the-badge&logo=apache&label=Apache)](https://github.com/yii2-framework/demo-basic/actions/workflows/docker.yml)
+[![Apache](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-basic/docker.yml?style=for-the-badge&logo=apache&label=Apache)](https://github.com/yii2-framework/app-basic/actions/workflows/docker.yml)
 
 ## Directory structure
 
@@ -68,14 +67,14 @@ at [getcomposer.org](https://getcomposer.org/doc/00-intro.md#installation-nix).
 You can then install this project using the following command:
 
 ```bash
-composer create-project --prefer-dist yii2-framework/demo-basic demo-basic
+composer create-project --prefer-dist yii2-framework/app-basic app-basic
 ```
 
-Now you should be able to access the application through the following URL, assuming `demo-basic` is the directory
+Now you should be able to access the application through the following URL, assuming `app-basic` is the directory
 directly under the Web root.
 
 ```text
-http://localhost/demo-basic/public/
+http://localhost/app-basic/public/
 ```
 
 ## Install with Docker

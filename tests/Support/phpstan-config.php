@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use app\Models\User;
 use yii\caching\FileCache;
-use yii\demo\basic\Models\User;
 use yii\log\FileTarget;
 use yii\symfonymailer\Mailer;
 use yii\web\Application;
@@ -16,9 +16,9 @@ return [
     'phpstan' => [
         'application_type' => Application::class,
     ],
-    'id' => 'demo-basic-phpstan',
+    'id' => 'app-basic-phpstan',
     'basePath' => dirname(__DIR__, 2),
-    'controllerNamespace' => 'yii\\demo\\basic\\Controllers',
+    'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__, 2) . '/resources/views',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
