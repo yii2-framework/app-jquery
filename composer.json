@@ -25,7 +25,7 @@
         "codeception/lib-innerbrowser": "^4.0",
         "codeception/module-asserts": "^3.0",
         "codeception/module-filesystem": "^3.0",
-        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-phpbrowser": "^4.0",
         "codeception/module-yii2": "^1.1",
         "codeception/verify": "^3.0",
         "maglnet/composer-require-checker": "^4.17",
