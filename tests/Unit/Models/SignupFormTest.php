@@ -8,6 +8,7 @@ use app\Models\SignupForm;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
+use RuntimeException;
 use Yii;
 use yii\base\Event;
 use yii\base\ModelEvent;
@@ -69,9 +70,19 @@ final class SignupFormTest extends \Codeception\Test\Unit
             ],
         );
 
-        self::assertInstanceOf(User::class, $user, 'Failed asserting that signup persisted an inactive user.');
-        self::assertNotNull($user->verification_token, 'Failed asserting that the persisted user has a verification token.');
-        self::assertNotEmpty($user->verification_token, 'Failed asserting that the persisted user verification token is not empty.');
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that 'signup' persisted an 'inactive' user.",
+        );
+        self::assertNotNull(
+            $user->verification_token,
+            'Failed asserting that the persisted user has a verification token.',
+        );
+        self::assertNotEmpty(
+            $user->verification_token,
+            "Failed asserting that the persisted user verification 'token' is not empty.",
+        );
 
         $this->tester?->seeEmailIsSent();
 
@@ -208,6 +219,40 @@ final class SignupFormTest extends \Codeception\Test\Unit
         verify(User::findOne(['username' => 'email_fail_user']))
             ->null(
                 'Failed asserting that user was rolled back after email failure.',
+            );
+    }
+
+    public function testThrowRuntimeExceptionWhenMailerFailsDuringSignup(): void
+    {
+        $handler = static function (): void {
+            throw new RuntimeException('Mailer transport failure');
+        };
+
+        Yii::$app->mailer->on(BaseMailer::EVENT_BEFORE_SEND, $handler);
+
+        $model = new SignupForm(
+            [
+                'username' => 'exception_user',
+                'email' => 'exception@example.com',
+                'password' => 'some_password',
+            ],
+        );
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->signup(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that signup returns 'false' when mailer throws exception.",
+                );
+        } finally {
+            Yii::$app->mailer->off(BaseMailer::EVENT_BEFORE_SEND, $handler);
+        }
+
+        verify(User::findOne(['username' => 'exception_user']))
+            ->null(
+                'Failed asserting that user was rolled back after mailer exception.',
             );
     }
 }

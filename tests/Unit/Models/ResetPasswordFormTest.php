@@ -100,7 +100,7 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
             );
     }
 
-    public function testResetWrongToken(): void
+    public function testThrowInvalidArgumentExceptionWhenTokenIsEmptyOrInvalid(): void
     {
         $this->tester?->expectThrowable(
             InvalidArgumentException::class,
@@ -108,7 +108,6 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
                 new ResetPasswordForm('');
             },
         );
-
         $this->tester?->expectThrowable(
             InvalidArgumentException::class,
             static function (): void {

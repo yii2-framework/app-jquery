@@ -35,7 +35,7 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
         ];
     }
 
-    public function testAlreadyActivatedToken(): void
+    public function testThrowInvalidArgumentExceptionWhenTokenBelongsToActiveUser(): void
     {
         $user = User::findOne(['username' => 'test2.test']);
 
@@ -55,6 +55,22 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
             InvalidArgumentException::class,
             static function () use ($token): void {
                 new VerifyEmailForm($token);
+            },
+        );
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenTokenIsEmptyOrInvalid(): void
+    {
+        $this->tester?->expectThrowable(
+            InvalidArgumentException::class,
+            static function (): void {
+                new VerifyEmailForm('');
+            },
+        );
+        $this->tester?->expectThrowable(
+            InvalidArgumentException::class,
+            static function (): void {
+                new VerifyEmailForm('notexistingtoken_1391882543');
             },
         );
     }
@@ -133,22 +149,5 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
             ->null(
                 "Failed asserting that verifyEmail returns 'null' when user is 'null'.",
             );
-    }
-
-    public function testVerifyWrongToken(): void
-    {
-        $this->tester?->expectThrowable(
-            InvalidArgumentException::class,
-            static function (): void {
-                new VerifyEmailForm('');
-            },
-        );
-
-        $this->tester?->expectThrowable(
-            InvalidArgumentException::class,
-            static function (): void {
-                new VerifyEmailForm('notexistingtoken_1391882543');
-            },
-        );
     }
 }

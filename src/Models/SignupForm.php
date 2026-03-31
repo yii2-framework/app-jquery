@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Models;
 
+use Throwable;
 use Yii;
 use yii\base\Model;
 use yii\mail\MailerInterface;
@@ -93,30 +94,37 @@ class SignupForm extends Model
 
         $transaction = Yii::$app->db->beginTransaction();
 
-        $user = new User();
+        try {
+            $user = new User();
 
-        $user->username = $this->username;
-        $user->email = $this->email;
+            $user->username = $this->username;
+            $user->email = $this->email;
 
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->generateEmailVerificationToken();
 
-        if (!$user->save()) {
+            if (!$user->save()) {
+                $transaction->rollBack();
+
+                return false;
+            }
+
+            if (!$this->sendEmail($mailer, $user, $supportEmail, $appName)) {
+                $transaction->rollBack();
+
+                return false;
+            }
+
+            $transaction->commit();
+
+            return true;
+        } catch (Throwable $e) {
             $transaction->rollBack();
+            Yii::error($e->getMessage(), __METHOD__);
 
             return false;
         }
-
-        if (!$this->sendEmail($mailer, $user, $supportEmail, $appName)) {
-            $transaction->rollBack();
-
-            return false;
-        }
-
-        $transaction->commit();
-
-        return true;
     }
 
     /**

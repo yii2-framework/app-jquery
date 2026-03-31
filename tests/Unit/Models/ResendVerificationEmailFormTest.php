@@ -8,6 +8,7 @@ use app\Models\ResendVerificationEmailForm;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
+use RuntimeException;
 use Yii;
 use yii\base\Event;
 use yii\base\ModelEvent;
@@ -187,6 +188,31 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
                 $user->verification_token,
                 "Failed asserting that email 'body' contains the verification 'token'.",
             );
+    }
+
+    public function testThrowRuntimeExceptionWhenMailerFailsDuringSendEmail(): void
+    {
+        $handler = static function (): void {
+            throw new RuntimeException('Mailer transport failure');
+        };
+
+        Yii::$app->mailer->on(\yii\mail\BaseMailer::EVENT_BEFORE_SEND, $handler);
+
+        $model = new ResendVerificationEmailForm();
+
+        $model->attributes = ['email' => 'test.test@example.com'];
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->sendEmail(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that sendEmail returns 'false' when mailer throws exception.",
+                );
+        } finally {
+            Yii::$app->mailer->off(\yii\mail\BaseMailer::EVENT_BEFORE_SEND, $handler);
+        }
     }
 
     public function testWrongEmailAddress(): void

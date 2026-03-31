@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Models;
 
+use Throwable;
 use Yii;
 use yii\base\Model;
 use yii\mail\MailerInterface;
@@ -61,32 +62,39 @@ class ResendVerificationEmailForm extends Model
 
         $transaction = Yii::$app->db->beginTransaction();
 
-        $user->generateEmailVerificationToken();
+        try {
+            $user->generateEmailVerificationToken();
 
-        if (!$user->save(false)) {
+            if (!$user->save(false)) {
+                $transaction->rollBack();
+
+                return false;
+            }
+
+            $sent = $mailer
+                ->compose(
+                    ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+                    ['user' => $user],
+                )
+                ->setFrom([$supportEmail => $appName . ' robot'])
+                ->setTo($this->email)
+                ->setSubject('Account registration at ' . $appName)
+                ->send();
+
+            if (!$sent) {
+                $transaction->rollBack();
+
+                return false;
+            }
+
+            $transaction->commit();
+
+            return true;
+        } catch (Throwable $e) {
             $transaction->rollBack();
+            Yii::error($e->getMessage(), __METHOD__);
 
             return false;
         }
-
-        $sent = $mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user],
-            )
-            ->setFrom([$supportEmail => $appName . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Account registration at ' . $appName)
-            ->send();
-
-        if (!$sent) {
-            $transaction->rollBack();
-
-            return false;
-        }
-
-        $transaction->commit();
-
-        return true;
     }
 }

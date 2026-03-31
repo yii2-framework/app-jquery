@@ -36,16 +36,6 @@ final class UserTest extends \Codeception\Test\Unit
         ];
     }
 
-    public function testFindIdentityByAccessTokenThrowsException(): void
-    {
-        $this->tester?->expectThrowable(
-            NotSupportedException::class,
-            static function (): void {
-                User::findIdentityByAccessToken('any-token');
-            },
-        );
-    }
-
     public function testFindUserById(): void
     {
         $user = User::findIdentity(1);
@@ -312,6 +302,16 @@ final class UserTest extends \Codeception\Test\Unit
             ->true(
                 'Failed asserting that the newly set password validates correctly.',
             );
+    }
+
+    public function testThrowNotSupportedExceptionWhenFindIdentityByAccessToken(): void
+    {
+        $this->tester?->expectThrowable(
+            NotSupportedException::class,
+            static function (): void {
+                User::findIdentityByAccessToken('any-token');
+            },
+        );
     }
 
     public function testValidateAuthKey(): void

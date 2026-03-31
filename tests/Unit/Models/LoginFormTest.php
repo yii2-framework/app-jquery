@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\tests\Unit\Models;
 
 use app\Models\LoginForm;
-use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use Yii;
 
