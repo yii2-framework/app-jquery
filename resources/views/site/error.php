@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-/** @var yii\web\View $this */
-/** @var string $name */
-/** @var string $message */
 /** @var \Throwable $exception */
+/** @var string $message */
+/** @var string $name */
+/** @var yii\web\View $this */
 
 use yii\helpers\Html;
 use yii\web\HttpException;

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-/** @var app\Models\LoginForm $model */
+/** @var app\Models\ResendVerificationEmailForm $model */
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var yii\web\View $this */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Login to your account';
+$this->title = 'Resend verification email';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['meta_description'] = 'Log in to access your Yii2 application account.';
+$this->params['meta_description'] = 'Resend the verification email to confirm your account.';
 $htmlIcon = <<<HTML
 {label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
 $labelOptions = ['class' => 'form-label fw-semibold small'];
 ?>
-<div class="site-login d-flex align-items-center justify-content-center py-5">
+<div class="site-resend-verification-email d-flex align-items-center justify-content-center py-5">
     <div class="card border-0 overflow-hidden login-split-card">
         <div class="row g-0">
 
@@ -36,10 +36,10 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     </div>
                     <div>
                         <h2 class="fw-bold mb-3 login-brand-title">
-                            Welcome<br>Back
+                            Verify Your<br>Email
                         </h2>
                         <p class="opacity-75 mb-0 login-brand-text">
-                            Log in to access your Yii2 application and manage your account.
+                            We will send a new verification email to confirm your account.
                         </p>
                     </div>
                 </div>
@@ -49,7 +49,6 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
             <div class="col-md-7">
                 <div class="p-4 p-lg-5">
                     <div class="text-center mb-4">
-                        <!-- Mobile-only logo -->
                         <div class="d-md-none mb-3">
                             <?= Html::img(
                                 Yii::getAlias('@web/images/yii3_full_black_for_light.svg'),
@@ -61,44 +60,28 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             ) ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Enter your credentials to continue</p>
+                        <p class="text-body-secondary small">Enter your email to receive a new verification link</p>
                     </div>
 
-                    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                    <div class="mb-3">
-                        <?= $form->field($model, 'username', [
-                            'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128100;'),
-                            'inputOptions' => [
-                                'class' => 'form-control',
-                                'placeholder' => 'username',
-                                'autofocus' => true,
-                            ],
-                        ])->textInput()->label('Your Username', $labelOptions) ?>
-                    </div>
-
-                    <div class="mb-3">
-                        <?= $form->field($model, 'password', [
-                            'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128274;'),
-                            'inputOptions' => [
-                                'class' => 'form-control',
-                                'placeholder' => 'Password',
-                            ],
-                        ])->passwordInput()->label('Your Password', $labelOptions) ?>
-                    </div>
+                    <?php $form = ActiveForm::begin(['id' => 'resend-verification-email-form']); ?>
 
                     <div class="mb-4">
-                        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        <?= $form->field($model, 'email', [
+                            'options' => ['class' => 'mb-0'],
+                            'template' => sprintf($htmlIcon, '&#9993;'),
+                            'inputOptions' => [
+                                'autofocus' => true,
+                                'class' => 'form-control',
+                                'placeholder' => 'email@example.com',
+                            ],
+                        ])->textInput()->label('Your Email', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">
                         <?= Html::submitButton(
-                            'Login',
+                            'Send',
                             [
                                 'class' => 'btn login-btn btn-lg rounded-3 text-white',
-                                'name' => 'login-button',
                             ],
                         ) ?>
                     </div>
@@ -106,11 +89,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <?php ActiveForm::end(); ?>
 
                     <div class="text-body-secondary text-center mt-3 small">
-                        <?= Html::a('Forgot your password?', ['site/request-password-reset']) ?>
-                        <br>
-                        Don't have an account? <?= Html::a('Sign up', ['site/signup']) ?>
-                        <br>
-                        <?= Html::a("Didn't receive verification email?", ['site/resend-verification-email']) ?>
+                        Already verified? <?= Html::a('Login', ['site/login']) ?>
                     </div>
 
                 </div>

@@ -6,7 +6,6 @@ namespace app\Models;
 
 use Yii;
 use yii\base\Model;
-use yii\base\Security;
 
 /**
  * Represents the login form model with username/password authentication.
@@ -22,33 +21,18 @@ class LoginForm extends Model
     public bool $rememberMe = true;
     public string $username = '';
 
-    private User|null $user = null;
-    private bool $userLoaded = false;
-    private string $userLookup = '';
-
-    /**
-     * @param Security $security The security component.
-     * @param array $config name-value pairs that will be used to initialize the object properties.
-     *
-     * @phpstan-param array<string, mixed> $config
-     */
-    public function __construct(private readonly Security $security, array $config = [])
-    {
-        parent::__construct($config);
-    }
+    private User|null $_user = null;
 
     /**
      * Finds user by [[username]].
      */
     public function getUser(): User|null
     {
-        if (!$this->userLoaded || $this->userLookup !== $this->username) {
-            $this->user = User::findByUsername($this->username);
-            $this->userLoaded = true;
-            $this->userLookup = $this->username;
+        if ($this->_user === null) {
+            $this->_user = User::findByUsername($this->username);
         }
 
-        return $this->user;
+        return $this->_user;
     }
 
     /**
@@ -72,9 +56,18 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'password'], 'required'],
-            ['rememberMe', 'boolean'],
-            ['password', 'validatePassword'],
+            [
+                ['username', 'password'],
+                'required',
+            ],
+            [
+                'rememberMe',
+                'boolean',
+            ],
+            [
+                'password',
+                'validatePassword',
+            ],
         ];
     }
 
@@ -88,7 +81,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if ($user === null || !$this->security->validatePassword($this->password, $user->passwordHash)) {
+            if ($user === null || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }

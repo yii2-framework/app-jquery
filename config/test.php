@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $params = require __DIR__ . '/params.php';
 
 /**
@@ -20,6 +22,7 @@ return [
     ],
     'language' => 'en-US',
     'components' => [
+        'db' => require __DIR__ . '/test_db.php',
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
             'messageClass' => \yii\symfonymailer\Message::class,

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace app\tests\Unit\Models;
 
 use app\Models\LoginForm;
+use app\tests\Support\Fixtures\UserFixture;
 use Yii;
-use yii\base\Security;
 
 /**
  * Unit tests for {@see \app\Models\LoginForm} model.
@@ -16,50 +16,85 @@ use yii\base\Security;
  */
 final class LoginFormTest extends \Codeception\Test\Unit
 {
-    private LoginForm|null $model = null;
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore-next-line
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+        ];
+    }
 
     public function testLoginCorrect(): void
     {
-        $this->model = new LoginForm(
-            new Security(),
+        $model = new LoginForm(
             [
-                'username' => 'demo',
-                'password' => 'demo',
+                'username' => 'okirlin',
+                'password' => 'password_0',
             ],
         );
 
-        verify($this->model->login())->true();
-        verify(Yii::$app->user->isGuest)->false();
-        verify($this->model->errors)->arrayHasNotKey('password');
+        verify($model->login())
+            ->true(
+                'Failed asserting that login succeeds with correct credentials.',
+            );
+        verify(Yii::$app->user->isGuest)
+            ->false(
+                "Failed asserting that 'user' is no longer a guest after login.",
+            );
+        verify($model->errors)
+            ->arrayHasNotKey(
+                'password',
+                "Failed asserting that 'password' error does not exist after successful login.",
+            );
     }
 
     public function testLoginNoUser(): void
     {
-        $this->model = new LoginForm(
-            new Security(),
+        $model = new LoginForm(
             [
                 'username' => 'not_existing_username',
                 'password' => 'not_existing_password',
             ],
         );
 
-        verify($this->model->login())->false();
-        verify(Yii::$app->user->isGuest)->true();
+        verify($model->login())
+            ->false(
+                'Failed asserting that login fails with non-existing username.',
+            );
+        verify(Yii::$app->user->isGuest)
+            ->true(
+                "Failed asserting that 'user' remains a 'guest' after failed login.",
+            );
     }
 
     public function testLoginWrongPassword(): void
     {
-        $this->model = new LoginForm(
-            new Security(),
+        $model = new LoginForm(
             [
-                'username' => 'demo',
+                'username' => 'okirlin',
                 'password' => 'wrong_password',
             ],
         );
 
-        verify($this->model->login())->false();
-        verify(Yii::$app->user->isGuest)->true();
-        verify($this->model->errors)->arrayHasKey('password');
+        verify($model->login())
+            ->false(
+                'Failed asserting that login fails with wrong password.',
+            );
+        verify(Yii::$app->user->isGuest)
+            ->true(
+                "Failed asserting that 'user' remains a 'guest' after wrong password.",
+            );
+        verify($model->errors)
+            ->arrayHasKey(
+                'password',
+                "Failed asserting that a 'password' validation error is present.",
+            );
     }
 
     protected function _after(): void

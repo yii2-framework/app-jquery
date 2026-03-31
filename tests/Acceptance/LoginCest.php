@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\tests\Acceptance;
 
 use app\tests\Support\AcceptanceTester;
+use app\tests\Support\Fixtures\UserFixture;
 use yii\helpers\Url;
 
 /**
@@ -15,14 +16,28 @@ use yii\helpers\Url;
  */
 final class LoginCest
 {
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore binaryOp.invalid
+                'dataFile' => codecept_data_dir() . 'login_data.php',
+            ],
+        ];
+    }
+
     public function ensureThatLoginWorks(AcceptanceTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/login'));
         $I->see('Login', 'h1');
 
         $I->amGoingTo('try to login with correct credentials');
-        $I->fillField('input[name="LoginForm[username]"]', 'admin');
-        $I->fillField('input[name="LoginForm[password]"]', 'admin');
+        $I->fillField('input[name="LoginForm[username]"]', 'erau');
+        $I->fillField('input[name="LoginForm[password]"]', 'password_0');
         $I->click('button[name="login-button"]');
 
         $I->expectTo('see user info');

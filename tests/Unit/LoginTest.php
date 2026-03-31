@@ -6,8 +6,8 @@ namespace app\tests\Unit;
 
 use app\Controllers\SiteController;
 use app\Models\User;
+use app\tests\Support\Fixtures\UserFixture;
 use Yii;
-use yii\base\Security;
 use yii\web\View;
 
 /**
@@ -18,20 +18,37 @@ use yii\web\View;
  */
 final class LoginTest extends \Codeception\Test\Unit
 {
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore binaryOp.invalid
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+        ];
+    }
+
     public function testActionAboutRendersPage(): void
     {
         $controller = new SiteController(
             'site',
             Yii::$app,
             Yii::$app->mailer,
-            new Security(),
         );
 
         Yii::$app->controller = $controller;
 
         $output = $controller->actionAbout();
 
-        self::assertStringContainsString('About', $output);
+        self::assertStringContainsString(
+            'About',
+            $output,
+            'Failed asserting that about page renders content with "About" text.',
+        );
     }
 
     public function testActionLoginRedirectsWhenAlreadyLoggedIn(): void
@@ -40,12 +57,14 @@ final class LoginTest extends \Codeception\Test\Unit
             'site',
             Yii::$app,
             Yii::$app->mailer,
-            new Security(),
         );
 
         $view = new View(['context' => $controller]);
 
-        Yii::$app->user->login(new User());
+        /** @var User $user */
+        $user = User::findIdentity(1);
+
+        Yii::$app->user->login($user);
 
         $controller->actionLogin();
 
@@ -62,7 +81,6 @@ final class LoginTest extends \Codeception\Test\Unit
             'site',
             Yii::$app,
             Yii::$app->mailer,
-            new Security(),
         );
 
         $view = new View(['context' => $controller]);

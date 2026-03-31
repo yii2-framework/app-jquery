@@ -6,18 +6,24 @@ namespace app\Controllers;
 
 use app\Models\ContactForm;
 use app\Models\LoginForm;
+use app\Models\PasswordResetRequestForm;
+use app\Models\ResendVerificationEmailForm;
+use app\Models\ResetPasswordForm;
+use app\Models\SignupForm;
+use app\Models\VerifyEmailForm;
 use Yii;
-use yii\base\Security;
+use yii\base\InvalidArgumentException;
 use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\mail\MailerInterface;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
- * Handles site pages: home, about, contact, login, and logout actions.
+ * Handles site pages: home, about, contact, login, logout, signup, and password recovery actions.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -28,7 +34,6 @@ class SiteController extends Controller
         $id,
         $module,
         private readonly MailerInterface $mailer,
-        private readonly Security $security,
         $config = [],
     ) {
         parent::__construct($id, $module, $config);
@@ -91,10 +96,10 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm($this->security);
+        $model = new LoginForm();
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = $this->request->post();
+        $post = Yii::$app->request->post();
 
         if ($model->load($post) && $model->login()) {
             return $this->goBack();
@@ -115,18 +120,180 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * Requests password reset.
+     */
+    public function actionRequestPasswordReset(): Response|string
+    {
+        $model = new PasswordResetRequestForm();
+
+        /** @phpstan-var array<string, mixed> $post */
+        $post = Yii::$app->request->post();
+
+        /** @phpstan-var array{supportEmail: string} $params */
+        $params = Yii::$app->params;
+
+        if ($model->load($post) && $model->validate()) {
+            $sent = $model->sendEmail(
+                $this->mailer,
+                $params['supportEmail'],
+                Yii::$app->name,
+            );
+
+            if ($sent) {
+                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+
+                return $this->goHome();
+            }
+
+            Yii::$app->session->setFlash(
+                'error',
+                'Sorry, we are unable to reset password for the provided email address.',
+            );
+        }
+
+        return $this->render('requestPasswordResetToken', ['model' => $model]);
+    }
+
+    /**
+     * Resends verification email.
+     */
+    public function actionResendVerificationEmail(): Response|string
+    {
+        $model = new ResendVerificationEmailForm();
+
+        /** @phpstan-var array<string, mixed> $post */
+        $post = Yii::$app->request->post();
+
+        /** @phpstan-var array{supportEmail: string} $params */
+        $params = Yii::$app->params;
+
+        if ($model->load($post) && $model->validate()) {
+            $sent = $model->sendEmail(
+                $this->mailer,
+                $params['supportEmail'],
+                Yii::$app->name,
+            );
+
+            if ($sent) {
+                Yii::$app->session->setFlash(
+                    'success',
+                    'Check your email for further instructions.',
+                );
+
+                return $this->goHome();
+            }
+
+            Yii::$app->session->setFlash(
+                'error',
+                'Sorry, we are unable to resend verification email for the provided email address.',
+            );
+        }
+
+        return $this->render('resendVerificationEmail', ['model' => $model]);
+    }
+
+    /**
+     * Resets password.
+     *
+     * @throws BadRequestHttpException
+     */
+    public function actionResetPassword(string $token): Response|string
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        /** @phpstan-var array<string, mixed> $post */
+        $post = Yii::$app->request->post();
+
+        if ($model->load($post) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash(
+                'success',
+                'New password saved.',
+            );
+
+            return $this->goHome();
+        }
+
+        return $this->render('resetPassword', ['model' => $model]);
+    }
+
     public function actions(): array
     {
         return [
-            'error' => [
-                'class' => ErrorAction::class,
-            ],
             'captcha' => [
                 'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
                 'transparent' => true,
             ],
+            'error' => [
+                'class' => ErrorAction::class,
+            ],
         ];
+    }
+
+    /**
+     * Signs user up.
+     */
+    public function actionSignup(): Response|string
+    {
+        $model = new SignupForm();
+
+        /** @phpstan-var array<string, mixed> $post */
+        $post = Yii::$app->request->post();
+
+        /** @phpstan-var array{supportEmail: string} $params */
+        $params = Yii::$app->params;
+
+        $signed = $model->load($post) && $model->signup(
+            $this->mailer,
+            $params['supportEmail'],
+            Yii::$app->name,
+        ) === true;
+
+        if ($signed) {
+            Yii::$app->session->setFlash(
+                'success',
+                'Thank you for registration. Please check your inbox for verification email.',
+            );
+
+            return $this->goHome();
+        }
+
+        return $this->render('signup', ['model' => $model]);
+    }
+
+    /**
+     * Verifies email address.
+     *
+     * @throws BadRequestHttpException
+     */
+    public function actionVerifyEmail(string $token): Response
+    {
+        try {
+            $model = new VerifyEmailForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->verifyEmail() !== null) {
+            Yii::$app->session->setFlash(
+                'success',
+                'Your email has been confirmed!',
+            );
+
+            return $this->goHome();
+        }
+
+        Yii::$app->session->setFlash(
+            'error',
+            'Sorry, we are unable to verify your account with provided token.',
+        );
+
+        return $this->goHome();
     }
 
     public function behaviors(): array
@@ -134,8 +301,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
+                'only' => ['logout', 'signup'],
                 'rules' => [
+                    [
+                        'actions' => ['signup'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,

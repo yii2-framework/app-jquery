@@ -9,6 +9,9 @@ tests/Support/output
 # composer
 composer.lock
 
+# database
+*.sqlite
+
 # gitHub copilot config (if present)
 .copilot/
 .github/copilot/**
