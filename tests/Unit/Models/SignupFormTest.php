@@ -26,17 +26,18 @@ final class SignupFormTest extends \Codeception\Test\Unit
 {
     protected UnitTester|null $tester = null;
 
-    public function _before(): void
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
     {
-        $this->tester?->haveFixtures(
-            [
-                'user' => [
-                    'class' => UserFixture::class,
-                    // @phpstan-ignore-next-line
-                    'dataFile' => codecept_data_dir() . 'user.php',
-                ],
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore-next-line
+                'dataFile' => codecept_data_dir() . 'user.php',
             ],
-        );
+        ];
     }
 
     public function testCorrectSignup(): void
@@ -59,7 +60,6 @@ final class SignupFormTest extends \Codeception\Test\Unit
                 'Failed asserting that signup returns a truthy value on success.',
             );
 
-        /** @phpstan-var User $user */
         $user = $this->tester?->grabRecord(
             User::class,
             [
@@ -68,6 +68,10 @@ final class SignupFormTest extends \Codeception\Test\Unit
                 'status' => User::STATUS_INACTIVE,
             ],
         );
+
+        self::assertInstanceOf(User::class, $user, 'Failed asserting that signup persisted an inactive user.');
+        self::assertNotNull($user->verification_token, 'Failed asserting that the persisted user has a verification token.');
+        self::assertNotEmpty($user->verification_token, 'Failed asserting that the persisted user verification token is not empty.');
 
         $this->tester?->seeEmailIsSent();
 
@@ -97,7 +101,7 @@ final class SignupFormTest extends \Codeception\Test\Unit
         /** @phpstan-var \yii\symfonymailer\Message $mail */
         verify($mail->getSymfonyEmail()->getTextBody())
             ->stringContainsString(
-                $user->verification_token ?? '',
+                $user->verification_token,
                 'Failed asserting that email body contains the verification token.',
             );
     }

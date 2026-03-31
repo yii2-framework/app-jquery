@@ -55,6 +55,44 @@ final class LoginFormTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testLoginDeletedAccount(): void
+    {
+        $model = new LoginForm(
+            [
+                'username' => 'troy.becker',
+                'password' => 'password_0',
+            ],
+        );
+
+        verify($model->login())
+            ->false(
+                'Failed asserting that login fails for a deleted account.',
+            );
+        verify(Yii::$app->user->isGuest)
+            ->true(
+                "Failed asserting that 'user' remains a 'guest' after deleted account login attempt.",
+            );
+    }
+
+    public function testLoginInactiveAccount(): void
+    {
+        $model = new LoginForm(
+            [
+                'username' => 'test.test',
+                'password' => 'Test1234',
+            ],
+        );
+
+        verify($model->login())
+            ->false(
+                'Failed asserting that login fails for an inactive account.',
+            );
+        verify(Yii::$app->user->isGuest)
+            ->true(
+                "Failed asserting that 'user' remains a 'guest' after inactive account login attempt.",
+            );
+    }
+
     public function testLoginNoUser(): void
     {
         $model = new LoginForm(

@@ -98,6 +98,11 @@ final class ResendVerificationEmailCest
 
     public function checkSendFailsWhenMailerErrors(FunctionalTester $I): void
     {
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        $originalToken = $user->verification_token;
+
         // Force mailer `send()` to fail via `EVENT_BEFORE_SEND`.
         $handler = static function (MailEvent $event): void {
             $event->isValid = false;
@@ -111,6 +116,14 @@ final class ResendVerificationEmailCest
                 ['ResendVerificationEmailForm[email]' => 'test.test@example.com'],
             );
             $I->see('Sorry, we are unable to resend verification email for the provided email address.');
+
+            $user->refresh();
+
+            verify($user->verification_token)
+                ->equals(
+                    $originalToken,
+                    'Failed asserting that resend failure leaves the existing verification token untouched.',
+                );
         } finally {
             Yii::$app->mailer->off(BaseMailer::EVENT_BEFORE_SEND, $handler);
         }

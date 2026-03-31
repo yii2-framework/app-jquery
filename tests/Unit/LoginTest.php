@@ -8,6 +8,7 @@ use app\Controllers\SiteController;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use Yii;
+use yii\web\Response;
 use yii\web\View;
 
 use function sprintf;
@@ -73,14 +74,20 @@ final class LoginTest extends \Codeception\Test\Unit
 
         Yii::$app->user->login($user);
 
-        $controller->actionLogin();
+        $result = $controller->actionLogin();
+
+        self::assertInstanceOf(
+            Response::class,
+            $result,
+            "Failed asserting that 'actionLogin' returns a redirect Response for authenticated users.",
+        );
 
         $output = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 
         self::assertStringContainsString(
             sprintf('Logout (%s)', $user->username),
             $output,
-            'Failed asserting that the logout link is rendered for the logged-in user.',
+            "Failed asserting that the 'logout' link is rendered for the 'logged-in' user.",
         );
     }
 

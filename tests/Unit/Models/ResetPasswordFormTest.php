@@ -37,19 +37,18 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
 
     public function testResetCorrectToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
-        verify($user)
-            ->notEmpty(
-                "Failed asserting that fixture user 'okirlin' exists.",
-            );
-        verify($user->password_reset_token)
-            ->notEmpty(
-                "Failed asserting that fixture user 'okirlin' has a 'password reset token'.",
-            );
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
+        self::assertNotNull(
+            $user->password_reset_token,
+            "Failed asserting that fixture user 'okirlin' has a 'password reset token'.",
+        );
 
-        /** @phpstan-var string $token */
         $token = $user->password_reset_token;
 
         $form = new ResetPasswordForm($token);
@@ -75,10 +74,18 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
 
     public function testResetPasswordReturnsFalseWhenUserIsNull(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
-        /** @phpstan-var string $token */
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
+        self::assertNotNull(
+            $user->password_reset_token,
+            "Failed asserting that fixture user 'okirlin' has a 'password reset token'.",
+        );
+
         $token = $user->password_reset_token;
 
         $form = new ResetPasswordForm($token);

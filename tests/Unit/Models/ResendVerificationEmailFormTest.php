@@ -24,17 +24,18 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
 {
     protected UnitTester|null $tester = null;
 
-    public function _before(): void
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
     {
-        $this->tester?->haveFixtures(
-            [
-                'user' => [
-                    'class' => UserFixture::class,
-                    // @phpstan-ignore-next-line
-                    'dataFile' => codecept_data_dir() . 'user.php',
-                ],
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore-next-line
+                'dataFile' => codecept_data_dir() . 'user.php',
             ],
-        );
+        ];
     }
 
     public function testEmptyEmailAddress(): void

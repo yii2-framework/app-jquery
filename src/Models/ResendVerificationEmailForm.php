@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Models;
 
+use Yii;
 use yii\base\Model;
 use yii\mail\MailerInterface;
 
@@ -58,13 +59,17 @@ class ResendVerificationEmailForm extends Model
             return false;
         }
 
+        $transaction = Yii::$app->db->beginTransaction();
+
         $user->generateEmailVerificationToken();
 
         if (!$user->save(false)) {
+            $transaction->rollBack();
+
             return false;
         }
 
-        return $mailer
+        $sent = $mailer
             ->compose(
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
                 ['user' => $user],
@@ -73,5 +78,15 @@ class ResendVerificationEmailForm extends Model
             ->setTo($this->email)
             ->setSubject('Account registration at ' . $appName)
             ->send();
+
+        if (!$sent) {
+            $transaction->rollBack();
+
+            return false;
+        }
+
+        $transaction->commit();
+
+        return true;
     }
 }

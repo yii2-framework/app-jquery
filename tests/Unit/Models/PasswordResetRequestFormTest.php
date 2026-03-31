@@ -24,17 +24,18 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 {
     protected UnitTester|null $tester = null;
 
-    public function _before(): void
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
     {
-        $this->tester?->haveFixtures(
-            [
-                'user' => [
-                    'class' => UserFixture::class,
-                    // @phpstan-ignore-next-line
-                    'dataFile' => codecept_data_dir() . 'user.php',
-                ],
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore-next-line
+                'dataFile' => codecept_data_dir() . 'user.php',
             ],
-        );
+        ];
     }
 
     public function testNotSendEmailsToInactiveUser(): void
@@ -54,8 +55,13 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testSendEmailRegeneratesExpiredToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         // Set an expired token (timestamp far in the past).
         $user->password_reset_token = 'expiredtoken_1000000000';
@@ -85,8 +91,13 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testSendEmailReturnsFalseWhenSaveFails(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         // set an expired token so `generatePasswordResetToken()` + `save()` path is triggered.
         $user->password_reset_token = 'expiredtoken_1000000000';
@@ -119,8 +130,13 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testSendEmailSuccessfully(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         $model = new PasswordResetRequestForm();
 

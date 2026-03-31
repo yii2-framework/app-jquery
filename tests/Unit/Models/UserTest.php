@@ -67,19 +67,18 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testFindUserByPasswordResetToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
-        verify($user)
-            ->notEmpty(
-                "Failed asserting that fixture user 'okirlin' exists.",
-            );
-        verify($user->password_reset_token)
-            ->notEmpty(
-                "Failed asserting that fixture user 'okirlin' has a password reset token.",
-            );
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
+        self::assertNotNull(
+            $user->password_reset_token,
+            "Failed asserting that fixture user 'okirlin' has a password reset token.",
+        );
 
-        /** @phpstan-var string $token */
         $token = $user->password_reset_token;
 
         $foundUser = User::findByPasswordResetToken($token);
@@ -283,8 +282,13 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testRemovePasswordResetToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         $user->removePasswordResetToken();
 
@@ -312,8 +316,13 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testValidateAuthKey(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         verify($user->validateAuthKey($user->auth_key))
             ->true(
@@ -327,8 +336,13 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testValidatePassword(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
 
         verify($user->validatePassword('password_0'))
             ->true(

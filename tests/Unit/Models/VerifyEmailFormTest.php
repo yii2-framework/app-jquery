@@ -21,17 +21,18 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
 {
     protected UnitTester|null $tester = null;
 
-    public function _before(): void
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
     {
-        $this->tester?->haveFixtures(
-            [
-                'user' => [
-                    'class' => UserFixture::class,
-                    // @phpstan-ignore binaryOp.invalid
-                    'dataFile' => codecept_data_dir() . 'user.php',
-                ],
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore-next-line
+                'dataFile' => codecept_data_dir() . 'user.php',
             ],
-        );
+        ];
     }
 
     public function testAlreadyActivatedToken(): void
@@ -124,7 +125,6 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
         );
 
         $form = new VerifyEmailForm($user->verification_token);
-
         $reflection = new ReflectionProperty($form, 'user');
 
         $reflection->setValue($form, null);
