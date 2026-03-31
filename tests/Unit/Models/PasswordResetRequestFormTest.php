@@ -66,7 +66,10 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         // Set an expired token (timestamp far in the past).
         $user->password_reset_token = 'expiredtoken_1000000000';
 
-        $user->save(false);
+        self::assertTrue(
+            $user->save(false),
+            "Failed asserting that the 'expired token' was persisted.",
+        );
 
         $model = new PasswordResetRequestForm();
 
@@ -102,7 +105,10 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         // set an expired token so `generatePasswordResetToken()` + `save()` path is triggered.
         $user->password_reset_token = 'expiredtoken_1000000000';
 
-        $user->save(false);
+        self::assertTrue(
+            $user->save(false),
+            'Failed asserting that the expired token was persisted.',
+        );
 
         // force `save()` to fail via `EVENT_BEFORE_SAVE` at the class level.
         $handler = static function (ModelEvent $event): void {
@@ -149,6 +155,9 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
             ->notEmpty(
                 "Failed asserting that 'password reset' email is sent successfully.",
             );
+
+        $user->refresh();
+
         verify($user->password_reset_token)
             ->notEmpty(
                 "Failed asserting that user has a 'password reset token' after sending.",

@@ -67,13 +67,10 @@ class PasswordResetRequestForm extends Model
         }
 
         return $mailer
-            ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user],
-            )
-            ->setFrom([$supportEmail => $appName . ' robot'])
+            ->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
+            ->setFrom([$supportEmail => "{$appName} robot"])
             ->setTo($this->email)
-            ->setSubject('Password reset for ' . $appName)
+            ->setSubject("Password reset for {$appName}")
             ->send();
     }
 }

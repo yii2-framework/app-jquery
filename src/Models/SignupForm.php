@@ -92,9 +92,11 @@ class SignupForm extends Model
             return null;
         }
 
-        $transaction = Yii::$app->db->beginTransaction();
+        $transaction = null;
 
         try {
+            $transaction = Yii::$app->db->beginTransaction();
+
             $user = new User();
 
             $user->username = $this->username;
@@ -120,7 +122,10 @@ class SignupForm extends Model
 
             return true;
         } catch (Throwable $e) {
-            $transaction->rollBack();
+            if ($transaction !== null && $transaction->isActive) {
+                $transaction->rollBack();
+            }
+
             Yii::error($e->getMessage(), __METHOD__);
 
             return false;
@@ -133,13 +138,10 @@ class SignupForm extends Model
     protected function sendEmail(MailerInterface $mailer, User $user, string $supportEmail, string $appName): bool
     {
         return $mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user],
-            )
-            ->setFrom([$supportEmail => $appName . ' robot'])
+            ->compose(['html' => 'emailVerify-html', 'text' => 'emailVerify-text'], ['user' => $user])
+            ->setFrom([$supportEmail => "{$appName} robot"])
             ->setTo($this->email)
-            ->setSubject('Account registration at ' . $appName)
+            ->setSubject("Account registration at {$appName}")
             ->send();
     }
 }

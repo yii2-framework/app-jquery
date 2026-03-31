@@ -301,24 +301,41 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup', 'request-password-reset', 'resend-verification-email'],
+                'only' => [
+                    'logout',
+                    'signup',
+                    'request-password-reset',
+                    'resend-verification-email',
+                ],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'request-password-reset', 'resend-verification-email'],
+                        'actions' => [
+                            'signup',
+                            'request-password-reset',
+                            'resend-verification-email',
+                        ],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => [
+                            '?',
+                        ],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => [
+                            'logout',
+                        ],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => [
+                            '@',
+                        ],
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => [
+                        'post',
+                    ],
                 ],
             ],
         ];

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use yii\db\Connection;
+
 return [
-    'class' => \yii\db\Connection::class,
+    'class' => Connection::class,
     'dsn' => 'sqlite:' . dirname(__DIR__) . '/tests/Support/data/test.sqlite',
 ];

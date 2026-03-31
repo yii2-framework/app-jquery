@@ -79,7 +79,10 @@ final class ResendVerificationEmailCest
         // set an expired verification token.
         $user->verification_token = 'expiredtoken_1000000000';
 
-        $user->save(false);
+        Assert::assertTrue(
+            $user->save(false),
+            "Failed asserting that the 'expired' verification 'token' was persisted.",
+        );
 
         verify(User::isVerificationTokenValid($user->verification_token))
             ->false('Failed asserting that the token is expired before resend.');

@@ -60,9 +60,11 @@ class ResendVerificationEmailForm extends Model
             return false;
         }
 
-        $transaction = Yii::$app->db->beginTransaction();
+        $transaction = null;
 
         try {
+            $transaction = Yii::$app->db->beginTransaction();
+
             $user->generateEmailVerificationToken();
 
             if (!$user->save(false)) {
@@ -72,13 +74,10 @@ class ResendVerificationEmailForm extends Model
             }
 
             $sent = $mailer
-                ->compose(
-                    ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                    ['user' => $user],
-                )
-                ->setFrom([$supportEmail => $appName . ' robot'])
+                ->compose(['html' => 'emailVerify-html', 'text' => 'emailVerify-text'], ['user' => $user])
+                ->setFrom([$supportEmail => "{$appName} robot"])
                 ->setTo($this->email)
-                ->setSubject('Account registration at ' . $appName)
+                ->setSubject("Account registration at {$appName}")
                 ->send();
 
             if (!$sent) {
@@ -91,7 +90,10 @@ class ResendVerificationEmailForm extends Model
 
             return true;
         } catch (Throwable $e) {
-            $transaction->rollBack();
+            if ($transaction !== null && $transaction->isActive) {
+                $transaction->rollBack();
+            }
+
             Yii::error($e->getMessage(), __METHOD__);
 
             return false;

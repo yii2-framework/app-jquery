@@ -27,7 +27,9 @@ class ContactForm extends Model
      */
     public function attributeLabels(): array
     {
-        return ['verifyCode' => 'Verification Code'];
+        return [
+            'verifyCode' => 'Verification Code',
+        ];
     }
 
     /**
@@ -55,7 +57,13 @@ class ContactForm extends Model
     {
         return [
             [
-                ['name', 'email', 'phone', 'subject', 'body'],
+                [
+                    'name',
+                    'email',
+                    'phone',
+                    'subject',
+                    'body',
+                ],
                 'required',
             ],
             [
@@ -65,7 +73,8 @@ class ContactForm extends Model
             [
                 'phone',
                 'match',
-                'pattern' => '/^\(\d{3}\) \d{3}-\d{4}$/', 'message' => 'Phone number must match (999) 999-9999 format.',
+                'pattern' => '/^\(\d{3}\) \d{3}-\d{4}$/',
+                'message' => 'Phone number must match (999) 999-9999 format.',
             ],
             [
                 'verifyCode',

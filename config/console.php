@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use yii\caching\FileCache;
+use yii\console\controllers\MigrateController;
+use yii\console\controllers\ServeController;
+use yii\log\FileTarget;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -17,23 +22,25 @@ $config = [
     ],
     'controllerMap' => [
         'migrate' => [
-            'class' => \yii\console\controllers\MigrateController::class,
-            'migrationNamespaces' => ['app\\Migrations'],
+            'class' => MigrateController::class,
+            'migrationNamespaces' => [
+                'app\\Migrations',
+            ],
             'migrationPath' => null,
         ],
         'serve' => [
-            'class' => \yii\console\controllers\ServeController::class,
+            'class' => ServeController::class,
             'docroot' => '@app/public',
         ],
     ],
     'components' => [
         'cache' => [
-            'class' => \yii\caching\FileCache::class,
+            'class' => FileCache::class,
         ],
         'log' => [
             'targets' => [
                 [
-                    'class' => \yii\log\FileTarget::class,
+                    'class' => FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],

@@ -36,7 +36,9 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function behaviors(): array
     {
-        return [TimestampBehavior::class];
+        return [
+            TimestampBehavior::class,
+        ];
     }
 
     /**
@@ -61,7 +63,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername(string $username): self|null
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(
+            [
+                'username' => $username,
+                'status' => self::STATUS_ACTIVE,
+            ],
+        );
     }
 
     /**
@@ -86,7 +93,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id): self|null
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(
+            [
+                'id' => $id,
+                'status' => self::STATUS_ACTIVE,
+            ],
+        );
     }
 
     /**
