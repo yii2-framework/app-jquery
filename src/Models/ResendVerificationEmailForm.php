@@ -58,6 +58,12 @@ class ResendVerificationEmailForm extends Model
             return false;
         }
 
+        $user->generateEmailVerificationToken();
+
+        if (!$user->save(false)) {
+            return false;
+        }
+
         return $mailer
             ->compose(
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],

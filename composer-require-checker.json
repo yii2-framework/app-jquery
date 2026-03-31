@@ -1,3 +1,6 @@
 {
-    "symbol-whitelist": ["YII_ENV_TEST"]
+    "symbol-whitelist": [
+        "ctype_digit",
+        "YII_ENV_TEST"
+    ]
 }

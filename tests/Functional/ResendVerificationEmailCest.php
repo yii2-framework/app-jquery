@@ -65,6 +65,37 @@ final class ResendVerificationEmailCest
         $I->see('Enter your email to receive a new verification link');
     }
 
+    public function checkResendWithExpiredTokenGeneratesNewToken(FunctionalTester $I): void
+    {
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        // Set an expired verification token.
+        $user->verification_token = 'expiredtoken_1000000000';
+
+        $user->save(false);
+
+        verify(User::isVerificationTokenValid($user->verification_token))
+            ->false('Failed asserting that the token is expired before resend.');
+
+        $I->submitForm(
+            $this->formId,
+            ['ResendVerificationEmailForm[email]' => 'test.test@example.com'],
+        );
+        $I->canSeeEmailIsSent();
+        $I->see('Check your email for further instructions.');
+
+        $user->refresh();
+
+        verify(User::isVerificationTokenValid($user->verification_token))
+            ->true('Failed asserting that a fresh verification token was generated after resend.');
+        verify($user->verification_token)
+            ->notEquals(
+                'expiredtoken_1000000000',
+                'Failed asserting that the expired token was replaced.',
+            );
+    }
+
     public function checkSendFailsWhenMailerErrors(FunctionalTester $I): void
     {
         // Force mailer `send()` to fail via `EVENT_BEFORE_SEND`.

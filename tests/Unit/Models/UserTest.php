@@ -82,9 +82,16 @@ final class UserTest extends \Codeception\Test\Unit
         /** @phpstan-var string $token */
         $token = $user->password_reset_token;
 
-        verify(User::findByPasswordResetToken($token))
+        $foundUser = User::findByPasswordResetToken($token);
+
+        verify($foundUser)
             ->notEmpty(
                 "Failed asserting that user is found by a valid 'password reset token'.",
+            );
+        verify($foundUser?->username)
+            ->equals(
+                'okirlin',
+                "Failed asserting that password reset token resolves to user 'okirlin'.",
             );
         verify(User::findByPasswordResetToken('notexistingtoken_1391882543'))
             ->empty(
@@ -106,12 +113,28 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testFindUserByVerificationToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
 
-        verify(User::findByVerificationToken($user->verification_token ?? ''))
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
+        self::assertNotNull(
+            $user->verification_token,
+            "Failed asserting that fixture user 'test.test' has a verification token.",
+        );
+
+        $foundUser = User::findByVerificationToken($user->verification_token);
+
+        verify($foundUser)
             ->notEmpty(
                 'Failed asserting that inactive user is found by verification token.',
+            );
+        verify($foundUser?->username)
+            ->equals(
+                'test.test',
+                "Failed asserting that verification token resolves to user 'test.test'.",
             );
         verify(User::findByVerificationToken('non_existing_token'))
             ->empty(
@@ -145,6 +168,10 @@ final class UserTest extends \Codeception\Test\Unit
         verify($user->verification_token)
             ->notEmpty(
                 'Failed asserting that email verification token is generated.',
+            );
+        verify(User::isVerificationTokenValid($user->verification_token))
+            ->true(
+                'Failed asserting that newly generated verification token is valid.',
             );
     }
 

@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace app\tests\Unit\Models;
 
 use app\Models\ResendVerificationEmailForm;
+use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
 use Yii;
+use yii\base\Event;
+use yii\base\ModelEvent;
+use yii\db\BaseActiveRecord;
 use yii\mail\MessageInterface;
 
 /**
@@ -75,6 +79,31 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testSendEmailReturnsFalseWhenSaveFails(): void
+    {
+        $handler = static function (ModelEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Event::on(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+
+        $model = new ResendVerificationEmailForm();
+
+        $model->attributes = ['email' => 'test.test@example.com'];
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->sendEmail(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that sendEmail returns 'false' when user save fails.",
+                );
+        } finally {
+            Event::off(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+        }
+    }
+
     public function testSendEmailToNonExistingInactiveUser(): void
     {
         $model = new ResendVerificationEmailForm();
@@ -140,7 +169,7 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
             );
 
         /** @phpstan-var \app\Models\User $user */
-        $user = \app\Models\User::findOne(['username' => 'test.test']);
+        $user = User::findOne(['username' => 'test.test']);
 
         /** @phpstan-var \yii\symfonymailer\Message $mail */
         verify($mail->getSymfonyEmail()->getTextBody())
