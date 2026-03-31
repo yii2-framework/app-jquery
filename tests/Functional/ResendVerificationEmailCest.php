@@ -7,6 +7,7 @@ namespace app\tests\Functional;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\FunctionalTester;
+use PHPUnit\Framework\Assert;
 use Yii;
 use yii\helpers\Url;
 use yii\mail\BaseMailer;
@@ -67,10 +68,15 @@ final class ResendVerificationEmailCest
 
     public function checkResendWithExpiredTokenGeneratesNewToken(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
 
-        // Set an expired verification token.
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
+
+        // set an expired verification token.
         $user->verification_token = 'expiredtoken_1000000000';
 
         $user->save(false);
@@ -98,12 +104,17 @@ final class ResendVerificationEmailCest
 
     public function checkSendFailsWhenMailerErrors(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
+
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
 
         $originalToken = $user->verification_token;
 
-        // Force mailer `send()` to fail via `EVENT_BEFORE_SEND`.
+        // force mailer `send()` to fail via `EVENT_BEFORE_SEND`.
         $handler = static function (MailEvent $event): void {
             $event->isValid = false;
         };

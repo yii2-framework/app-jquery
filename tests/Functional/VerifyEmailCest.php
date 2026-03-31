@@ -7,6 +7,7 @@ namespace app\tests\Functional;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\FunctionalTester;
+use PHPUnit\Framework\Assert;
 use yii\base\Event;
 use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
@@ -36,8 +37,13 @@ final class VerifyEmailCest
 
     public function checkAlreadyActivatedToken(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test2.test']);
+
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test2.test' exists.",
+        );
 
         $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Wrong verify email token.');
@@ -63,8 +69,13 @@ final class VerifyEmailCest
 
     public function checkSuccessVerification(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
+
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
 
         $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Your email has been confirmed!');
@@ -80,8 +91,13 @@ final class VerifyEmailCest
 
     public function checkVerificationFailsWhenSaveErrors(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
+
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
 
         // force `save()` to fail via `EVENT_BEFORE_UPDATE` at the class level.
         $handler = static function (ModelEvent $event): void {

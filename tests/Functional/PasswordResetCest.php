@@ -7,6 +7,7 @@ namespace app\tests\Functional;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\FunctionalTester;
+use PHPUnit\Framework\Assert;
 use Yii;
 use yii\helpers\Url;
 use yii\mail\BaseMailer;
@@ -96,10 +97,18 @@ final class PasswordResetCest
 
     public function resetPasswordWithValidToken(FunctionalTester $I): void
     {
-        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
-        /** @phpstan-var string $token */
+        Assert::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'okirlin' exists.",
+        );
+        Assert::assertNotNull(
+            $user->password_reset_token,
+            "Failed asserting that fixture user 'okirlin' has a 'password reset token'.",
+        );
+
         $token = $user->password_reset_token;
 
         $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => $token]));
