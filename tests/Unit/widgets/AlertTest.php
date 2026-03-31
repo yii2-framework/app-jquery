@@ -16,14 +16,34 @@ use Yii;
 class AlertTest extends \Codeception\Test\Unit
 {
     /**
-     * @var array<string, array{string, string, string[]}>
+     * @phpstan-var array<string, array{string, string, string[]}>
      */
     private const ALERT_TYPE_CASES = [
-        'danger' => ['danger', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-        'error' => ['error', 'alert-danger', ['alert-success', 'alert-info', 'alert-warning']],
-        'info' => ['info', 'alert-info', ['alert-danger', 'alert-success', 'alert-warning']],
-        'success' => ['success', 'alert-success', ['alert-danger', 'alert-info', 'alert-warning']],
-        'warning' => ['warning', 'alert-warning', ['alert-danger', 'alert-success', 'alert-info']],
+        'danger' => [
+            'danger',
+            'alert-danger',
+            ['alert-success', 'alert-info', 'alert-warning'],
+        ],
+        'error' => [
+            'error',
+            'alert-danger',
+            ['alert-success', 'alert-info', 'alert-warning'],
+        ],
+        'info' => [
+            'info',
+            'alert-info',
+            ['alert-danger', 'alert-success', 'alert-warning'],
+        ],
+        'success' => [
+            'success',
+            'alert-success',
+            ['alert-danger', 'alert-info', 'alert-warning'],
+        ],
+        'warning' => [
+            'warning',
+            'alert-warning',
+            ['alert-danger', 'alert-success', 'alert-info'],
+        ],
     ];
 
     /**

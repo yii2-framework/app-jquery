@@ -61,7 +61,7 @@ final class LoginTest extends \Codeception\Test\Unit
 
         $view = new View(['context' => $controller]);
 
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findIdentity(1);
 
         Yii::$app->user->login($user);

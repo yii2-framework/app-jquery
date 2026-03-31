@@ -36,9 +36,12 @@ final class LoginFormCest
 
     public function checkEmpty(FunctionalTester $I): void
     {
-        $I->submitForm('#login-form', []);
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
+        $I->submitForm(
+            '#login-form',
+            [],
+        );
+        $I->see('Username cannot be blank.', '.invalid-feedback');
+        $I->see('Password cannot be blank.', '.invalid-feedback');
     }
 
     public function checkInactiveAccount(FunctionalTester $I): void
@@ -50,7 +53,7 @@ final class LoginFormCest
                 'LoginForm[password]' => 'Test1234',
             ],
         );
-        $I->seeValidationError('Incorrect username or password');
+        $I->see('Incorrect username or password.', '.invalid-feedback');
     }
 
     public function checkValidLogin(FunctionalTester $I): void
@@ -69,10 +72,13 @@ final class LoginFormCest
 
     public function checkWrongPassword(FunctionalTester $I): void
     {
-        $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'erau',
-            'LoginForm[password]' => 'wrong',
-        ]);
-        $I->seeValidationError('Incorrect username or password.');
+        $I->submitForm(
+            '#login-form',
+            [
+                'LoginForm[username]' => 'erau',
+                'LoginForm[password]' => 'wrong',
+            ],
+        );
+        $I->see('Incorrect username or password.', '.invalid-feedback');
     }
 }

@@ -7,7 +7,10 @@ namespace app\tests\Functional;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\FunctionalTester;
+use Yii;
 use yii\helpers\Url;
+use yii\mail\BaseMailer;
+use yii\mail\MailEvent;
 
 /**
  * Functional tests for {@see \app\Controllers\SiteController::actionRequestPasswordReset()} and
@@ -32,12 +35,34 @@ final class PasswordResetCest
         ];
     }
 
+    public function requestResetFailsWhenMailerErrors(FunctionalTester $I): void
+    {
+        // force mailer `send()` to fail via `EVENT_BEFORE_SEND`.
+        $handler = static function (MailEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Yii::$app->mailer->on(BaseMailer::EVENT_BEFORE_SEND, $handler);
+
+        try {
+            $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+            $I->submitForm(
+                '#request-password-reset-form',
+                ['PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com'],
+            );
+            $I->see('Sorry, we are unable to reset password for the provided email address.');
+        } finally {
+            Yii::$app->mailer->off(BaseMailer::EVENT_BEFORE_SEND, $handler);
+        }
+    }
+
     public function requestResetSuccessfully(FunctionalTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/request-password-reset'));
-        $I->submitForm('#request-password-reset-form', [
-            'PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com',
-        ]);
+        $I->submitForm(
+            '#request-password-reset-form',
+            ['PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com'],
+        );
         $I->seeEmailIsSent();
         $I->see('Check your email for further instructions.');
     }
@@ -46,17 +71,21 @@ final class PasswordResetCest
     {
         $I->amOnPage(Url::toRoute('/site/request-password-reset'));
         $I->see('Reset your password', 'h1');
-        $I->submitForm('#request-password-reset-form', []);
-        $I->seeValidationError('Email cannot be blank.');
+        $I->submitForm(
+            '#request-password-reset-form',
+            [],
+        );
+        $I->see('Email cannot be blank.', '.invalid-feedback');
     }
 
     public function requestResetWithWrongEmail(FunctionalTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/request-password-reset'));
-        $I->submitForm('#request-password-reset-form', [
-            'PasswordResetRequestForm[email]' => 'nonexistent@example.com',
-        ]);
-        $I->seeValidationError('There is no user with this email address.');
+        $I->submitForm(
+            '#request-password-reset-form',
+            ['PasswordResetRequestForm[email]' => 'nonexistent@example.com'],
+        );
+        $I->see('There is no user with this email address.', '.invalid-feedback');
     }
 
     public function resetPasswordWithInvalidToken(FunctionalTester $I): void
@@ -67,7 +96,7 @@ final class PasswordResetCest
 
     public function resetPasswordWithValidToken(FunctionalTester $I): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         /** @phpstan-var string $token */
@@ -75,9 +104,10 @@ final class PasswordResetCest
 
         $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => $token]));
         $I->see('Set your new password', 'h1');
-        $I->submitForm('#reset-password-form', [
-            'ResetPasswordForm[password]' => 'newpassword123',
-        ]);
+        $I->submitForm(
+            '#reset-password-form',
+            ['ResetPasswordForm[password]' => 'newpassword123'],
+        );
         $I->see('New password saved.');
     }
 }

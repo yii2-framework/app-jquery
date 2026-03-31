@@ -138,10 +138,14 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
                 'Account registration at ' . Yii::$app->name,
                 "Failed asserting that email 'subject' matches the registration template.",
             );
+
+        /** @phpstan-var \app\Models\User $user */
+        $user = \app\Models\User::findOne(['username' => 'test.test']);
+
         /** @phpstan-var \yii\symfonymailer\Message $mail */
         verify($mail->getSymfonyEmail()->getTextBody())
             ->stringContainsString(
-                '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330',
+                $user->verification_token ?? '',
                 "Failed asserting that email 'body' contains the verification 'token'.",
             );
     }

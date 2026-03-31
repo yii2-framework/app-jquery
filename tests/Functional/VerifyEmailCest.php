@@ -7,6 +7,9 @@ namespace app\tests\Functional;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\FunctionalTester;
+use yii\base\Event;
+use yii\base\ModelEvent;
+use yii\db\BaseActiveRecord;
 use yii\helpers\Url;
 
 /**
@@ -33,7 +36,10 @@ final class VerifyEmailCest
 
     public function checkAlreadyActivatedToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => 'already_used_token_1548675330']));
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test2.test']);
+
+        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Wrong verify email token.');
     }
 
@@ -57,7 +63,10 @@ final class VerifyEmailCest
 
     public function checkSuccessVerification(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330']));
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Your email has been confirmed!');
         $I->seeRecord(
             User::class,
@@ -67,5 +76,25 @@ final class VerifyEmailCest
                 'status' => User::STATUS_ACTIVE,
             ],
         );
+    }
+
+    public function checkVerificationFailsWhenSaveErrors(FunctionalTester $I): void
+    {
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        // force `save()` to fail via `EVENT_BEFORE_UPDATE` at the class level.
+        $handler = static function (ModelEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Event::on(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+
+        try {
+            $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
+            $I->canSee('Sorry, we are unable to verify your account with provided token.');
+        } finally {
+            Event::off(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+        }
     }
 }

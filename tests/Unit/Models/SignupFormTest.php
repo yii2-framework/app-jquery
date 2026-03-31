@@ -54,7 +54,7 @@ final class SignupFormTest extends \Codeception\Test\Unit
                 'Failed asserting that signup returns a truthy value on success.',
             );
 
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = $this->tester?->grabRecord(
             User::class,
             [

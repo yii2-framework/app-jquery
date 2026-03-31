@@ -71,6 +71,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByVerificationToken(string $token): self|null
     {
+        if (!static::isVerificationTokenValid($token)) {
+            return null;
+        }
+
         return static::findOne(
             [
                 'verification_token' => $token,
@@ -141,22 +145,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid(string|null $token): bool
     {
-        if ($token === null || $token === '') {
-            return false;
-        }
+        return static::isTokenValid($token, 'user.passwordResetTokenExpire', 3600);
+    }
 
-        $searchToken = strrpos($token, '_');
-
-        if ($searchToken === false) {
-            return false;
-        }
-
-        $timestamp = (int) substr($token, $searchToken + 1);
-
-        /** @phpstan-var int $expire */
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'] ?? 3600;
-
-        return $timestamp + $expire >= time();
+    /**
+     * Checks if verification email token is valid.
+     */
+    public static function isVerificationTokenValid(string|null $token): bool
+    {
+        return static::isTokenValid($token, 'user.emailVerificationTokenExpire', 86400);
     }
 
     /**
@@ -214,5 +211,28 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword(string $password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * Validates a timestamped token against a configurable expiration period.
+     */
+    private static function isTokenValid(string|null $token, string $paramKey, int $defaultExpire): bool
+    {
+        if ($token === null || $token === '') {
+            return false;
+        }
+
+        $searchToken = strrpos($token, '_');
+
+        if ($searchToken === false) {
+            return false;
+        }
+
+        $timestamp = (int) substr($token, $searchToken + 1);
+
+        /** @phpstan-var int $expire */
+        $expire = Yii::$app->params[$paramKey] ?? $defaultExpire;
+
+        return $timestamp + $expire >= time();
     }
 }

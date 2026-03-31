@@ -30,7 +30,7 @@ final class M260330000000CreateUserTable extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'verification_token' => $this->string()->defaultValue(null),
+            'verification_token' => $this->string()->unique()->defaultValue(null),
         ]);
     }
 }

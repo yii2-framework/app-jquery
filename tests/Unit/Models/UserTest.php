@@ -67,7 +67,7 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testFindUserByPasswordResetToken(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         verify($user)
@@ -106,7 +106,10 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testFindUserByVerificationToken(): void
     {
-        verify(User::findByVerificationToken('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330'))
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        verify(User::findByVerificationToken($user->verification_token ?? ''))
             ->notEmpty(
                 'Failed asserting that inactive user is found by verification token.',
             );
@@ -192,9 +195,40 @@ final class UserTest extends \Codeception\Test\Unit
             ->false('Failed asserting that token without underscore separator is invalid.');
     }
 
+    public function testIsVerificationTokenValidWithExpiredToken(): void
+    {
+        /** @phpstan-var int $expire */
+        $expire = Yii::$app->params['user.emailVerificationTokenExpire'] ?? 86400;
+
+        $expiredToken = 'somevalidvalue_' . (time() - $expire - 1);
+
+        verify(User::isVerificationTokenValid($expiredToken))
+            ->false(
+                'Failed asserting that expired verification token is invalid.',
+            );
+    }
+
+    public function testIsVerificationTokenValidWithNullToken(): void
+    {
+        verify(User::isVerificationTokenValid(null))
+            ->false(
+                "Failed asserting that 'null' verification token is invalid.",
+            );
+        verify(User::isVerificationTokenValid(''))
+            ->false(
+                'Failed asserting that empty verification token is invalid.',
+            );
+    }
+
+    public function testIsVerificationTokenValidWithoutUnderscore(): void
+    {
+        verify(User::isVerificationTokenValid('tokenWithoutUnderscore'))
+            ->false('Failed asserting that verification token without underscore separator is invalid.');
+    }
+
     public function testRemovePasswordResetToken(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         $user->removePasswordResetToken();
@@ -223,7 +257,7 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testValidateAuthKey(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         verify($user->validateAuthKey($user->auth_key))
@@ -234,7 +268,7 @@ final class UserTest extends \Codeception\Test\Unit
 
     public function testValidatePassword(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         verify($user->validatePassword('password_0'))

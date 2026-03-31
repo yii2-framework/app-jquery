@@ -99,7 +99,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = Yii::$app->request->post();
+        $post = $this->request->post();
 
         if ($model->load($post) && $model->login()) {
             return $this->goBack();
@@ -128,7 +128,7 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = Yii::$app->request->post();
+        $post = $this->request->post();
 
         /** @phpstan-var array{supportEmail: string} $params */
         $params = Yii::$app->params;
@@ -163,7 +163,7 @@ class SiteController extends Controller
         $model = new ResendVerificationEmailForm();
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = Yii::$app->request->post();
+        $post = $this->request->post();
 
         /** @phpstan-var array{supportEmail: string} $params */
         $params = Yii::$app->params;
@@ -207,7 +207,7 @@ class SiteController extends Controller
         }
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = Yii::$app->request->post();
+        $post = $this->request->post();
 
         if ($model->load($post) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash(
@@ -243,7 +243,7 @@ class SiteController extends Controller
         $model = new SignupForm();
 
         /** @phpstan-var array<string, mixed> $post */
-        $post = Yii::$app->request->post();
+        $post = $this->request->post();
 
         /** @phpstan-var array{supportEmail: string} $params */
         $params = Yii::$app->params;
@@ -301,10 +301,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'request-password-reset', 'resend-verification-email'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'request-password-reset', 'resend-verification-email'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],

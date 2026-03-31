@@ -34,7 +34,7 @@ return [
         'status' => '9',
         'created_at' => '1548675330',
         'updated_at' => '1548675330',
-        'verification_token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330',
+        'verification_token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_' . time(),
     ],
     [
         'username' => 'test2.test',
@@ -45,6 +45,6 @@ return [
         'status' => '10',
         'created_at' => '1548675330',
         'updated_at' => '1548675330',
-        'verification_token' => 'already_used_token_1548675330',
+        'verification_token' => 'already_used_token_' . time(),
     ],
 ];

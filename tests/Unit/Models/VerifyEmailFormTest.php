@@ -35,17 +35,25 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testAlreadyActivatedToken(): void
     {
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test2.test']);
+
+        $token = $user->verification_token ?? '';
+
         $this->tester?->expectThrowable(
             InvalidArgumentException::class,
-            static function (): void {
-                new VerifyEmailForm('already_used_token_1548675330');
+            static function () use ($token): void {
+                new VerifyEmailForm($token);
             },
         );
     }
 
     public function testVerifyCorrectToken(): void
     {
-        $model = new VerifyEmailForm('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        $model = new VerifyEmailForm($user->verification_token ?? '');
 
         $user = $model->verifyEmail();
 

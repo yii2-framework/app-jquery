@@ -51,10 +51,13 @@ final class SignupCest
     {
         $I->see('Create a new account', 'h1');
         $I->see('Fill out the fields below to get started');
-        $I->submitForm($this->formId, []);
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Email cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
+        $I->submitForm(
+            $this->formId,
+            [],
+        );
+        $I->see('Username cannot be blank.', '.invalid-feedback');
+        $I->see('Email cannot be blank.', '.invalid-feedback');
+        $I->see('Password cannot be blank.', '.invalid-feedback');
     }
 
     public function signupWithWrongEmail(FunctionalTester $I): void

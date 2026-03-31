@@ -9,6 +9,9 @@ use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
 use Yii;
+use yii\base\Event;
+use yii\base\ModelEvent;
+use yii\db\BaseActiveRecord;
 use yii\mail\MessageInterface;
 
 /**
@@ -51,11 +54,12 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testSendEmailRegeneratesExpiredToken(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         // Set an expired token (timestamp far in the past).
         $user->password_reset_token = 'expiredtoken_1000000000';
+
         $user->save(false);
 
         $model = new PasswordResetRequestForm();
@@ -79,9 +83,43 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testSendEmailReturnsFalseWhenSaveFails(): void
+    {
+        /** @phpstan-var User $user */
+        $user = User::findByUsername('okirlin');
+
+        // set an expired token so `generatePasswordResetToken()` + `save()` path is triggered.
+        $user->password_reset_token = 'expiredtoken_1000000000';
+
+        $user->save(false);
+
+        // force `save()` to fail via `EVENT_BEFORE_SAVE` at the class level.
+        $handler = static function (ModelEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Event::on(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+
+        $model = new PasswordResetRequestForm();
+
+        $model->email = $user->email;
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->sendEmail(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that sendEmail returns 'false' when user save fails.",
+                );
+        } finally {
+            Event::off(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
+        }
+    }
+
     public function testSendEmailSuccessfully(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         $model = new PasswordResetRequestForm();

@@ -53,6 +53,7 @@ class VerifyEmailForm extends Model
         $user = $this->_user;
 
         $user->status = User::STATUS_ACTIVE;
+        $user->verification_token = null;
 
         return $user->save(false) ? $user : null;
     }

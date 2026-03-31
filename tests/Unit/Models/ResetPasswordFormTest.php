@@ -36,7 +36,7 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
 
     public function testResetCorrectToken(): void
     {
-        /** @var User $user */
+        /** @phpstan-var User $user */
         $user = User::findByUsername('okirlin');
 
         verify($user)
