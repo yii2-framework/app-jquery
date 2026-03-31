@@ -26,7 +26,9 @@ $app = new yii\console\Application(
     ],
 );
 
+ob_start();
 $app->runAction('migrate/up');
+ob_end_clean();
 
 $app = null;
 

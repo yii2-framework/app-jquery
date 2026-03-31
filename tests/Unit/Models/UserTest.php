@@ -35,6 +35,16 @@ final class UserTest extends \Codeception\Test\Unit
         ];
     }
 
+    public function testFindIdentityByAccessTokenThrowsException(): void
+    {
+        $this->tester?->expectThrowable(
+            NotSupportedException::class,
+            static function (): void {
+                User::findIdentityByAccessToken('any-token');
+            },
+        );
+    }
+
     public function testFindUserById(): void
     {
         $user = User::findIdentity(1);
@@ -52,16 +62,6 @@ final class UserTest extends \Codeception\Test\Unit
             ->empty(
                 "Failed asserting that user with non-existing ID '999' returns 'null'.",
             );
-    }
-
-    public function testFindIdentityByAccessTokenThrowsException(): void
-    {
-        $this->tester?->expectThrowable(
-            NotSupportedException::class,
-            static function (): void {
-                User::findIdentityByAccessToken('any-token');
-            },
-        );
     }
 
     public function testFindUserByPasswordResetToken(): void
@@ -115,35 +115,6 @@ final class UserTest extends \Codeception\Test\Unit
             );
     }
 
-    public function testIsPasswordResetTokenValidWithNullToken(): void
-    {
-        verify(User::isPasswordResetTokenValid(null))
-            ->false(
-                "Failed asserting that 'null' token is invalid.",
-            );
-        verify(User::isPasswordResetTokenValid(''))
-            ->false(
-                "Failed asserting that empty 'token' is invalid.",
-            );
-    }
-
-    public function testIsPasswordResetTokenValidWithoutUnderscore(): void
-    {
-        verify(User::isPasswordResetTokenValid('tokenWithoutUnderscore'))
-            ->false('Failed asserting that token without underscore separator is invalid.');
-    }
-
-    public function testValidateAuthKey(): void
-    {
-        /** @var User $user */
-        $user = User::findByUsername('okirlin');
-
-        verify($user->validateAuthKey($user->auth_key))
-            ->true('Failed asserting that correct auth key validates successfully.');
-        verify($user->validateAuthKey('wrong-auth-key'))
-            ->false('Failed asserting that wrong auth key does not validate.');
-    }
-
     public function testGenerateAuthKey(): void
     {
         $user = new User();
@@ -189,6 +160,24 @@ final class UserTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testIsPasswordResetTokenValidWithNullToken(): void
+    {
+        verify(User::isPasswordResetTokenValid(null))
+            ->false(
+                "Failed asserting that 'null' token is invalid.",
+            );
+        verify(User::isPasswordResetTokenValid(''))
+            ->false(
+                "Failed asserting that empty 'token' is invalid.",
+            );
+    }
+
+    public function testIsPasswordResetTokenValidWithoutUnderscore(): void
+    {
+        verify(User::isPasswordResetTokenValid('tokenWithoutUnderscore'))
+            ->false('Failed asserting that token without underscore separator is invalid.');
+    }
+
     public function testRemovePasswordResetToken(): void
     {
         /** @var User $user */
@@ -216,6 +205,17 @@ final class UserTest extends \Codeception\Test\Unit
             ->true(
                 'Failed asserting that the newly set password validates correctly.',
             );
+    }
+
+    public function testValidateAuthKey(): void
+    {
+        /** @var User $user */
+        $user = User::findByUsername('okirlin');
+
+        verify($user->validateAuthKey($user->auth_key))
+            ->true('Failed asserting that correct auth key validates successfully.');
+        verify($user->validateAuthKey('wrong-auth-key'))
+            ->false('Failed asserting that wrong auth key does not validate.');
     }
 
     public function testValidatePassword(): void

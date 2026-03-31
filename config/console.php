@@ -19,6 +19,7 @@ $config = [
         'migrate' => [
             'class' => \yii\console\controllers\MigrateController::class,
             'migrationNamespaces' => ['app\\Migrations'],
+            'migrationPath' => null,
         ],
         'serve' => [
             'class' => \yii\console\controllers\ServeController::class,

@@ -32,6 +32,16 @@ final class PasswordResetCest
         ];
     }
 
+    public function requestResetSuccessfully(FunctionalTester $I): void
+    {
+        $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+        $I->submitForm('#request-password-reset-form', [
+            'PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com',
+        ]);
+        $I->seeEmailIsSent();
+        $I->see('Check your email for further instructions.');
+    }
+
     public function requestResetWithEmptyEmail(FunctionalTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/request-password-reset'));
@@ -49,14 +59,10 @@ final class PasswordResetCest
         $I->seeValidationError('There is no user with this email address.');
     }
 
-    public function requestResetSuccessfully(FunctionalTester $I): void
+    public function resetPasswordWithInvalidToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/request-password-reset'));
-        $I->submitForm('#request-password-reset-form', [
-            'PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com',
-        ]);
-        $I->seeEmailIsSent();
-        $I->see('Check your email for further instructions.');
+        $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => 'invalid_token_123']));
+        $I->canSee('Wrong password reset token.');
     }
 
     public function resetPasswordWithValidToken(FunctionalTester $I): void
@@ -73,11 +79,5 @@ final class PasswordResetCest
             'ResetPasswordForm[password]' => 'newpassword123',
         ]);
         $I->see('New password saved.');
-    }
-
-    public function resetPasswordWithInvalidToken(FunctionalTester $I): void
-    {
-        $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => 'invalid_token_123']));
-        $I->canSee('Wrong password reset token.');
     }
 }

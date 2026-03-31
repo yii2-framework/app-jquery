@@ -49,6 +49,36 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testSendEmailRegeneratesExpiredToken(): void
+    {
+        /** @var User $user */
+        $user = User::findByUsername('okirlin');
+
+        // Set an expired token (timestamp far in the past).
+        $user->password_reset_token = 'expiredtoken_1000000000';
+        $user->save(false);
+
+        $model = new PasswordResetRequestForm();
+
+        $model->email = $user->email;
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        verify($model->sendEmail(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+            ->notEmpty(
+                'Failed asserting that email is sent after regenerating expired token.',
+            );
+
+        $user->refresh();
+
+        verify($user->password_reset_token)
+            ->notEquals(
+                'expiredtoken_1000000000',
+                'Failed asserting that the expired token was replaced with a new one.',
+            );
+    }
+
     public function testSendEmailSuccessfully(): void
     {
         /** @var User $user */
@@ -87,36 +117,6 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
             ->arrayHasKey(
                 $supportEmail,
                 'Failed asserting that email is sent from the support address.',
-            );
-    }
-
-    public function testSendEmailRegeneratesExpiredToken(): void
-    {
-        /** @var User $user */
-        $user = User::findByUsername('okirlin');
-
-        // Set an expired token (timestamp far in the past).
-        $user->password_reset_token = 'expiredtoken_1000000000';
-        $user->save(false);
-
-        $model = new PasswordResetRequestForm();
-
-        $model->email = $user->email;
-
-        /** @phpstan-var string $supportEmail */
-        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
-
-        verify($model->sendEmail(Yii::$app->mailer, $supportEmail, Yii::$app->name))
-            ->notEmpty(
-                'Failed asserting that email is sent after regenerating expired token.',
-            );
-
-        $user->refresh();
-
-        verify($user->password_reset_token)
-            ->notEquals(
-                'expiredtoken_1000000000',
-                'Failed asserting that the expired token was replaced with a new one.',
             );
     }
 
