@@ -169,13 +169,22 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
                 "Failed asserting that email 'subject' matches the registration template.",
             );
 
-        /** @phpstan-var \app\Models\User $user */
         $user = User::findOne(['username' => 'test.test']);
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
+        self::assertNotNull(
+            $user->verification_token,
+            "Failed asserting that fixture user 'test.test' has a verification token.",
+        );
 
         /** @phpstan-var \yii\symfonymailer\Message $mail */
         verify($mail->getSymfonyEmail()->getTextBody())
             ->stringContainsString(
-                $user->verification_token ?? '',
+                $user->verification_token,
                 "Failed asserting that email 'body' contains the verification 'token'.",
             );
     }
