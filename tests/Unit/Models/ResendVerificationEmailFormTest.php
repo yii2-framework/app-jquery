@@ -58,7 +58,7 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
     {
         $model = new ResendVerificationEmailForm();
 
-        $model->attributes = ['email' => 'test2@mail.com'];
+        $model->attributes = ['email' => 'test2.test@example.com'];
 
         verify($model->validate())
             ->false(
@@ -94,7 +94,7 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
     {
         $model = new ResendVerificationEmailForm();
 
-        $model->attributes = ['email' => 'test@mail.com'];
+        $model->attributes = ['email' => 'test.test@example.com'];
 
         verify($model->validate())
             ->true(
@@ -125,7 +125,7 @@ final class ResendVerificationEmailFormTest extends \Codeception\Test\Unit
             );
         verify($mail?->getTo())
             ->arrayHasKey(
-                'test@mail.com',
+                'test.test@example.com',
                 'Failed asserting that email is sent to the inactive user.',
             );
         verify($mail?->getFrom())

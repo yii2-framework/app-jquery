@@ -72,7 +72,7 @@ final class VerifyEmailCest
             User::class,
             [
                 'username' => 'test.test',
-                'email' => 'test@mail.com',
+                'email' => 'test.test@example.com',
                 'status' => User::STATUS_ACTIVE,
             ],
         );

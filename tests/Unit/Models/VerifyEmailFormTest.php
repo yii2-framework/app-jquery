@@ -36,9 +36,18 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testAlreadyActivatedToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test2.test']);
 
+        verify($user)
+            ->notEmpty(
+                "Failed asserting that fixture user 'test2.test' exists.",
+            );
+        verify($user->verification_token ?? null)
+            ->notEmpty(
+                "Failed asserting that fixture user 'test2.test' has a verification token.",
+            );
+
+        /** @phpstan-var string $token */
         $token = $user->verification_token ?? '';
 
         $this->tester?->expectThrowable(
@@ -51,10 +60,19 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testVerifyCorrectToken(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
 
-        $model = new VerifyEmailForm($user->verification_token ?? '');
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
+        self::assertNotNull(
+            $user->verification_token,
+            "Failed asserting that fixture user 'test.test' has a verification token.",
+        );
+
+        $model = new VerifyEmailForm($user->verification_token);
 
         $user = $model->verifyEmail();
 
@@ -63,6 +81,9 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
                 User::class,
                 "Failed asserting that 'verifyEmail()' returns a User instance.",
             );
+
+        $user?->refresh();
+
         verify($user?->username)
             ->equals(
                 'test.test',
@@ -70,13 +91,17 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
             );
         verify($user?->email)
             ->equals(
-                'test@mail.com',
-                "Failed asserting that verified user has email 'test@mail.com'.",
+                'test.test@example.com',
+                "Failed asserting that verified user has email 'test.test@example.com'.",
             );
         verify($user?->status)
             ->equals(
                 User::STATUS_ACTIVE,
                 'Failed asserting that verified user status is ACTIVE.',
+            );
+        verify($user?->verification_token)
+            ->null(
+                'Failed asserting that verification token is cleared after verification.',
             );
         verify($user?->validatePassword('Test1234'))
             ->true(
@@ -86,10 +111,19 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testVerifyEmailReturnsNullWhenUserIsNull(): void
     {
-        /** @phpstan-var User $user */
         $user = User::findOne(['username' => 'test.test']);
 
-        $form = new VerifyEmailForm($user->verification_token ?? '');
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user 'test.test' exists.",
+        );
+        self::assertNotNull(
+            $user->verification_token,
+            "Failed asserting that fixture user 'test.test' has a verification token.",
+        );
+
+        $form = new VerifyEmailForm($user->verification_token);
 
         $reflection = new ReflectionProperty($form, 'user');
 

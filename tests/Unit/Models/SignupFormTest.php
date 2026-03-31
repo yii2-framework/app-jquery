@@ -9,6 +9,11 @@ use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
 use Yii;
+use yii\base\Event;
+use yii\base\ModelEvent;
+use yii\db\BaseActiveRecord;
+use yii\mail\BaseMailer;
+use yii\mail\MailEvent;
 use yii\mail\MessageInterface;
 
 /**
@@ -102,7 +107,7 @@ final class SignupFormTest extends \Codeception\Test\Unit
         $model = new SignupForm(
             [
                 'username' => 'troy.becker',
-                'email' => 'nicolas.dianna@hotmail.com',
+                'email' => 'troy.becker@example.com',
                 'password' => 'some_password',
             ],
         );
@@ -131,6 +136,74 @@ final class SignupFormTest extends \Codeception\Test\Unit
             ->equals(
                 'This email address has already been taken.',
                 'Failed asserting that the email uniqueness error message is correct.',
+            );
+    }
+
+    public function testSignupReturnsFalseWhenSaveFails(): void
+    {
+        $handler = static function (ModelEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Event::on(User::class, BaseActiveRecord::EVENT_BEFORE_INSERT, $handler);
+
+        $model = new SignupForm(
+            [
+                'username' => 'save_fail_user',
+                'email' => 'save_fail@example.com',
+                'password' => 'some_password',
+            ],
+        );
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->signup(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that signup returns 'false' when user save fails.",
+                );
+        } finally {
+            Event::off(User::class, BaseActiveRecord::EVENT_BEFORE_INSERT, $handler);
+        }
+
+        verify(User::findOne(['username' => 'save_fail_user']))
+            ->null(
+                'Failed asserting that user was not persisted after rollback.',
+            );
+    }
+
+    public function testSignupReturnsFalseWhenSendEmailFails(): void
+    {
+        $handler = static function (MailEvent $event): void {
+            $event->isValid = false;
+        };
+
+        Yii::$app->mailer->on(BaseMailer::EVENT_BEFORE_SEND, $handler);
+
+        $model = new SignupForm(
+            [
+                'username' => 'email_fail_user',
+                'email' => 'email_fail@example.com',
+                'password' => 'some_password',
+            ],
+        );
+
+        /** @phpstan-var string $supportEmail */
+        $supportEmail = Yii::$app->params['supportEmail'] ?? '';
+
+        try {
+            verify($model->signup(Yii::$app->mailer, $supportEmail, Yii::$app->name))
+                ->false(
+                    "Failed asserting that signup returns 'false' when email sending fails.",
+                );
+        } finally {
+            Yii::$app->mailer->off(BaseMailer::EVENT_BEFORE_SEND, $handler);
+        }
+
+        verify(User::findOne(['username' => 'email_fail_user']))
+            ->null(
+                'Failed asserting that user was rolled back after email failure.',
             );
     }
 }

@@ -91,6 +91,8 @@ class SignupForm extends Model
             return null;
         }
 
+        $transaction = Yii::$app->db->beginTransaction();
+
         $user = new User();
 
         $user->username = $this->username;
@@ -100,7 +102,21 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($mailer, $user, $supportEmail, $appName);
+        if (!$user->save()) {
+            $transaction->rollBack();
+
+            return false;
+        }
+
+        if (!$this->sendEmail($mailer, $user, $supportEmail, $appName)) {
+            $transaction->rollBack();
+
+            return false;
+        }
+
+        $transaction->commit();
+
+        return true;
     }
 
     /**

@@ -226,7 +226,13 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, $searchToken + 1);
+        $timestampPart = substr($token, $searchToken + 1);
+
+        if ($timestampPart === '' || !ctype_digit($timestampPart)) {
+            return false;
+        }
+
+        $timestamp = (int) $timestampPart;
 
         /** @phpstan-var int $expire */
         $expire = Yii::$app->params[$paramKey] ?? $defaultExpire;

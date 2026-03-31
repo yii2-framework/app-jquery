@@ -11,7 +11,7 @@ return [
         'password_reset_token' => 'RkD_Jw0_8HEedzLk7MM-ZKEFfYR7VbMr_1392559490',
         'created_at' => 1392559490,
         'updated_at' => 1392559490,
-        'email' => 'sfriesen@jenkins.info',
+        'email' => 'sfriesen@example.com',
         'status' => 10,
     ],
     [
@@ -19,7 +19,7 @@ return [
         'auth_key' => 'O87GkY3_UfmMHYkyezZ7QLfmkKNsllzT',
         // Test1234
         'password_hash' => '$2y$13$d17z0w/wKC4LFwtzBcmx6up4jErQuandJqhzKGKczfWuiEhLBtQBK',
-        'email' => 'test@mail.com',
+        'email' => 'test.test@example.com',
         'status' => 9,
         'created_at' => 1548675330,
         'updated_at' => 1548675330,

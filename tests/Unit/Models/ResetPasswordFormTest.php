@@ -63,6 +63,10 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
 
         $user->refresh();
 
+        verify($user->password_reset_token)
+            ->null(
+                'Failed asserting that password reset token is cleared after reset.',
+            );
         verify($user->validatePassword('new_password_123'))
             ->true(
                 'Failed asserting that the new password validates after reset.',

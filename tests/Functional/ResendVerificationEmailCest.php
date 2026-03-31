@@ -45,7 +45,7 @@ final class ResendVerificationEmailCest
     {
         $I->submitForm(
             $this->formId,
-            ['ResendVerificationEmailForm[email]' => 'test2@mail.com'],
+            ['ResendVerificationEmailForm[email]' => 'test2.test@example.com'],
         );
         $I->see('There is no user with this email address.', '.invalid-feedback');
     }
@@ -77,7 +77,7 @@ final class ResendVerificationEmailCest
         try {
             $I->submitForm(
                 $this->formId,
-                ['ResendVerificationEmailForm[email]' => 'test@mail.com'],
+                ['ResendVerificationEmailForm[email]' => 'test.test@example.com'],
             );
             $I->see('Sorry, we are unable to resend verification email for the provided email address.');
         } finally {
@@ -89,13 +89,13 @@ final class ResendVerificationEmailCest
     {
         $I->submitForm(
             $this->formId,
-            ['ResendVerificationEmailForm[email]' => 'test@mail.com'],
+            ['ResendVerificationEmailForm[email]' => 'test.test@example.com'],
         );
         $I->canSeeEmailIsSent();
         $I->seeRecord(
             User::class,
             [
-                'email' => 'test@mail.com',
+                'email' => 'test.test@example.com',
                 'username' => 'test.test',
                 'status' => User::STATUS_INACTIVE,
             ],

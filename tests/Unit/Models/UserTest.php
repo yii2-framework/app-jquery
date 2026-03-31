@@ -177,6 +177,18 @@ final class UserTest extends \Codeception\Test\Unit
             );
     }
 
+    public function testIsPasswordResetTokenValidWithMalformedTimestamp(): void
+    {
+        verify(User::isPasswordResetTokenValid('token_123abc'))
+            ->false(
+                'Failed asserting that token with non-digit timestamp suffix is invalid.',
+            );
+        verify(User::isPasswordResetTokenValid('token_'))
+            ->false(
+                'Failed asserting that token with empty timestamp suffix is invalid.',
+            );
+    }
+
     public function testIsPasswordResetTokenValidWithNullToken(): void
     {
         verify(User::isPasswordResetTokenValid(null))
@@ -192,7 +204,9 @@ final class UserTest extends \Codeception\Test\Unit
     public function testIsPasswordResetTokenValidWithoutUnderscore(): void
     {
         verify(User::isPasswordResetTokenValid('tokenWithoutUnderscore'))
-            ->false('Failed asserting that token without underscore separator is invalid.');
+            ->false(
+                'Failed asserting that token without underscore separator is invalid.',
+            );
     }
 
     public function testIsVerificationTokenValidWithExpiredToken(): void
@@ -205,6 +219,18 @@ final class UserTest extends \Codeception\Test\Unit
         verify(User::isVerificationTokenValid($expiredToken))
             ->false(
                 'Failed asserting that expired verification token is invalid.',
+            );
+    }
+
+    public function testIsVerificationTokenValidWithMalformedTimestamp(): void
+    {
+        verify(User::isVerificationTokenValid('token_123abc'))
+            ->false(
+                'Failed asserting that verification token with non-digit timestamp suffix is invalid.',
+            );
+        verify(User::isVerificationTokenValid('token_'))
+            ->false(
+                'Failed asserting that verification token with empty timestamp suffix is invalid.',
             );
     }
 
@@ -223,7 +249,9 @@ final class UserTest extends \Codeception\Test\Unit
     public function testIsVerificationTokenValidWithoutUnderscore(): void
     {
         verify(User::isVerificationTokenValid('tokenWithoutUnderscore'))
-            ->false('Failed asserting that verification token without underscore separator is invalid.');
+            ->false(
+                'Failed asserting that verification token without underscore separator is invalid.',
+            );
     }
 
     public function testRemovePasswordResetToken(): void
@@ -261,9 +289,13 @@ final class UserTest extends \Codeception\Test\Unit
         $user = User::findByUsername('okirlin');
 
         verify($user->validateAuthKey($user->auth_key))
-            ->true('Failed asserting that correct auth key validates successfully.');
+            ->true(
+                'Failed asserting that correct auth key validates successfully.',
+            );
         verify($user->validateAuthKey('wrong-auth-key'))
-            ->false('Failed asserting that wrong auth key does not validate.');
+            ->false(
+                'Failed asserting that wrong auth key does not validate.',
+            );
     }
 
     public function testValidatePassword(): void

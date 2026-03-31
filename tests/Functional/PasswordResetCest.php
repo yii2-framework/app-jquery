@@ -48,7 +48,7 @@ final class PasswordResetCest
             $I->amOnPage(Url::toRoute('/site/request-password-reset'));
             $I->submitForm(
                 '#request-password-reset-form',
-                ['PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com'],
+                ['PasswordResetRequestForm[email]' => 'okirlin@example.com'],
             );
             $I->see('Sorry, we are unable to reset password for the provided email address.');
         } finally {
@@ -61,7 +61,7 @@ final class PasswordResetCest
         $I->amOnPage(Url::toRoute('/site/request-password-reset'));
         $I->submitForm(
             '#request-password-reset-form',
-            ['PasswordResetRequestForm[email]' => 'brady.renner@rutherford.com'],
+            ['PasswordResetRequestForm[email]' => 'okirlin@example.com'],
         );
         $I->seeEmailIsSent();
         $I->see('Check your email for further instructions.');

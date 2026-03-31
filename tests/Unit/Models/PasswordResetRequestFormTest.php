@@ -41,7 +41,7 @@ final class PasswordResetRequestFormTest extends \Codeception\Test\Unit
     {
         $model = new PasswordResetRequestForm();
 
-        $model->email = 'nicolas.dianna@hotmail.com';
+        $model->email = 'troy.becker@example.com';
 
         /** @phpstan-var string $supportEmail */
         $supportEmail = Yii::$app->params['supportEmail'] ?? '';

@@ -10,6 +10,8 @@ use app\tests\Support\Fixtures\UserFixture;
 use Yii;
 use yii\web\View;
 
+use function sprintf;
+
 /**
  * Unit tests for {@see \app\Controllers\SiteController} login and about actions.
  *
@@ -73,10 +75,12 @@ final class LoginTest extends \Codeception\Test\Unit
 
         $controller->actionLogin();
 
-        self::assertStringNotContainsString(
-            'Logout (admin)',
-            $view->render('//layouts/main.php', ['content' => 'Hello World']),
-            'Failed asserting that the logout link is not rendered for a wrong username.',
+        $output = $view->render('//layouts/main.php', ['content' => 'Hello World']);
+
+        self::assertStringContainsString(
+            sprintf('Logout (%s)', $user->username),
+            $output,
+            'Failed asserting that the logout link is rendered for the logged-in user.',
         );
     }
 
