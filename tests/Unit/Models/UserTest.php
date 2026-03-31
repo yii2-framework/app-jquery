@@ -7,6 +7,7 @@ namespace app\tests\Unit\Models;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
+use Yii;
 use yii\base\NotSupportedException;
 
 use function strlen;
@@ -157,6 +158,19 @@ final class UserTest extends \Codeception\Test\Unit
         verify(User::isPasswordResetTokenValid($user->password_reset_token))
             ->true(
                 "Failed asserting that newly generated 'password reset token' is valid.",
+            );
+    }
+
+    public function testIsPasswordResetTokenValidWithExpiredToken(): void
+    {
+        /** @phpstan-var int $expire */
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'] ?? 3600;
+
+        $expiredToken = 'somevalidvalue_' . (time() - $expire - 1);
+
+        verify(User::isPasswordResetTokenValid($expiredToken))
+            ->false(
+                'Failed asserting that an expired password reset token is invalid.',
             );
     }
 
