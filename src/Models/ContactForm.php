@@ -27,9 +27,7 @@ class ContactForm extends Model
      */
     public function attributeLabels(): array
     {
-        return [
-            'verifyCode' => 'Verification Code',
-        ];
+        return ['verifyCode' => 'Verification Code'];
     }
 
     /**

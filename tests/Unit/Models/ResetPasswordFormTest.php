@@ -8,6 +8,7 @@ use app\Models\ResetPasswordForm;
 use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
+use ReflectionProperty;
 use yii\base\InvalidArgumentException;
 
 /**
@@ -65,6 +66,26 @@ final class ResetPasswordFormTest extends \Codeception\Test\Unit
         verify($user->validatePassword('new_password_123'))
             ->true(
                 'Failed asserting that the new password validates after reset.',
+            );
+    }
+
+    public function testResetPasswordReturnsFalseWhenUserIsNull(): void
+    {
+        /** @phpstan-var User $user */
+        $user = User::findByUsername('okirlin');
+
+        /** @phpstan-var string $token */
+        $token = $user->password_reset_token;
+
+        $form = new ResetPasswordForm($token);
+
+        $reflection = new ReflectionProperty($form, 'user');
+
+        $reflection->setValue($form, null);
+
+        verify($form->resetPassword())
+            ->false(
+                "Failed asserting that resetPassword returns 'false' when user is 'null'.",
             );
     }
 

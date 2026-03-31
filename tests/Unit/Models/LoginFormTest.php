@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\tests\Unit\Models;
 
 use app\Models\LoginForm;
+use app\Models\User;
 use app\tests\Support\Fixtures\UserFixture;
 use Yii;
 
@@ -70,6 +71,22 @@ final class LoginFormTest extends \Codeception\Test\Unit
         verify(Yii::$app->user->isGuest)
             ->true(
                 "Failed asserting that 'user' remains a 'guest' after failed login.",
+            );
+    }
+
+    public function testLoginReturnsFalseWhenUserIsNull(): void
+    {
+        $model = $this->make(
+            LoginForm::class,
+            [
+                'validate' => true,
+                'getUser' => null,
+            ],
+        );
+
+        verify($model->login())
+            ->false(
+                "Failed asserting that login returns 'false' when user is 'null' after validation.",
             );
     }
 

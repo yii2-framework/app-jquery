@@ -36,9 +36,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function behaviors(): array
     {
-        return [
-            TimestampBehavior::class,
-        ];
+        return [TimestampBehavior::class];
     }
 
     /**
@@ -145,7 +143,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid(string|null $token): bool
     {
-        return static::isTokenValid($token, 'user.passwordResetTokenExpire', 3600);
+        return self::isTokenValid($token, 'user.passwordResetTokenExpire', 3600);
     }
 
     /**
@@ -153,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isVerificationTokenValid(string|null $token): bool
     {
-        return static::isTokenValid($token, 'user.emailVerificationTokenExpire', 86400);
+        return self::isTokenValid($token, 'user.emailVerificationTokenExpire', 86400);
     }
 
     /**

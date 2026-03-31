@@ -8,6 +8,7 @@ use app\Models\User;
 use app\Models\VerifyEmailForm;
 use app\tests\Support\Fixtures\UserFixture;
 use app\tests\Support\UnitTester;
+use ReflectionProperty;
 use yii\base\InvalidArgumentException;
 
 /**
@@ -80,6 +81,23 @@ final class VerifyEmailFormTest extends \Codeception\Test\Unit
         verify($user?->validatePassword('Test1234'))
             ->true(
                 "Failed asserting that verified 'user password' still validates correctly.",
+            );
+    }
+
+    public function testVerifyEmailReturnsNullWhenUserIsNull(): void
+    {
+        /** @phpstan-var User $user */
+        $user = User::findOne(['username' => 'test.test']);
+
+        $form = new VerifyEmailForm($user->verification_token ?? '');
+
+        $reflection = new ReflectionProperty($form, 'user');
+
+        $reflection->setValue($form, null);
+
+        verify($form->verifyEmail())
+            ->null(
+                "Failed asserting that verifyEmail returns 'null' when user is 'null'.",
             );
     }
 

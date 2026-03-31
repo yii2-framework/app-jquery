@@ -18,6 +18,7 @@ final class M260330000000CreateUserTable extends Migration
     {
         $this->dropTable('{{%user}}');
     }
+
     public function safeUp(): void
     {
         $this->createTable('{{%user}}', [

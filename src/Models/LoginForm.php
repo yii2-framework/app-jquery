@@ -21,18 +21,18 @@ class LoginForm extends Model
     public bool $rememberMe = true;
     public string $username = '';
 
-    private User|null $_user = null;
+    private User|null $user = null;
 
     /**
      * Finds user by [[username]].
      */
     public function getUser(): User|null
     {
-        if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+        if ($this->user === null) {
+            $this->user = User::findByUsername($this->username);
         }
 
-        return $this->_user;
+        return $this->user;
     }
 
     /**
@@ -40,14 +40,17 @@ class LoginForm extends Model
      */
     public function login(): bool
     {
-        if ($this->validate()) {
-            /** @var User $user */
-            $user = $this->getUser();
-
-            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+        if (!$this->validate()) {
+            return false;
         }
 
-        return false;
+        $user = $this->getUser();
+
+        if ($user === null) {
+            return false;
+        }
+
+        return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 
     /**

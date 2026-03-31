@@ -15,7 +15,7 @@ use yii\base\Model;
  */
 class VerifyEmailForm extends Model
 {
-    private User|null $_user = null;
+    private User|null $user = null;
 
     /**
      * Creates a form model with given token.
@@ -33,9 +33,9 @@ class VerifyEmailForm extends Model
             throw new InvalidArgumentException('Verify email token cannot be blank.');
         }
 
-        $this->_user = User::findByVerificationToken($token);
+        $this->user = User::findByVerificationToken($token);
 
-        if ($this->_user === null) {
+        if ($this->user === null) {
             throw new InvalidArgumentException('Wrong verify email token.');
         }
 
@@ -49,12 +49,13 @@ class VerifyEmailForm extends Model
      */
     public function verifyEmail(): User|null
     {
-        /** @var User $user */
-        $user = $this->_user;
+        if ($this->user === null) {
+            return null;
+        }
 
-        $user->status = User::STATUS_ACTIVE;
-        $user->verification_token = null;
+        $this->user->status = User::STATUS_ACTIVE;
+        $this->user->verification_token = null;
 
-        return $user->save(false) ? $user : null;
+        return $this->user->save(false) ? $this->user : null;
     }
 }

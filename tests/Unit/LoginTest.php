@@ -61,8 +61,13 @@ final class LoginTest extends \Codeception\Test\Unit
 
         $view = new View(['context' => $controller]);
 
-        /** @phpstan-var User $user */
         $user = User::findIdentity(1);
+
+        self::assertInstanceOf(
+            User::class,
+            $user,
+            "Failed asserting that fixture user with ID '1' exists.",
+        );
 
         Yii::$app->user->login($user);
 
