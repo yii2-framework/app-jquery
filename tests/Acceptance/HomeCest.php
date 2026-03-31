@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\tests\Acceptance;
 
 use app\tests\Support\AcceptanceTester;
+use Yii;
 use yii\helpers\Url;
 
 /**
@@ -26,7 +27,7 @@ final class HomeCest
     public function ensureThatHomePageWorks(AcceptanceTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/index'));
-        $I->see(\Yii::$app->name);
+        $I->see(Yii::$app->name);
 
         $I->seeLink('About');
         $I->click('About');

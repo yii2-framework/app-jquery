@@ -1,18 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+use app\Models\User;
+use yii\caching\FileCache;
+use yii\jquery\Bootstrap;
+use yii\log\FileTarget;
+use yii\mail\MailerInterface;
+use yii\symfonymailer\Mailer;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'app-basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', \yii\jquery\Bootstrap::class],
+    'bootstrap' => [
+        'log',
+        Bootstrap::class,
+    ],
     'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__) . '/resources/views',
     'container' => [
         'singletons' => [
-            \yii\mail\MailerInterface::class => [
-                'class' => \yii\symfonymailer\Mailer::class,
+            MailerInterface::class => [
+                'class' => Mailer::class,
                 // send all mails to a file by default.
                 'useFileTransport' => true,
                 'viewPath' => '@app/resources/mail',
@@ -29,22 +41,25 @@ $config = [
             'cookieValidationKey' => '',
         ],
         'cache' => [
-            'class' => \yii\caching\FileCache::class,
+            'class' => FileCache::class,
         ],
         'user' => [
-            'identityClass' => \app\Models\User::class,
+            'identityClass' => User::class,
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => \yii\mail\MailerInterface::class,
+        'mailer' => MailerInterface::class,
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => \yii\log\FileTarget::class,
-                    'levels' => ['error', 'warning'],
+                    'class' => FileTarget::class,
+                    'levels' => [
+                        'error',
+                        'warning',
+                    ],
                 ],
             ],
         ],

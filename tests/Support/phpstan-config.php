@@ -25,18 +25,39 @@ return [
         '@npm'   => dirname(__DIR__, 2) . '/node_modules',
     ],
     'components' => [
-        'assetManager' => ['class' => AssetManager::class],
-        'cache' => ['class' => FileCache::class],
+        'assetManager' => [
+            'class' => AssetManager::class,
+        ],
+        'cache' => [
+            'class' => FileCache::class,
+        ],
         'log' => [
             'targets' => [
-                ['class' => FileTarget::class, 'levels' => ['error', 'warning']],
+                [
+                    'class' => FileTarget::class,
+                    'levels' => [
+                        'error',
+                        'warning',
+                    ],
+                ],
             ],
         ],
-        'mailer' => ['class' => Mailer::class, 'useFileTransport' => true],
-        'request' => ['class' => Request::class],
-        'urlManager' => ['class' => UrlManager::class],
-        'user' => ['identityClass' => User::class],
-        'view' => ['class' => View::class],
+        'mailer' => [
+            'class' => Mailer::class,
+            'useFileTransport' => true,
+        ],
+        'request' => [
+            'class' => Request::class,
+        ],
+        'urlManager' => [
+            'class' => UrlManager::class,
+        ],
+        'user' => [
+            'identityClass' => User::class,
+        ],
+        'view' => [
+            'class' => View::class,
+        ],
     ],
     'params' => [
         'adminEmail' => 'admin@example.com',

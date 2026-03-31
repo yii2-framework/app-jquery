@@ -6,7 +6,6 @@ namespace app\Models;
 
 use Yii;
 use yii\base\Model;
-use yii\base\Security;
 
 /**
  * Represents the login form model with username/password authentication.
@@ -23,29 +22,14 @@ class LoginForm extends Model
     public string $username = '';
 
     private User|null $user = null;
-    private bool $userLoaded = false;
-    private string $userLookup = '';
-
-    /**
-     * @param Security $security The security component.
-     * @param array $config name-value pairs that will be used to initialize the object properties.
-     *
-     * @phpstan-param array<string, mixed> $config
-     */
-    public function __construct(private readonly Security $security, array $config = [])
-    {
-        parent::__construct($config);
-    }
 
     /**
      * Finds user by [[username]].
      */
     public function getUser(): User|null
     {
-        if (!$this->userLoaded || $this->userLookup !== $this->username) {
+        if ($this->user === null) {
             $this->user = User::findByUsername($this->username);
-            $this->userLoaded = true;
-            $this->userLookup = $this->username;
         }
 
         return $this->user;
@@ -56,14 +40,17 @@ class LoginForm extends Model
      */
     public function login(): bool
     {
-        if ($this->validate()) {
-            /** @var User $user */
-            $user = $this->getUser();
-
-            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+        if (!$this->validate()) {
+            return false;
         }
 
-        return false;
+        $user = $this->getUser();
+
+        if ($user === null) {
+            return false;
+        }
+
+        return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 
     /**
@@ -72,9 +59,21 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'password'], 'required'],
-            ['rememberMe', 'boolean'],
-            ['password', 'validatePassword'],
+            [
+                [
+                    'username',
+                    'password',
+                ],
+                'required',
+            ],
+            [
+                'rememberMe',
+                'boolean',
+            ],
+            [
+                'password',
+                'validatePassword',
+            ],
         ];
     }
 
@@ -88,7 +87,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if ($user === null || !$this->security->validatePassword($this->password, $user->passwordHash)) {
+            if ($user === null || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }

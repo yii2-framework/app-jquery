@@ -1,9 +1,10 @@
 <?php
 
-/** @var array<string, mixed> $db */
-$db = require __DIR__ . '/db.php';
+declare(strict_types=1);
 
-// test database! Important not to run tests on production or development databases
-$db['dsn'] = 'mysql:host=localhost;dbname=yii2basic_test';
+use yii\db\Connection;
 
-return $db;
+return [
+    'class' => Connection::class,
+    'dsn' => 'sqlite:' . dirname(__DIR__) . '/tests/Support/data/test.sqlite',
+];

@@ -56,10 +56,30 @@ class ContactForm extends Model
     public function rules(): array
     {
         return [
-            [['name', 'email', 'phone', 'subject', 'body'], 'required'],
-            ['email', 'email'],
-            ['phone', 'match', 'pattern' => '/^\(\d{3}\) \d{3}-\d{4}$/', 'message' => 'Phone number must match (999) 999-9999 format.'],
-            ['verifyCode', 'captcha'],
+            [
+                [
+                    'name',
+                    'email',
+                    'phone',
+                    'subject',
+                    'body',
+                ],
+                'required',
+            ],
+            [
+                'email',
+                'email',
+            ],
+            [
+                'phone',
+                'match',
+                'pattern' => '/^\(\d{3}\) \d{3}-\d{4}$/',
+                'message' => 'Phone number must match (999) 999-9999 format.',
+            ],
+            [
+                'verifyCode',
+                'captcha',
+            ],
         ];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\tests\Functional;
 
 use app\tests\Support\FunctionalTester;
+use yii\helpers\Url;
 
 /**
  * Functional tests for {@see \app\Controllers\SiteController::actionContact()} contact form.
@@ -16,7 +17,7 @@ final class ContactFormCest
 {
     public function _before(FunctionalTester $I): void
     {
-        $I->amOnRoute('site/contact');
+        $I->amOnPage(Url::toRoute('/site/contact'));
     }
 
     public function openContactPage(FunctionalTester $I): void
@@ -26,7 +27,10 @@ final class ContactFormCest
 
     public function submitEmptyForm(FunctionalTester $I): void
     {
-        $I->submitForm('#contact-form', []);
+        $I->submitForm(
+            '#contact-form',
+            [],
+        );
         $I->expectTo('see validations errors');
         $I->see('Contact', 'h1');
         $I->see('Name cannot be blank');

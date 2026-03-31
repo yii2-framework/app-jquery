@@ -10,7 +10,7 @@
 </p>
 <!-- markdownlint-enable MD041 -->
 
-Basic Application Template is a skeleton [Yii 2](https://www.yiiframework.com/) application best suited for rapidly
+Basic Application Template is a skeleton [Yii2](https://www.yiiframework.com/) application best suited for rapidly
 creating small projects. It includes user login/logout, a contact page with masked phone input, and all commonly
 used configurations.
 

@@ -1,9 +1,10 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
+declare(strict_types=1);
 
 /** @var app\Models\LoginForm $model */
+/** @var yii\bootstrap5\ActiveForm $form */
+/** @var yii\web\View $this */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -105,8 +106,11 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <?php ActiveForm::end(); ?>
 
                     <div class="text-body-secondary text-center mt-3 small">
-                        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-                        To modify the username/password, check <code>app\Models\User::$users</code>.
+                        <?= Html::a('Forgot your password?', ['site/request-password-reset']) ?>
+                        <br>
+                        Don't have an account? <?= Html::a('Sign up', ['site/signup']) ?>
+                        <br>
+                        <?= Html::a("Didn't receive verification email?", ['site/resend-verification-email']) ?>
                     </div>
 
                 </div>

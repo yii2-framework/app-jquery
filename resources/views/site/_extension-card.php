@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-/** @var yii\web\View $this */
+/** @var string $description */
 /** @var string $icon */
 /** @var string $name */
-/** @var string $description */
 /** @var string $url */
+/** @var yii\web\View $this */
 
 use yii\helpers\Html;
 

@@ -6,8 +6,8 @@ namespace app\tests\Unit;
 
 use app\Controllers\SiteController;
 use app\Models\User;
+use app\tests\Support\Fixtures\UserFixture;
 use Yii;
-use yii\base\Security;
 use yii\web\IdentityInterface;
 use yii\web\View;
 
@@ -19,22 +19,35 @@ use yii\web\View;
  */
 final class LogoutTest extends \Codeception\Test\Unit
 {
+    /**
+     * @phpstan-return array{user: array{class: string, dataFile: string}}
+     */
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                // @phpstan-ignore binaryOp.invalid
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+        ];
+    }
+
     public function testRenderLogoutLinkWhenUserIsLoggedIn(): void
     {
-        $user = User::findIdentity('100');
+        $user = User::findIdentity(1);
 
         $controller = new SiteController(
             'site',
             Yii::$app,
             Yii::$app->mailer,
-            new Security(),
         );
 
         $view = new View(['context' => $controller]);
 
         self::assertNotNull(
             $user,
-            "Failed asserting that the user identity with ID '100' exists.",
+            "Failed asserting that the user identity with ID '1' exists.",
         );
         self::assertInstanceOf(
             IdentityInterface::class,
@@ -47,7 +60,7 @@ final class LogoutTest extends \Codeception\Test\Unit
         $html = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 
         self::assertStringContainsString(
-            'Logout (admin)',
+            'Logout (okirlin)',
             $html,
             'Failed asserting that the logout link is rendered for a logged-in user.',
         );

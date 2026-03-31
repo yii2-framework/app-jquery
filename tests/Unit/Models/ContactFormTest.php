@@ -6,6 +6,7 @@ namespace app\tests\Unit\Models;
 
 use app\Models\ContactForm;
 use app\tests\Support\UnitTester;
+use Yii;
 use yii\mail\MessageInterface;
 
 /**
@@ -33,26 +34,50 @@ final class ContactFormTest extends \Codeception\Test\Unit
 
         verify(
             $model->contact(
-                \Yii::$app->mailer,
+                Yii::$app->mailer,
                 'admin@example.com',
                 'noreply@example.com',
                 'Example.com mailer',
             ),
-        )->notEmpty();
+        )->notEmpty(
+            "Failed asserting that 'contact' email is sent successfully.",
+        );
 
         // using Yii2 module actions to check email was sent
         $this->tester?->seeEmailIsSent();
 
-        /** @var MessageInterface $emailMessage */
+        /** @phpstan-var \yii\symfonymailer\Message $emailMessage */
         $emailMessage = $this->tester?->grabLastSentEmail();
 
-        verify($emailMessage)->instanceOf(MessageInterface::class);
-        verify($emailMessage->getTo())->arrayHasKey('admin@example.com');
-        verify($emailMessage->getFrom())->arrayHasKey('noreply@example.com');
-        verify($emailMessage->getReplyTo())->arrayHasKey('tester@example.com');
-        verify($emailMessage->getSubject())->equals('very important letter subject');
-
-        /** @phpstan-var \yii\symfonymailer\Message $emailMessage */
-        verify($emailMessage->getSymfonyEmail()->getTextBody())->stringContainsString('body of current message');
+        verify($emailMessage)
+            ->instanceOf(
+                MessageInterface::class,
+                "Failed asserting that a 'contact' email was captured.",
+            );
+        verify($emailMessage->getTo())
+            ->arrayHasKey(
+                'admin@example.com',
+                'Failed asserting that email is sent to the admin address.',
+            );
+        verify($emailMessage->getFrom())
+            ->arrayHasKey(
+                'noreply@example.com',
+                "Failed asserting that email is sent from the 'noreply' address.",
+            );
+        verify($emailMessage->getReplyTo())
+            ->arrayHasKey(
+                'tester@example.com',
+                "Failed asserting that 'reply-to' is set to the contact email.",
+            );
+        verify($emailMessage->getSubject())
+            ->equals(
+                'very important letter subject',
+                "Failed asserting that email 'subject' matches the form input.",
+            );
+        verify($emailMessage->getSymfonyEmail()->getTextBody())
+            ->stringContainsString(
+                'body of current message',
+                "Failed asserting that email 'body' contains the form message.",
+            );
     }
 }

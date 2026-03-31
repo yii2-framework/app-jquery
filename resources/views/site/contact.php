@@ -1,8 +1,10 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
+declare(strict_types=1);
+
 /** @var app\Models\ContactForm $model */
+/** @var yii\bootstrap5\ActiveForm $form */
+/** @var yii\web\View $this */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;

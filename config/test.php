@@ -1,5 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+use app\Models\User;
+use app\tests\Support\MailerBootstrap;
+use yii\jquery\Bootstrap;
+use yii\symfonymailer\Mailer;
+use yii\symfonymailer\Message;
+
 $params = require __DIR__ . '/params.php';
 
 /**
@@ -15,14 +23,15 @@ return [
         '@npm'   => dirname(__DIR__) . '/node_modules',
     ],
     'bootstrap' => [
-        \yii\jquery\Bootstrap::class,
-        \app\tests\Support\MailerBootstrap::class,
+        Bootstrap::class,
+        MailerBootstrap::class,
     ],
     'language' => 'en-US',
     'components' => [
+        'db' => require __DIR__ . '/test_db.php',
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'messageClass' => \yii\symfonymailer\Message::class,
+            'class' => Mailer::class,
+            'messageClass' => Message::class,
             'useFileTransport' => true,
             'viewPath' => '@app/resources/mail',
         ],
@@ -33,7 +42,7 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => \app\Models\User::class,
+            'identityClass' => User::class,
         ],
         'request' => [
             'cookieValidationKey' => 'test',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var yii\web\View $this */
 
 use yii\helpers\Html;
@@ -50,10 +52,13 @@ $extensions = [
 
     <!-- Hero banner with Yii gradient -->
     <div class="hero-banner text-white rounded-4 p-5 mb-4 position-relative overflow-hidden">
-        <?= Html::img(Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'), [
-            'alt' => '',
-            'class' => 'd-none d-lg-block position-absolute hero-logo',
-        ]) ?>
+        <?= Html::img(
+            Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'),
+            [
+                'alt' => '',
+                'class' => 'd-none d-lg-block position-absolute hero-logo',
+            ],
+        ) ?>
         <div class="position-relative">
             <h1 class="display-5 fw-bold mb-3">Build with Yii Framework</h1>
             <p class="lead opacity-75 mb-4 hero-lead">
