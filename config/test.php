@@ -14,7 +14,7 @@ $params = require __DIR__ . '/params.php';
  * Application configuration shared by all test types
  */
 return [
-    'id' => 'app-basic-tests',
+    'id' => 'app-jquery-tests',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__) . '/resources/views',
@@ -28,6 +28,9 @@ return [
     ],
     'language' => 'en-US',
     'components' => [
+        'assetManager' => [
+            'basePath' => __DIR__ . '/../public/assets',
+        ],
         'db' => require __DIR__ . '/test_db.php',
         'mailer' => [
             'class' => Mailer::class,
@@ -35,18 +38,15 @@ return [
             'useFileTransport' => true,
             'viewPath' => '@app/resources/mail',
         ],
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../public/assets',
+        'request' => [
+            'cookieValidationKey' => 'test',
+            'enableCsrfValidation' => false,
         ],
         'urlManager' => [
             'showScriptName' => true,
         ],
         'user' => [
             'identityClass' => User::class,
-        ],
-        'request' => [
-            'cookieValidationKey' => 'test',
-            'enableCsrfValidation' => false,
         ],
     ],
     'params' => $params,

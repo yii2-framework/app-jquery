@@ -10,7 +10,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // Run migrations on the test database.
 $app = new yii\console\Application(
     [
-        'id' => 'app-basic-test-migrate',
+        'id' => 'app-jquery-test-migrate',
         'basePath' => dirname(__DIR__),
         'aliases' => ['@app/Migrations' => dirname(__DIR__) . '/src/Migrations'],
         'components' => ['db' => require dirname(__DIR__) . '/config/test_db.php'],
