@@ -1,19 +1,20 @@
 {
-    "name": "yii2-framework/app-basic",
+    "name": "yii2-framework/app-jquery",
     "type": "project",
-    "description": "Yii2 Basic Application.",
+    "description": "jQuery Application Template.",
     "keywords": [
         "yii2",
         "basic",
-        "application"
+        "application",
+        "jQuery",
+        "template"
     ],
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=8.2",
         "php-forge/foxy": "^0.2",
-        "yii2-framework/core": "^0.1@dev",
+        "yii2-framework/yii2": "^0.1@dev",
         "yii2-framework/jquery": "^0.1@dev",
         "yiisoft/yii2-bootstrap5": "^2.0",
         "yiisoft/yii2-symfonymailer": "^4.0"
@@ -45,7 +46,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "1.0.x-dev"
+            "dev-main": "0.1.x-dev"
         }
     },
     "config": {

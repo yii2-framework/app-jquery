@@ -11,14 +11,27 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'app-basic-console',
-    'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'app\\Commands',
+    'id' => 'app-jquery-console',
     'aliases' => [
         '@app/Migrations' => dirname(__DIR__) . '/src/Migrations',
         '@bower' => '@vendor/bower-asset',
         '@npm'   => dirname(__DIR__) . '/node_modules',
         '@tests' => dirname(__DIR__) . '/tests',
+    ],
+    'basePath' => dirname(__DIR__),
+    'components' => [
+        'cache' => [
+            'class' => FileCache::class,
+        ],
+        'db' => $db,
+        'log' => [
+            'targets' => [
+                [
+                    'class' => FileTarget::class,
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
     ],
     'controllerMap' => [
         'migrate' => [
@@ -33,20 +46,7 @@ $config = [
             'docroot' => '@app/public',
         ],
     ],
-    'components' => [
-        'cache' => [
-            'class' => FileCache::class,
-        ],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => FileTarget::class,
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-        'db' => $db,
-    ],
+    'controllerNamespace' => 'app\\Commands',
     'params' => $params,
 ];
 

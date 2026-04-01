@@ -13,44 +13,24 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'app-basic',
+    'id' => 'app-jquery',
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => dirname(__DIR__) . '/node_modules',
+    ],
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
         Bootstrap::class,
     ],
-    'controllerNamespace' => 'app\\Controllers',
-    'viewPath' => dirname(__DIR__) . '/resources/views',
-    'container' => [
-        'singletons' => [
-            MailerInterface::class => [
-                'class' => Mailer::class,
-                // send all mails to a file by default.
-                'useFileTransport' => true,
-                'viewPath' => '@app/resources/mail',
-            ],
-        ],
-    ],
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => dirname(__DIR__) . '/node_modules',
-    ],
     'components' => [
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '',
-        ],
         'cache' => [
             'class' => FileCache::class,
         ],
-        'user' => [
-            'identityClass' => User::class,
-            'enableAutoLogin' => true,
-        ],
+        'db' => $db,
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => MailerInterface::class,
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -63,9 +43,29 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'mailer' => MailerInterface::class,
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => '',
+        ],
+        'user' => [
+            'identityClass' => User::class,
+            'enableAutoLogin' => true,
+        ],
     ],
+    'container' => [
+        'singletons' => [
+            MailerInterface::class => [
+                'class' => Mailer::class,
+                // send all mails to a file by default.
+                'useFileTransport' => true,
+                'viewPath' => '@app/resources/mail',
+            ],
+        ],
+    ],
+    'controllerNamespace' => 'app\\Controllers',
     'params' => $params,
+    'viewPath' => dirname(__DIR__) . '/resources/views',
 ];
 
 return $config;

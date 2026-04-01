@@ -16,7 +16,7 @@ return [
     'phpstan' => [
         'application_type' => Application::class,
     ],
-    'id' => 'app-basic-phpstan',
+    'id' => 'app-jquery-phpstan',
     'basePath' => dirname(__DIR__, 2),
     'controllerNamespace' => 'app\\Controllers',
     'viewPath' => dirname(__DIR__, 2) . '/resources/views',
