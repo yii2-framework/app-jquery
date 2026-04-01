@@ -4,9 +4,8 @@
     "description": "jQuery Application Template.",
     "keywords": [
         "yii2",
-        "basic",
-        "application",
         "jQuery",
+        "application",
         "template"
     ],
     "license": "BSD-3-Clause",
