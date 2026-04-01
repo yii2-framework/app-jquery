@@ -13,7 +13,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'app-jquery-console',
     'aliases' => [
-        '@app/Migrations' => dirname(__DIR__) . '/src/Migrations',
+        '@app/migrations' => dirname(__DIR__) . '/src/migrations',
         '@bower' => '@vendor/bower-asset',
         '@npm'   => dirname(__DIR__) . '/node_modules',
         '@tests' => dirname(__DIR__) . '/tests',
@@ -37,7 +37,7 @@ $config = [
         'migrate' => [
             'class' => MigrateController::class,
             'migrationNamespaces' => [
-                'app\\Migrations',
+                'app\\migrations',
             ],
             'migrationPath' => null,
         ],
@@ -46,7 +46,7 @@ $config = [
             'docroot' => '@app/public',
         ],
     ],
-    'controllerNamespace' => 'app\\Commands',
+    'controllerNamespace' => 'app\\commands',
     'params' => $params,
 ];
 

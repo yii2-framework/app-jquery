@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use app\Models\User;
+use app\models\User;
 use yii\caching\FileCache;
 use yii\jquery\Bootstrap;
 use yii\log\FileTarget;
@@ -63,7 +63,7 @@ $config = [
             ],
         ],
     ],
-    'controllerNamespace' => 'app\\Controllers',
+    'controllerNamespace' => 'app\\controllers',
     'params' => $params,
     'viewPath' => dirname(__DIR__) . '/resources/views',
 ];

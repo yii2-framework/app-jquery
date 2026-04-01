@@ -12,12 +12,12 @@ $app = new yii\console\Application(
     [
         'id' => 'app-jquery-test-migrate',
         'basePath' => dirname(__DIR__),
-        'aliases' => ['@app/Migrations' => dirname(__DIR__) . '/src/Migrations'],
+        'aliases' => ['@app/migrations' => dirname(__DIR__) . '/src/migrations'],
         'components' => ['db' => require dirname(__DIR__) . '/config/test_db.php'],
         'controllerMap' => [
             'migrate' => [
                 'class' => yii\console\controllers\MigrateController::class,
-                'migrationNamespaces' => ['app\\Migrations'],
+                'migrationNamespaces' => ['app\\migrations'],
                 'migrationPath' => null,
                 'interactive' => false,
                 'compact' => true,

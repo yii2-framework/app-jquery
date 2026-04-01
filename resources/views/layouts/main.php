@@ -6,7 +6,7 @@ declare(strict_types=1);
 /** @var string $content */
 
 use yii\bootstrap5\Breadcrumbs;
-use app\Widgets\Alert;
+use app\widgets\Alert;
 use yii\helpers\Html;
 
 $this->render('_head');
