@@ -135,7 +135,7 @@ return [
 
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the readme in the `tests` directory for information specific to basic application tests.
+- Refer to the readme in the `tests` directory for information specific to jQuery application tests.
 
 ## Testing
 
