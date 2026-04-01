@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/** @var app\Models\LoginForm $model */
+/** @var app\models\LoginForm $model */
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var yii\web\View $this */
 

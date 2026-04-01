@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/** @var app\Models\PasswordResetRequestForm $model */
+/** @var app\models\PasswordResetRequestForm $model */
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var yii\web\View $this */
 

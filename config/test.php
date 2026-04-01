@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use app\Models\User;
-use app\tests\Support\MailerBootstrap;
+use app\models\User;
+use app\tests\support\MailerBootstrap;
 use yii\jquery\Bootstrap;
 use yii\symfonymailer\Mailer;
 use yii\symfonymailer\Message;
@@ -16,7 +16,7 @@ $params = require __DIR__ . '/params.php';
 return [
     'id' => 'app-jquery-tests',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'app\\Controllers',
+    'controllerNamespace' => 'app\\controllers',
     'viewPath' => dirname(__DIR__) . '/resources/views',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

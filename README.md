@@ -40,12 +40,17 @@ resources/
     views/          contains view files for the Web application
 runtime/            contains files generated during runtime
 src/
-    Assets/         contains assets definition
-    Commands/       contains console commands (controllers)
-    Controllers/    contains Web controller classes
-    Models/         contains model classes
-    Widgets/        contains widget classes
-tests/              contains various tests for the jQuery application
+    assets/         contains assets definition
+    commands/       contains console commands (controllers)
+    controllers/    contains Web controller classes
+    migrations/     contains database migrations
+    models/         contains model classes
+    widgets/        contains widget classes
+tests/
+    acceptance/     contains acceptance tests
+    functional/     contains functional tests
+    support/        contains test infrastructure and fixtures
+    unit/           contains unit tests
 vendor/             contains dependent 3rd-party packages
 ```
 
@@ -67,7 +72,7 @@ at [getcomposer.org](https://getcomposer.org/doc/00-intro.md#installation-nix).
 You can then install this project using the following command:
 
 ```bash
-composer create-project --prefer-dist yii2-framework/app-jquery app-jquery
+composer create-project --prefer-dist --stability=dev yii2-framework/app-jquery app-jquery
 ```
 
 Now you should be able to access the application through the following URL, assuming `app-jquery` is the directory
@@ -157,7 +162,7 @@ functional tests emulate web requests, and acceptance tests run against a real H
 
 ## Acceptance tests
 
-The `acceptance` suite is configured in `tests/Acceptance.suite.yml`.
+The `acceptance` suite is configured in `tests/acceptance.suite.yml`.
 
 ### Acceptance tests (PhpBrowser)
 
@@ -169,22 +174,22 @@ By default, acceptance tests use the `PhpBrowser` module and run against the bui
 composer tests
 
 # run acceptance tests only
-vendor/bin/codecept run Acceptance --env php-builtin
+vendor/bin/codecept run acceptance --env php-builtin
 ```
 
 ### Acceptance tests (WebDriver + Selenium)
 
 To run acceptance tests in a real browser, switch the `acceptance` suite to use the `WebDriver` module.
-`tests/Acceptance.suite.yml` contains an example WebDriver configuration (commented).
+`tests/acceptance.suite.yml` contains an example WebDriver configuration (commented).
 
 1. Download and start [Selenium Server](https://www.selenium.dev/downloads/).
 2. Install the corresponding browser driver (for example. [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or
    [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
-3. Update `tests/Acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
+3. Update `tests/acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
 4. Run:
 
 ```bash
-vendor/bin/codecept run Acceptance --env php-builtin
+vendor/bin/codecept run acceptance --env php-builtin
 ```
 
 ## Code coverage support
@@ -196,13 +201,13 @@ Code coverage is configured in `codeception.yml`. You can run your tests and col
 vendor/bin/codecept run --coverage --coverage-html --coverage-xml --env php-builtin
 
 # collect coverage only for unit tests
-vendor/bin/codecept run Unit --coverage --coverage-html --coverage-xml --env php-builtin
+vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml --env php-builtin
 
 # collect coverage for unit and functional tests
-vendor/bin/codecept run Functional,Unit --coverage --coverage-html --coverage-xml --env php-builtin
+vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml --env php-builtin
 ```
 
-You can see code coverage output under the `tests/Support/output` directory.
+You can see code coverage output under the `tests/support/output` directory.
 
 ## Our social networks
 

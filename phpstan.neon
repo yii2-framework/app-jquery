@@ -10,14 +10,14 @@ parameters:
     paths:
         - config
         - src
-        - tests/Acceptance
-        - tests/Functional
-        - tests/Unit
+        - tests/acceptance
+        - tests/functional
+        - tests/unit
 
     tmpDir: %currentWorkingDirectory%/runtime
 
     yii2:
-        config_path: tests/Support/phpstan-config.php
+        config_path: tests/support/phpstan-config.php
 
     # Enable strict advanced checks
     checkImplicitMixed: true

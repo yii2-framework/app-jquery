@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/** @var \app\Models\User $user */
+/** @var \app\models\User $user */
 /** @var \yii\web\View $this */
 
 $verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/verify-email', 'token' => $user->verification_token]);
