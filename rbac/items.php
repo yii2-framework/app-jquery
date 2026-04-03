@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
+use yii\rbac\Item;
+
 return [
     'admin' => [
-        'type' => 1,
+        'type' => Item::TYPE_ROLE,
         'description' => 'Administrator',
         'children' => [
             'viewUsers',
         ],
     ],
     'viewUsers' => [
-        'type' => 2,
+        'type' => Item::TYPE_PERMISSION,
         'description' => 'View the users grid',
     ],
 ];
