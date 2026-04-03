@@ -259,17 +259,23 @@ class UserController extends Controller
                 'class' => AccessControl::class,
                 'only' => [
                     'index',
+                    'login',
                     'logout',
-                    'signup',
                     'request-password-reset',
                     'resend-verification-email',
+                    'reset-password',
+                    'signup',
+                    'verify-email',
                 ],
                 'rules' => [
                     [
                         'actions' => [
-                            'signup',
+                            'login',
                             'request-password-reset',
                             'resend-verification-email',
+                            'reset-password',
+                            'signup',
+                            'verify-email',
                         ],
                         'allow' => true,
                         'roles' => [
