@@ -10,15 +10,24 @@
 </p>
 <!-- markdownlint-enable MD041 -->
 
-jQuery Application Template is a skeleton [Yii2](https://www.yiiframework.com/) application best suited for rapidly
-creating small projects. It includes user login/logout, a contact page with masked phone input, and all commonly
-used configurations.
+<p align="center">
+    <a href="https://github.com/yii2-framework/app-jquery/actions/workflows/build.yml" target="_blank">
+        <img src="https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/build.yml?style=for-the-badge&logo=github&label=Build" alt="Build">
+    </a>
+    <a href="https://codecov.io/gh/yii2-framework/app-jquery" target="_blank">
+        <img src="https://img.shields.io/codecov/c/github/yii2-framework/app-jquery.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Codecov" alt="Codecov">
+    </a>
+    <a href="https://github.com/yii2-framework/app-jquery/actions/workflows/static.yml" target="_blank">
+        <img src="https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/static.yml?style=for-the-badge&logo=github&label=PHPStan" alt="PHPStan">
+    </a>
+</p>
+
+<p align="center">
+    <strong>Skeleton <a href="https://github.com/yii2-framework/yii2">Yii2</a> application with jQuery integration</strong><br>
+    <em>Login/logout, contact page with masked phone input, and all commonly used configurations</em>
+</p>
 
 Use the **"Use this template"** button on GitHub to create your own repository from this template.
-
-[![build](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/build.yml?style=for-the-badge&logo=github&label=Build)](https://github.com/yii2-framework/app-jquery/actions?query=workflow%3Abuild)
-[![codecov](https://img.shields.io/codecov/c/github/yii2-framework/app-jquery.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Codecov)](https://codecov.io/gh/yii2-framework/app-jquery)
-[![Static Analysis](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/static.yml?style=for-the-badge&label=Static)](https://github.com/yii2-framework/app-jquery/actions/workflows/static.yml)
 
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.png">
@@ -26,188 +35,44 @@ Use the **"Use this template"** button on GitHub to create your own repository f
     <img src="docs/images/home-light.png" alt="jQuery Application Template">
 </picture>
 
-## Docker
+## Features
 
-[![Apache](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/docker.yml?style=for-the-badge&logo=apache&label=Apache)](https://github.com/yii2-framework/app-jquery/actions/workflows/docker.yml)
+<picture>
+    <source media="(min-width: 768px)" srcset="./docs/svgs/features.svg">
+    <img src="./docs/svgs/features-mobile.svg" alt="Feature Overview" style="width: 100%;">
+</picture>
 
-## Directory structure
-
-```text
-config/             contains application configurations
-public/             contains the entry script and Web resources
-resources/
-    mail/           contains view files for e-mails
-    views/          contains view files for the Web application
-runtime/            contains files generated during runtime
-src/
-    assets/         contains assets definition
-    commands/       contains console commands (controllers)
-    controllers/    contains Web controller classes
-    migrations/     contains database migrations
-    models/         contains model classes
-    widgets/        contains widget classes
-tests/
-    acceptance/     contains acceptance tests
-    functional/     contains functional tests
-    support/        contains test infrastructure and fixtures
-    unit/           contains unit tests
-vendor/             contains dependent 3rd-party packages
-```
-
-## Requirements
-
-The minimum requirement of this project template is that your web server supports PHP 8.2.
-
-## Installation
-
-> [!IMPORTANT]
->
-> - The minimum required [PHP](https://www.php.net/) version is PHP `8.2`.
-
-## Install via Composer
-
-If you do not have [Composer](https://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](https://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this project using the following command:
+## Quick start
 
 ```bash
 composer create-project --prefer-dist --stability=dev yii2-framework/app-jquery app-jquery
 ```
 
-Now you should be able to access the application through the following URL, assuming `app-jquery` is the directory
-directly under the Web root.
+## Docker
 
-```text
-http://localhost/app-jquery/public/
-```
-
-## Install with Docker
-
-Update your vendor packages
-
-```bash
-docker-compose run --rm php composer update --prefer-dist
-```
-
-Run the installation triggers (creating cookie validation code)
-
-```bash
-docker-compose run --rm php composer install
-```
-
-Start the container
+[![Apache](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/docker.yml?style=for-the-badge&logo=apache&label=Apache)](https://github.com/yii2-framework/app-jquery/actions/workflows/docker.yml)
 
 ```bash
 docker-compose up -d
 ```
 
-You can then access the application through the following URL:
+## Documentation
 
-```text
-http://127.0.0.1:8000
-```
+- 📚 [Installation Guide](docs/installation.md)
+- ⚙️ [Configuration Reference](docs/configuration.md)
+- 🧪 [Testing Guide](docs/testing.md)
 
-Run tests inside the container
+## Package information
 
-```bash
-docker compose exec -T php vendor/bin/codecept build
-docker compose exec -T php vendor/bin/codecept run
-```
+[![PHP](https://img.shields.io/badge/%3E%3D8.2-777BB4.svg?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/releases/8.2/en.php)
+[![Latest Stable Version](https://img.shields.io/packagist/v/yii2-framework/app-jquery.svg?style=for-the-badge&logo=packagist&logoColor=white&label=Stable)](https://packagist.org/packages/yii2-framework/app-jquery)
+[![Total Downloads](https://img.shields.io/packagist/dt/yii2-framework/app-jquery.svg?style=for-the-badge&logo=composer&logoColor=white&label=Downloads)](https://packagist.org/packages/yii2-framework/app-jquery)
 
-**NOTES:**
+## Quality code
 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `~/.composer-docker/cache` for Composer caches
-
-## Configuration
-
-## Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTES:**
-
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the readme in the `tests` directory for information specific to jQuery application tests.
-
-## Testing
-
-Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](https://codeception.com/).
-By default, there are 3 test suites:
-
-- `unit`
-- `functional`
-- `acceptance`
-
-Tests can be executed by running
-
-```bash
-vendor/bin/codecept run --env php-builtin
-```
-
-The command above will execute all test suites (unit, functional, and acceptance). Unit tests verify system components,
-functional tests emulate web requests, and acceptance tests run against a real HTTP server.
-
-## Acceptance tests
-
-The `acceptance` suite is configured in `tests/acceptance.suite.yml`.
-
-### Acceptance tests (PhpBrowser)
-
-By default, acceptance tests use the `PhpBrowser` module and run against the built-in PHP web server started via the
-`php-builtin` environment.
-
-```bash
-# run all tests with built-in web server
-composer tests
-
-# run acceptance tests only
-vendor/bin/codecept run acceptance --env php-builtin
-```
-
-### Acceptance tests (WebDriver + Selenium)
-
-To run acceptance tests in a real browser, switch the `acceptance` suite to use the `WebDriver` module.
-`tests/acceptance.suite.yml` contains an example WebDriver configuration (commented).
-
-1. Download and start [Selenium Server](https://www.selenium.dev/downloads/).
-2. Install the corresponding browser driver (for example. [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or
-   [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)).
-3. Update `tests/acceptance.suite.yml` to enable `WebDriver` and disable `PhpBrowser`.
-4. Run:
-
-```bash
-vendor/bin/codecept run acceptance --env php-builtin
-```
-
-## Code coverage support
-
-Code coverage is configured in `codeception.yml`. You can run your tests and collect coverage with the following command:
-
-```bash
-# collect coverage for all tests
-vendor/bin/codecept run --coverage --coverage-html --coverage-xml --env php-builtin
-
-# collect coverage only for unit tests
-vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml --env php-builtin
-
-# collect coverage for unit and functional tests
-vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml --env php-builtin
-```
-
-You can see code coverage output under the `tests/support/output` directory.
+[![PHPStan Level Max](https://img.shields.io/badge/PHPStan-Level%20Max-4F5D95.svg?style=for-the-badge&logo=php&logoColor=white)](https://github.com/yii2-framework/app-jquery/actions/workflows/static.yml)
+[![Super-Linter](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/linter.yml?style=for-the-badge&label=Super-Linter&logo=github)](https://github.com/yii2-framework/app-jquery/actions/workflows/linter.yml)
+[![StyleCI](https://img.shields.io/badge/StyleCI-Passed-44CC11.svg?style=for-the-badge&logo=styleci&logoColor=white)](https://github.styleci.io/repos/yii2-framework/app-jquery?branch=main)
 
 ## Our social networks
 
