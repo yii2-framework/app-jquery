@@ -25,13 +25,19 @@ final class CreateAdminUserTest extends \Codeception\Test\Unit
 
         $admin = User::find()->where(['username' => 'admin'])->one();
 
-        self::assertNotNull($admin, "Failed asserting that admin user exists after 'safeUp'.");
+        verify($admin)
+            ->notNull(
+                "Failed asserting that 'admin' user exists after 'safeUp'.",
+            );
 
         $migration->down();
 
         $admin = User::find()->where(['username' => 'admin'])->one();
 
-        self::assertNull($admin, "Failed asserting that admin user is deleted after 'safeDown'.");
+        verify($admin)
+            ->null(
+                "Failed asserting that 'admin' user is deleted after 'safeDown'.",
+            );
     }
 
     public function testSafeUpCreatesAdminUser(): void
@@ -47,14 +53,29 @@ final class CreateAdminUserTest extends \Codeception\Test\Unit
 
         $admin = User::find()->where(['username' => 'admin'])->one();
 
-        self::assertNotNull($admin, "Failed asserting that admin user exists after 'safeUp'.");
-        self::assertSame('admin', $admin->username);
-        self::assertSame('admin@example.com', $admin->email);
-        self::assertSame(User::STATUS_ACTIVE, $admin->status);
-        self::assertTrue(
-            Yii::$app->security->validatePassword('admin', $admin->password_hash),
-            "Failed asserting that admin password is 'admin'.",
-        );
+        verify($admin)
+            ->notNull(
+                "Failed asserting that 'admin' user exists after 'safeUp'.",
+            );
+        verify($admin->username)
+            ->equals(
+                'admin',
+                "Failed asserting that 'username' is 'admin'.",
+            );
+        verify($admin->email)
+            ->equals(
+                'admin@example.com',
+                "Failed asserting that 'email' is 'admin@example.com'.",
+            );
+        verify($admin->status)
+            ->equals(
+                User::STATUS_ACTIVE,
+                "Failed asserting that 'status' is 'active'.",
+            );
+        verify(Yii::$app->security->validatePassword('admin', $admin->password_hash))
+            ->true(
+                "Failed asserting that 'admin' password is 'admin'.",
+            );
 
         // clean up for other tests.
         $migration->down();
