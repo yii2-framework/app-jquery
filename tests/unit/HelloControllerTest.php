@@ -9,6 +9,7 @@ use Codeception\Test\Unit;
 use yii\base\InvalidRouteException;
 use yii\console\Application;
 use yii\console\Exception;
+use yii\console\ExitCode;
 
 use function ob_get_clean;
 use function ob_start;
@@ -31,10 +32,11 @@ final class HelloControllerTest extends Unit
         $helloController = new HelloController('hello', $application);
 
         ob_start();
-        $helloController->runAction('index', ['custom message']);
+        $exitCode = $helloController->runAction('index', ['custom message']);
         $result = ob_get_clean();
 
         self::assertSame("custom message\n", $result);
+        self::assertSame(ExitCode::OK, $exitCode);
     }
 
     /**
@@ -47,9 +49,10 @@ final class HelloControllerTest extends Unit
         $helloController = new HelloController('hello', $application);
 
         ob_start();
-        $helloController->runAction('index');
+        $exitCode = $helloController->runAction('index');
         $result = ob_get_clean();
 
         self::assertSame("hello world\n", $result);
+        self::assertSame(ExitCode::OK, $exitCode);
     }
 }

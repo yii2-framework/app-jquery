@@ -72,7 +72,7 @@ docker-compose up -d
 
 [![PHPStan Level Max](https://img.shields.io/badge/PHPStan-Level%20Max-4F5D95.svg?style=for-the-badge&logo=php&logoColor=white)](https://github.com/yii2-framework/app-jquery/actions/workflows/static.yml)
 [![Super-Linter](https://img.shields.io/github/actions/workflow/status/yii2-framework/app-jquery/linter.yml?style=for-the-badge&label=Super-Linter&logo=github)](https://github.com/yii2-framework/app-jquery/actions/workflows/linter.yml)
-[![StyleCI](https://img.shields.io/badge/StyleCI-Passed-44CC11.svg?style=for-the-badge&logo=styleci&logoColor=white)](https://github.styleci.io/repos/yii2-framework/app-jquery?branch=main)
+[![StyleCI](https://img.shields.io/badge/StyleCI-Passed-44CC11.svg?style=for-the-badge&logo=styleci&logoColor=white)](https://github.styleci.io/repos/1075374325?branch=main)
 
 ## Our social networks
 
