@@ -247,7 +247,8 @@ a.desc::after {
     transition: opacity 0.15s;
 }
 
-.login-footer-action:hover {
+.login-footer-action:hover,
+.login-footer-action:focus-visible {
     opacity: 0.8;
     text-decoration: underline;
 }
@@ -333,7 +334,8 @@ a.desc::after {
     text-decoration: none;
 }
 
-.site-users .table thead th a:hover {
+.site-users .table thead th a:hover,
+.site-users .table thead th a:focus-visible {
     color: var(--bs-body-color);
 }
 
@@ -344,19 +346,19 @@ a.desc::after {
     color: var(--bs-body-color);
 }
 
+/* filter row */
+.site-users .table .filters td {
+    padding: 0.4rem 0.65rem;
+    background: var(--bs-tertiary-bg);
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
 .site-users .table tbody tr:last-child td {
     border-bottom: none;
 }
 
 .site-users .table tbody tr:hover td {
     background-color: var(--bs-tertiary-bg);
-}
-
-/* filter row */
-.site-users .table .filters td {
-    padding: 0.4rem 0.65rem;
-    background: var(--bs-tertiary-bg);
-    border-bottom: 1px solid var(--bs-border-color);
 }
 
 .site-users .table .filters .form-control,
