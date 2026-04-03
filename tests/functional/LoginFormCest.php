@@ -20,6 +20,7 @@ final class LoginFormCest
     {
         $I->amOnPage(Url::toRoute('/site/login'));
     }
+
     /**
      * @phpstan-return array{user: array{class: string, dataFile: string}}
      */

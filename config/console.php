@@ -15,7 +15,7 @@ $config = [
     'aliases' => [
         '@app/migrations' => dirname(__DIR__) . '/src/migrations',
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => dirname(__DIR__) . '/node_modules',
+        '@npm' => dirname(__DIR__) . '/node_modules',
         '@tests' => dirname(__DIR__) . '/tests',
     ],
     'basePath' => dirname(__DIR__),
