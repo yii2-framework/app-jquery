@@ -7,8 +7,6 @@ namespace app\controllers;
 use app\models\ContactForm;
 use Yii;
 use yii\captcha\CaptchaAction;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\mail\MailerInterface;
 use yii\web\Controller;
 use yii\web\ErrorAction;
@@ -93,26 +91,4 @@ class SiteController extends Controller
         ];
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => [],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => [
-                            '?',
-                            '@',
-                        ],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [],
-            ],
-        ];
-    }
 }
