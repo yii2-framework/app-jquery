@@ -25,22 +25,6 @@ final class HelloControllerTest extends Unit
      * @throws Exception if an unexpected error occurs during execution.
      * @throws InvalidRouteException if the action route is invalid.
      */
-    public function testIndexActionOutputsDefaultMessage(): void
-    {
-        $application = new Application(['id' => 'test', 'basePath' => dirname(__DIR__, 2)]);
-        $helloController = new HelloController('hello', $application);
-
-        ob_start();
-        $helloController->runAction('index');
-        $result = ob_get_clean();
-
-        self::assertSame("hello world\n", $result);
-    }
-
-    /**
-     * @throws Exception if an unexpected error occurs during execution.
-     * @throws InvalidRouteException if the action route is invalid.
-     */
     public function testIndexActionOutputsCustomMessage(): void
     {
         $application = new Application(['id' => 'test', 'basePath' => dirname(__DIR__, 2)]);
@@ -51,5 +35,20 @@ final class HelloControllerTest extends Unit
         $result = ob_get_clean();
 
         self::assertSame("custom message\n", $result);
+    }
+    /**
+     * @throws Exception if an unexpected error occurs during execution.
+     * @throws InvalidRouteException if the action route is invalid.
+     */
+    public function testIndexActionOutputsDefaultMessage(): void
+    {
+        $application = new Application(['id' => 'test', 'basePath' => dirname(__DIR__, 2)]);
+        $helloController = new HelloController('hello', $application);
+
+        ob_start();
+        $helloController->runAction('index');
+        $result = ob_get_clean();
+
+        self::assertSame("hello world\n", $result);
     }
 }
