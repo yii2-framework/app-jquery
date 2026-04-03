@@ -14,7 +14,7 @@ use yii\db\BaseActiveRecord;
 use yii\helpers\Url;
 
 /**
- * Functional tests for {@see \app\controllers\SiteController::actionVerifyEmail()} email verification.
+ * Functional tests for {@see \app\controllers\UserController::actionVerifyEmail()} email verification.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -45,25 +45,25 @@ final class VerifyEmailCest
             "Failed asserting that fixture user 'test2.test' exists.",
         );
 
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
+        $I->amOnPage(Url::toRoute(['/user/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Wrong verify email token.');
     }
 
     public function checkEmptyToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => '']));
+        $I->amOnPage(Url::toRoute(['/user/verify-email', 'token' => '']));
         $I->canSee('Verify email token cannot be blank.');
     }
 
     public function checkInvalidToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => 'wrong_token']));
+        $I->amOnPage(Url::toRoute(['/user/verify-email', 'token' => 'wrong_token']));
         $I->canSee('Wrong verify email token.');
     }
 
     public function checkNoToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/verify-email'));
+        $I->amOnPage(Url::toRoute('/user/verify-email'));
         $I->canSee('Missing required parameters: token');
     }
 
@@ -77,7 +77,7 @@ final class VerifyEmailCest
             "Failed asserting that fixture user 'test.test' exists.",
         );
 
-        $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
+        $I->amOnPage(Url::toRoute(['/user/verify-email', 'token' => $user->verification_token]));
         $I->canSee('Your email has been confirmed!');
         $I->seeRecord(
             User::class,
@@ -107,7 +107,7 @@ final class VerifyEmailCest
         Event::on(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);
 
         try {
-            $I->amOnPage(Url::toRoute(['/site/verify-email', 'token' => $user->verification_token]));
+            $I->amOnPage(Url::toRoute(['/user/verify-email', 'token' => $user->verification_token]));
             $I->canSee('Sorry, we are unable to verify your account with provided token.');
         } finally {
             Event::off(User::class, BaseActiveRecord::EVENT_BEFORE_UPDATE, $handler);

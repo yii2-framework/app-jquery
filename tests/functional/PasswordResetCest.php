@@ -14,8 +14,8 @@ use yii\mail\BaseMailer;
 use yii\mail\MailEvent;
 
 /**
- * Functional tests for {@see \app\controllers\SiteController::actionRequestPasswordReset()} and
- * {@see \app\controllers\SiteController::actionResetPassword()}.
+ * Functional tests for {@see \app\controllers\UserController::actionRequestPasswordReset()} and
+ * {@see \app\controllers\UserController::actionResetPassword()}.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -46,7 +46,7 @@ final class PasswordResetCest
         Yii::$app->mailer->on(BaseMailer::EVENT_BEFORE_SEND, $handler);
 
         try {
-            $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+            $I->amOnPage(Url::toRoute('/user/request-password-reset'));
             $I->submitForm(
                 '#request-password-reset-form',
                 ['PasswordResetRequestForm[email]' => 'okirlin@example.com'],
@@ -59,7 +59,7 @@ final class PasswordResetCest
 
     public function requestResetSuccessfully(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+        $I->amOnPage(Url::toRoute('/user/request-password-reset'));
         $I->submitForm(
             '#request-password-reset-form',
             ['PasswordResetRequestForm[email]' => 'okirlin@example.com'],
@@ -70,7 +70,7 @@ final class PasswordResetCest
 
     public function requestResetWithEmptyEmail(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+        $I->amOnPage(Url::toRoute('/user/request-password-reset'));
         $I->see('Reset your password', 'h1');
         $I->submitForm(
             '#request-password-reset-form',
@@ -81,7 +81,7 @@ final class PasswordResetCest
 
     public function requestResetWithWrongEmail(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/request-password-reset'));
+        $I->amOnPage(Url::toRoute('/user/request-password-reset'));
         $I->submitForm(
             '#request-password-reset-form',
             ['PasswordResetRequestForm[email]' => 'nonexistent@example.com'],
@@ -91,7 +91,7 @@ final class PasswordResetCest
 
     public function resetPasswordWithInvalidToken(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => 'invalid_token_123']));
+        $I->amOnPage(Url::toRoute(['/user/reset-password', 'token' => 'invalid_token_123']));
         $I->canSee('Wrong password reset token.');
     }
 
@@ -111,7 +111,7 @@ final class PasswordResetCest
 
         $token = $user->password_reset_token;
 
-        $I->amOnPage(Url::toRoute(['/site/reset-password', 'token' => $token]));
+        $I->amOnPage(Url::toRoute(['/user/reset-password', 'token' => $token]));
         $I->see('Set your new password', 'h1');
         $I->submitForm(
             '#reset-password-form',

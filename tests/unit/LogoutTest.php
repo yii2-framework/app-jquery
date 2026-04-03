@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\tests\unit;
 
-use app\controllers\SiteController;
+use app\controllers\UserController;
 use app\models\User;
 use app\tests\support\Fixtures\UserFixture;
 use Yii;
@@ -12,7 +12,7 @@ use yii\web\IdentityInterface;
 use yii\web\View;
 
 /**
- * Unit tests for {@see \app\controllers\SiteController} logout action and layout rendering.
+ * Unit tests for {@see \app\controllers\UserController} logout action and layout rendering.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -37,8 +37,8 @@ final class LogoutTest extends \Codeception\Test\Unit
     {
         $user = User::findIdentity(1);
 
-        $controller = new SiteController(
-            'site',
+        $controller = new UserController(
+            'user',
             Yii::$app,
             Yii::$app->mailer,
         );

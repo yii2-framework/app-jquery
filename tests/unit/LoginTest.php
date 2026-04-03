@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\tests\unit;
 
 use app\controllers\SiteController;
+use app\controllers\UserController;
 use app\models\User;
 use app\tests\support\Fixtures\UserFixture;
 use Yii;
@@ -14,7 +15,7 @@ use yii\web\View;
 use function sprintf;
 
 /**
- * Unit tests for {@see \app\controllers\SiteController} login and about actions.
+ * Unit tests for {@see \app\controllers\UserController} login action and {@see \app\controllers\SiteController} about action.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -56,8 +57,8 @@ final class LoginTest extends \Codeception\Test\Unit
 
     public function testActionLoginRedirectsWhenAlreadyLoggedIn(): void
     {
-        $controller = new SiteController(
-            'site',
+        $controller = new UserController(
+            'user',
             Yii::$app,
             Yii::$app->mailer,
         );
@@ -93,8 +94,8 @@ final class LoginTest extends \Codeception\Test\Unit
 
     public function testRenderLoginForGuest(): void
     {
-        $controller = new SiteController(
-            'site',
+        $controller = new UserController(
+            'user',
             Yii::$app,
             Yii::$app->mailer,
         );

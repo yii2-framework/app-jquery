@@ -22,18 +22,23 @@ $items = [
         'url' => ['/site/contact'],
     ],
     [
+        'label' => 'Users',
+        'url' => ['/user/index'],
+        'visible' => !Yii::$app->user->isGuest,
+    ],
+    [
         'label' => 'Signup',
-        'url' => ['/site/signup'],
+        'url' => ['/user/signup'],
         'visible' => Yii::$app->user->isGuest,
     ],
     [
         'label' => 'Login',
-        'url' => ['/site/login'],
+        'url' => ['/user/login'],
         'visible' => Yii::$app->user->isGuest,
     ],
     [
         'label' => 'Logout (' . (Yii::$app->user->identity?->username ?? '') . ')',
-        'url' => ['/site/logout'],
+        'url' => ['/user/logout'],
         'linkOptions' => [
             'data-method' => 'post',
             'class' => 'nav-link logout',

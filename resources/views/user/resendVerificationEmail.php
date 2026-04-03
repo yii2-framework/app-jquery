@@ -89,7 +89,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <?php ActiveForm::end(); ?>
 
                     <div class="text-body-secondary text-center mt-3 small">
-                        Already verified? <?= Html::a('Login', ['site/login']) ?>
+                        Already verified? <?= Html::a('Login', ['user/login']) ?>
                     </div>
 
                 </div>
