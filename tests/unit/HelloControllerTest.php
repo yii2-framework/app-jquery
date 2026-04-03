@@ -36,6 +36,7 @@ final class HelloControllerTest extends Unit
 
         self::assertSame("custom message\n", $result);
     }
+
     /**
      * @throws Exception if an unexpected error occurs during execution.
      * @throws InvalidRouteException if the action route is invalid.

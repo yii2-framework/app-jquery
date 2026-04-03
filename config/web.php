@@ -16,7 +16,7 @@ $config = [
     'id' => 'app-jquery',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => dirname(__DIR__) . '/node_modules',
+        '@npm' => dirname(__DIR__) . '/node_modules',
     ],
     'basePath' => dirname(__DIR__),
     'bootstrap' => [

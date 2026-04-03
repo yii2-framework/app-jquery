@@ -24,6 +24,7 @@ final class HomeCest
         $I->see('yii2-debug');
         $I->seeLink('Learn more »');
     }
+
     public function ensureThatHomePageWorks(AcceptanceTester $I): void
     {
         $I->amOnPage(Url::toRoute('/site/index'));

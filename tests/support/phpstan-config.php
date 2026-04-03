@@ -22,7 +22,7 @@ return [
     'viewPath' => dirname(__DIR__, 2) . '/resources/views',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => dirname(__DIR__, 2) . '/node_modules',
+        '@npm' => dirname(__DIR__, 2) . '/node_modules',
     ],
     'components' => [
         'assetManager' => [
