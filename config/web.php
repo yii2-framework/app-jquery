@@ -7,6 +7,7 @@ use yii\caching\FileCache;
 use yii\jquery\Bootstrap;
 use yii\log\FileTarget;
 use yii\mail\MailerInterface;
+use yii\rbac\PhpManager;
 use yii\symfonymailer\Mailer;
 
 $params = require __DIR__ . '/params.php';
@@ -24,6 +25,9 @@ $config = [
         Bootstrap::class,
     ],
     'components' => [
+        'authManager' => [
+            'class' => PhpManager::class,
+        ],
         'cache' => [
             'class' => FileCache::class,
         ],

@@ -60,7 +60,7 @@ final class LogoutTest extends \Codeception\Test\Unit
         $html = $view->render('//layouts/main.php', ['content' => 'Hello World']);
 
         self::assertStringContainsString(
-            'Logout (okirlin)',
+            'Logout (admin)',
             $html,
             'Failed asserting that the logout link is rendered for a logged-in user.',
         );

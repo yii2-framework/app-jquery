@@ -24,7 +24,7 @@ $items = [
     [
         'label' => 'Users',
         'url' => ['/user/index'],
-        'visible' => !Yii::$app->user->isGuest,
+        'visible' => Yii::$app->user->can('viewUsers'),
     ],
     [
         'label' => 'Signup',

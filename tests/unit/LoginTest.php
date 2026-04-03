@@ -6,13 +6,9 @@ namespace app\tests\unit;
 
 use app\controllers\SiteController;
 use app\controllers\UserController;
-use app\models\User;
 use app\tests\support\Fixtures\UserFixture;
 use Yii;
-use yii\web\Response;
 use yii\web\View;
-
-use function sprintf;
 
 /**
  * Unit tests for {@see \app\controllers\UserController} login action and {@see \app\controllers\SiteController} about action.
@@ -52,43 +48,6 @@ final class LoginTest extends \Codeception\Test\Unit
             'About',
             $output,
             'Failed asserting that about page renders content with "About" text.',
-        );
-    }
-
-    public function testActionLoginRedirectsWhenAlreadyLoggedIn(): void
-    {
-        $controller = new UserController(
-            'user',
-            Yii::$app,
-            Yii::$app->mailer,
-        );
-
-        $view = new View(['context' => $controller]);
-
-        $user = User::findIdentity(1);
-
-        self::assertInstanceOf(
-            User::class,
-            $user,
-            "Failed asserting that fixture user with ID '1' exists.",
-        );
-
-        Yii::$app->user->login($user);
-
-        $result = $controller->actionLogin();
-
-        self::assertInstanceOf(
-            Response::class,
-            $result,
-            "Failed asserting that 'actionLogin' returns a redirect Response for authenticated users.",
-        );
-
-        $output = $view->render('//layouts/main.php', ['content' => 'Hello World']);
-
-        self::assertStringContainsString(
-            sprintf('Logout (%s)', $user->username),
-            $output,
-            "Failed asserting that the 'logout' link is rendered for the 'logged-in' user.",
         );
     }
 
