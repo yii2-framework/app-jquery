@@ -4,6 +4,16 @@ declare(strict_types=1);
 
 return [
     [
+        'username' => 'admin',
+        'auth_key' => 'admin-test-auth-key-value-ok32',
+        // password_0
+        'password_hash' => '$2y$13$nJ1WDlBaGcbCdbNC5.5l4.sgy.OMEKCqtDQOdQ2OWpgiKRWYyzzne',
+        'created_at' => 1391885313,
+        'updated_at' => 1391885313,
+        'email' => 'admin@example.com',
+        'status' => 10,
+    ],
+    [
         'username' => 'okirlin',
         'auth_key' => 'iwTNae9t34OmnK6l4vT4IeaTk-YWI2Rv',
         // password_0

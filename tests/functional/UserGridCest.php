@@ -30,64 +30,9 @@ final class UserGridCest
         ];
     }
 
-    public function checkGridViewDisplaysUserData(FunctionalTester $I): void
+    public function checkAdminCanAccessGrid(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/user/login'));
-        $I->submitForm(
-            '#login-form',
-            [
-                'LoginForm[username]' => 'okirlin',
-                'LoginForm[password]' => 'password_0',
-            ],
-        );
-
-        $I->amOnPage(Url::toRoute('/user/index'));
-        $I->see('okirlin');
-        $I->see('okirlin@example.com');
-        $I->see('Active');
-    }
-
-    public function checkGridViewFilterByUsername(FunctionalTester $I): void
-    {
-        $I->amOnPage(Url::toRoute('/user/login'));
-        $I->submitForm(
-            '#login-form',
-            [
-                'LoginForm[username]' => 'okirlin',
-                'LoginForm[password]' => 'password_0',
-            ],
-        );
-
-        $I->amOnPage(Url::toRoute(['/user/index', 'UserSearch[username]' => 'okirlin']));
-        $I->see('okirlin');
-        $I->dontSee('troy.becker');
-    }
-
-    public function checkGridViewFilterWithInvalidData(FunctionalTester $I): void
-    {
-        $I->amOnPage(Url::toRoute('/user/login'));
-        $I->submitForm(
-            '#login-form',
-            [
-                'LoginForm[username]' => 'okirlin',
-                'LoginForm[password]' => 'password_0',
-            ],
-        );
-
-        $I->amOnPage(Url::toRoute(['/user/index', 'UserSearch[id]' => 'invalid']));
-        $I->see('No results found.', '.empty');
-    }
-
-    public function checkGridViewRendersAfterLogin(FunctionalTester $I): void
-    {
-        $I->amOnPage(Url::toRoute('/user/login'));
-        $I->submitForm(
-            '#login-form',
-            [
-                'LoginForm[username]' => 'okirlin',
-                'LoginForm[password]' => 'password_0',
-            ],
-        );
+        $this->loginAsAdmin($I);
 
         $I->amOnPage(Url::toRoute('/user/index'));
         $I->see('Users', 'h1');
@@ -98,9 +43,73 @@ final class UserGridCest
         $I->see('JOINED');
     }
 
+    public function checkAdminCanLogout(FunctionalTester $I): void
+    {
+        $this->loginAsAdmin($I);
+
+        $I->sendAjaxPostRequest(Url::toRoute('/user/logout'));
+        $I->amOnPage(Url::toRoute('/'));
+        $I->seeLink('Login');
+        $I->dontSeeLink('Logout');
+    }
+
+    public function checkAdminGridViewDisplaysUserData(FunctionalTester $I): void
+    {
+        $this->loginAsAdmin($I);
+
+        $I->amOnPage(Url::toRoute('/user/index'));
+        $I->see('admin');
+        $I->see('admin@example.com');
+        $I->see('Active');
+    }
+
+    public function checkAdminGridViewFilterByUsername(FunctionalTester $I): void
+    {
+        $this->loginAsAdmin($I);
+
+        $I->amOnPage(Url::toRoute(['/user/index', 'UserSearch[username]' => 'admin']));
+        $I->see('admin');
+        $I->dontSee('troy.becker');
+    }
+
+    public function checkAdminGridViewFilterWithInvalidData(FunctionalTester $I): void
+    {
+        $this->loginAsAdmin($I);
+
+        $I->amOnPage(Url::toRoute(['/user/index', 'UserSearch[id]' => 'invalid']));
+        $I->see('No results found.', '.empty');
+    }
+
     public function checkGuestRedirectsToLogin(FunctionalTester $I): void
     {
         $I->amOnPage(Url::toRoute('/user/index'));
         $I->seeInCurrentUrl('user%2Flogin');
+    }
+
+    public function checkNonAdminCannotAccessGrid(FunctionalTester $I): void
+    {
+        $I->amOnPage(Url::toRoute('/user/login'));
+        $I->submitForm(
+            '#login-form',
+            [
+                'LoginForm[username]' => 'okirlin',
+                'LoginForm[password]' => 'password_0',
+            ],
+        );
+
+        $I->amOnPage(Url::toRoute('/user/index'));
+        $I->seeResponseCodeIs(403);
+    }
+
+    private function loginAsAdmin(FunctionalTester $I): void
+    {
+        $I->amOnPage(Url::toRoute('/user/login'));
+        $I->submitForm(
+            '#login-form',
+            [
+                'LoginForm[username]' => 'admin',
+                'LoginForm[password]' => 'password_0',
+            ],
+        );
     }
 }

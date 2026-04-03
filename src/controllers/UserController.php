@@ -62,10 +62,6 @@ class UserController extends Controller
      */
     public function actionLogin(): Response|string
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $model = new LoginForm();
 
         /** @phpstan-var array<string, mixed> $post */
@@ -285,6 +281,14 @@ class UserController extends Controller
                     [
                         'actions' => [
                             'index',
+                        ],
+                        'allow' => true,
+                        'roles' => [
+                            'admin',
+                        ],
+                    ],
+                    [
+                        'actions' => [
                             'logout',
                         ],
                         'allow' => true,

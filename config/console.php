@@ -6,6 +6,7 @@ use yii\caching\FileCache;
 use yii\console\controllers\MigrateController;
 use yii\console\controllers\ServeController;
 use yii\log\FileTarget;
+use yii\rbac\PhpManager;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -20,6 +21,9 @@ $config = [
     ],
     'basePath' => dirname(__DIR__),
     'components' => [
+        'authManager' => [
+            'class' => PhpManager::class,
+        ],
         'cache' => [
             'class' => FileCache::class,
         ],

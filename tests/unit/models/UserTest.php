@@ -46,8 +46,8 @@ final class UserTest extends \Codeception\Test\Unit
             );
         verify($user?->username)
             ->equals(
-                'okirlin',
-                "Failed asserting that user with ID '1' has username 'okirlin'.",
+                'admin',
+                "Failed asserting that user with ID '1' has username 'admin'.",
             );
         verify(User::findIdentity(999))
             ->empty(

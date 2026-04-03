@@ -61,7 +61,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             'template' => sprintf($htmlIcon, '&#128100;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'username',
+                                'placeholder' => 'admin',
                                 'autofocus' => true,
                             ],
                         ])->textInput()->label('Your Username', $labelOptions) ?>
@@ -73,7 +73,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             'template' => sprintf($htmlIcon, '&#128274;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'Password',
+                                'placeholder' => 'admin',
                             ],
                         ])->passwordInput()->label('Your Password', $labelOptions) ?>
                     </div>

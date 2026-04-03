@@ -5,6 +5,7 @@ declare(strict_types=1);
 use app\models\User;
 use app\tests\support\MailerBootstrap;
 use yii\jquery\Bootstrap;
+use yii\rbac\PhpManager;
 use yii\symfonymailer\Mailer;
 use yii\symfonymailer\Message;
 
@@ -28,6 +29,9 @@ return [
     ],
     'language' => 'en-US',
     'components' => [
+        'authManager' => [
+            'class' => PhpManager::class,
+        ],
         'assetManager' => [
             'basePath' => __DIR__ . '/../public/assets',
         ],

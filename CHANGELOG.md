@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor: align folder names and namespaces to Yii2 lowercase convention.
 - docs: simplify `README.md`, add badges and feature SVGs, move detailed content into `docs/` guides, add console tests `HelloControllerTest`.
 - feat: add User GridView page with jQuery/Pjax filtering, sorting, and pagination via `UserController`.
+- feat: add RBAC with `PhpManager`, admin-only access to Users GridView, and default admin user seed migration.
