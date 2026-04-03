@@ -47,6 +47,9 @@ return [
         ],
         'user' => [
             'identityClass' => User::class,
+            'loginUrl' => [
+                'user/login',
+            ],
         ],
     ],
     'params' => $params,

@@ -9,7 +9,7 @@ use app\tests\support\FunctionalTester;
 use yii\helpers\Url;
 
 /**
- * Functional tests for {@see \app\controllers\SiteController::actionLogin()} login form.
+ * Functional tests for {@see \app\controllers\UserController::actionLogin()} login form.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -18,7 +18,7 @@ final class LoginFormCest
 {
     public function _before(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
+        $I->amOnPage(Url::toRoute('/user/login'));
     }
 
     /**

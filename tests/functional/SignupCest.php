@@ -9,7 +9,7 @@ use app\tests\support\FunctionalTester;
 use yii\helpers\Url;
 
 /**
- * Functional tests for {@see \app\controllers\SiteController::actionSignup()} signup form.
+ * Functional tests for {@see \app\controllers\UserController::actionSignup()} signup form.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -20,7 +20,7 @@ final class SignupCest
 
     public function _before(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/signup'));
+        $I->amOnPage(Url::toRoute('/user/signup'));
     }
 
     public function signupSuccessfully(FunctionalTester $I): void

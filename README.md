@@ -35,6 +35,12 @@ Use the **"Use this template"** button on GitHub to create your own repository f
     <img src="docs/images/home-light.png" alt="jQuery Application Template">
 </picture>
 
+<picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/users-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/images/users-light.png">
+    <img src="docs/images/users-light.png" alt="User Directory with GridView">
+</picture>
+
 ## Features
 
 <picture>

@@ -51,6 +51,9 @@ $config = [
         'user' => [
             'identityClass' => User::class,
             'enableAutoLogin' => true,
+            'loginUrl' => [
+                'user/login',
+            ],
         ],
     ],
     'container' => [

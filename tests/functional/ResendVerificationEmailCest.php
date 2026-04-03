@@ -14,7 +14,7 @@ use yii\mail\BaseMailer;
 use yii\mail\MailEvent;
 
 /**
- * Functional tests for {@see \app\controllers\SiteController::actionResendVerificationEmail()}.
+ * Functional tests for {@see \app\controllers\UserController::actionResendVerificationEmail()}.
  *
  * @author Wilmer Arambula <terabytesoftw@gmail.com>
  * @since 0.1
@@ -25,7 +25,7 @@ final class ResendVerificationEmailCest
 
     public function _before(FunctionalTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/resend-verification-email'));
+        $I->amOnPage(Url::toRoute('/user/resend-verification-email'));
     }
 
     /**

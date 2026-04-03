@@ -32,7 +32,7 @@ final class LoginCest
 
     public function ensureThatLoginWorks(AcceptanceTester $I): void
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
+        $I->amOnPage(Url::toRoute('/user/login'));
         $I->see('Login', 'h1');
 
         $I->amGoingTo('try to login with correct credentials');
