@@ -6,7 +6,6 @@ namespace app\tests\unit\migrations;
 
 use app\migrations\M260403000000CreateAdminUser;
 use app\models\User;
-use PHPUnit\Framework\Assert;
 use Yii;
 
 /**
@@ -54,7 +53,7 @@ final class CreateAdminUserTest extends \Codeception\Test\Unit
 
         $admin = User::find()->where(['username' => 'admin'])->one();
 
-        Assert::assertInstanceOf(
+        self::assertInstanceOf(
             User::class,
             $admin,
             "Failed asserting that fixture user 'admin' exists.",
